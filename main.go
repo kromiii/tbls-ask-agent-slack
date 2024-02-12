@@ -1,7 +1,12 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+
+	"github.com/k1LoW/tbls-ask/cmd"
+)
 
 func main() {
 	fmt.Println("Hello, World!")
+	cmd.Execute()
 }
