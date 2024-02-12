@@ -3,10 +3,16 @@ package main
 import (
 	"fmt"
 
-	"github.com/k1LoW/tbls-ask/cmd"
+	"github.com/kromiii/tbls-ask-server/tbls"
+)
+
+var (
+	query  string
+	answer string
 )
 
 func main() {
-	fmt.Println("Hello, World!")
-	cmd.Execute()
+	query = "ユーザーあたりのポスト数を取得"
+	answer = tbls.Ask(query)
+	fmt.Println(answer)
 }
