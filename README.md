@@ -1,4 +1,4 @@
-# tbls-ask-server
+# tbls-ask-agent-slack
 
 @k1Low の [tbls-ask](https://github.com/k1LoW/tbls-ask) を slack-bot にしたものです
 
