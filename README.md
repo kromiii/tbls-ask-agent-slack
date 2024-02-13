@@ -4,4 +4,5 @@
 
 メンションして話しかけることでslackからtbls-askを呼び出せます
 
-<img width="850" alt="image" src="https://github.com/kromiii/tbls-ask-agent-slack/assets/15026387/47ba1f12-fda7-4c91-a353-ba6e948c5fc9">
+https://github.com/kromiii/tbls-ask-agent-slack/assets/15026387/8a98623e-0064-4255-a45c-69bb22f285dc
+
