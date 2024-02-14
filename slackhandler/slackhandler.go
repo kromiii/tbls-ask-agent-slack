@@ -4,9 +4,7 @@ import (
 	"errors"
 	"os"
 
-	// "regexp"
-
-	// "github.com/kromiii/tbls-ask-server/tbls"
+	"github.com/kromiii/tbls-ask-server/tbls"
 	"github.com/slack-go/slack"
 	"github.com/slack-go/slack/slackevents"
 	"gopkg.in/yaml.v2"
@@ -67,14 +65,6 @@ func (h *SlackHandler) HandleCallBackEvent(event slackevents.EventsAPIEvent) err
 			},
 		), slack.MsgOptionTS(ev.TimeStamp))
 
-		// q := regexp.MustCompile(`<@U[0-9A-Za-z]+>`).ReplaceAllString(ev.Text, "")
-		// a := tbls.Ask(q)
-
-		// _, _, err := h.Api.PostMessage(
-		// 	ev.Channel,
-		// 	slack.MsgOptionText(a, false),
-		// 	slack.MsgOptionTS(ev.TimeStamp),
-		// )
 		if err != nil {
 			return err
 		}
@@ -92,13 +82,22 @@ func (h *SlackHandler) HandleInteractionCallback(interaction slack.InteractionCa
 	action := interaction.ActionCallback.BlockActions[0]
 	switch action.ActionID {
 	case "select_schema":
-		// weather, err := weather.GetWeather(action.SelectedOption.Value)
-		// if err != nil {
-		// 	return err
-		// }
-		_, _, err := h.Api.PostMessage(
+		threadTimestamp := interaction.Message.ThreadTimestamp
+		messages, _, _, err := h.Api.GetConversationReplies(
+			&slack.GetConversationRepliesParameters{
+				ChannelID: interaction.Channel.ID,
+				Timestamp: threadTimestamp,
+				Inclusive: true,
+			},
+		)
+		if err != nil {
+			return err
+		}
+		q := messages[0].Text
+		a := tbls.Ask(q, action.SelectedOption.Value)
+		_, _, err = h.Api.PostMessage(
 			interaction.Channel.ID,
-			slack.MsgOptionText(action.SelectedOption.Value, false),
+			slack.MsgOptionText(a, false),
 			slack.MsgOptionTS(interaction.Message.Timestamp),
 		)
 		if err != nil {
