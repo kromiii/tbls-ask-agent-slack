@@ -41,15 +41,15 @@ func main() {
 				if err != nil {
 					log.Print(err)
 				}
-				// case socketmode.EventTypeInteractive:
-				// 	interaction, ok := socketEvent.Data.(slack.InteractionCallback)
-				// 	if !ok {
-				// 		continue
-				// 	}
-				// 	err := slackHandler.HandleInteractionCallback(interaction)
-				// 	if err != nil {
-				// 		log.Print(err)
-				// 	}
+			case socketmode.EventTypeInteractive:
+				interaction, ok := socketEvent.Data.(slack.InteractionCallback)
+				if !ok {
+					continue
+				}
+				err := slackHandler.HandleInteractionCallback(interaction)
+				if err != nil {
+					log.Print(err)
+				}
 			}
 		}
 	}()

@@ -83,3 +83,29 @@ func (h *SlackHandler) HandleCallBackEvent(event slackevents.EventsAPIEvent) err
 	}
 	return nil
 }
+
+func (h *SlackHandler) HandleInteractionCallback(interaction slack.InteractionCallback) error {
+	if len(interaction.ActionCallback.BlockActions) != 1 {
+		return errors.New("invalid request")
+	}
+
+	action := interaction.ActionCallback.BlockActions[0]
+	switch action.ActionID {
+	case "select_schema":
+		// weather, err := weather.GetWeather(action.SelectedOption.Value)
+		// if err != nil {
+		// 	return err
+		// }
+		_, _, err := h.Api.PostMessage(
+			interaction.Channel.ID,
+			slack.MsgOptionText(action.SelectedOption.Value, false),
+			slack.MsgOptionTS(interaction.Message.Timestamp),
+		)
+		if err != nil {
+			return err
+		}
+	default:
+		return errors.New("unknown action")
+	}
+	return nil
+}
