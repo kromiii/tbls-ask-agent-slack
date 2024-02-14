@@ -65,7 +65,7 @@ func (h *SlackHandler) HandleCallBackEvent(event slackevents.EventsAPIEvent) err
 					},
 				},
 			},
-		))
+		), slack.MsgOptionTS(ev.TimeStamp))
 
 		// q := regexp.MustCompile(`<@U[0-9A-Za-z]+>`).ReplaceAllString(ev.Text, "")
 		// a := tbls.Ask(q)
