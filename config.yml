@@ -1,5 +1,5 @@
-services:
+schemas:
   - name: "wordpress"
-    schema: "https://github.com/k1LoW/tbls-ask/blob/main/testdata/wordpress.json"
+    path: "https://github.com/k1LoW/tbls-ask/blob/main/testdata/wordpress.json"
   - name: "test"
-    schema: "https://github.com/k1LoW/tbls/blob/main/testdata/testdb.json"
+    path: "https://github.com/k1LoW/tbls/blob/main/testdata/testdb.json"
