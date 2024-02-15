@@ -3,6 +3,7 @@ package slackhandler
 import (
 	"errors"
 	"os"
+	"regexp"
 
 	"github.com/kromiii/tbls-ask-agent-slack/tbls"
 	"github.com/slack-go/slack"
@@ -93,7 +94,7 @@ func (h *SlackHandler) HandleInteractionCallback(interaction slack.InteractionCa
 		if err != nil {
 			return err
 		}
-		q := messages[0].Text
+		q := regexp.MustCompile(`<@U[0-9A-Za-z]+>`).ReplaceAllString(messages[0].Text, "")
 		a := tbls.Ask(q, action.SelectedOption.Value)
 		_, _, err = h.Api.PostMessage(
 			interaction.Channel.ID,
