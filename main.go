@@ -5,7 +5,7 @@ import (
 	"log"
 	"os"
 
-	"github.com/kromiii/tbls-ask-server/slackhandler"
+	"github.com/kromiii/tbls-ask-agent-slack/slackhandler"
 	"github.com/slack-go/slack"
 	"github.com/slack-go/slack/slackevents"
 	"github.com/slack-go/slack/socketmode"

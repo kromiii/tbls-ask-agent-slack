@@ -1,4 +1,4 @@
-module github.com/kromiii/tbls-ask-server
+module github.com/kromiii/tbls-ask-agent-slack
 
 go 1.21.7
 

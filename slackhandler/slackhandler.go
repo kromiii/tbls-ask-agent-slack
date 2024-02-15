@@ -4,7 +4,7 @@ import (
 	"errors"
 	"os"
 
-	"github.com/kromiii/tbls-ask-server/tbls"
+	"github.com/kromiii/tbls-ask-agent-slack/tbls"
 	"github.com/slack-go/slack"
 	"github.com/slack-go/slack/slackevents"
 	"gopkg.in/yaml.v2"
