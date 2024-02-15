@@ -5,6 +5,7 @@ import (
 	"os"
 
 	"github.com/k1LoW/tbls-ask/openai"
+	"github.com/k1LoW/tbls/config"
 	"github.com/k1LoW/tbls/datasource"
 )
 
@@ -13,16 +14,14 @@ var (
 	answer string
 )
 
-func Ask(query string) string {
+func Ask(query string, path string) string {
 	if os.Getenv("OPENAI_API_KEY") == "" {
 		return "OPENAI_API is not set"
 	}
-	if os.Getenv("TBLS_SCHEMA") == "" {
-		return "TBLS_SCHEMA is not set"
-	}
 	ctx := context.Background()
 	o := openai.New(os.Getenv("OPENAI_API_KEY"), model)
-	s, err := datasource.AnalyzeJSONStringOrFile(os.Getenv("TBLS_SCHEMA"))
+	dsn := config.DSN{URL: path}
+	s, err := datasource.Analyze(dsn)
 	if err != nil {
 		return "Failed to analyze schema"
 	}
