@@ -1,61 +1,34 @@
 package main
 
 import (
-	"fmt"
-	"log"
+	"net/http"
 	"os"
 
+	"github.com/kromiii/tbls-ask-agent-slack/handler"
 	"github.com/kromiii/tbls-ask-agent-slack/slackhandler"
 	"github.com/slack-go/slack"
-	"github.com/slack-go/slack/slackevents"
-	"github.com/slack-go/slack/socketmode"
 )
 
 func main() {
-	appToken := os.Getenv("SLACK_APP_TOKEN")
+	// Slack Appの設定画面から取得する
 	oauthToken := os.Getenv("SLACK_OAUTH_TOKEN")
+	signingSecret := os.Getenv("SLACK_SIGNING_SECRET")
 
-	api := slack.New(oauthToken, slack.OptionAppLevelToken(appToken))
-	client := socketmode.New(api)
+	api := slack.New(oauthToken)
 
+	// SlackのEventおよびInteractionのハンドラ（再利用するため別定義）
 	slackHandler := slackhandler.SlackHandler{
 		Api: api,
 	}
 
-	go func() {
-		for socketEvent := range client.Events {
-			switch socketEvent.Type {
-			case socketmode.EventTypeConnecting:
-				fmt.Println("Connecting to Slack with Socket Mode...")
-			case socketmode.EventTypeConnectionError:
-				fmt.Println("Connection failed. Retrying later...")
-			case socketmode.EventTypeConnected:
-				fmt.Println("Connected to Slack with Socket Mode.")
-			case socketmode.EventTypeEventsAPI:
-				event, ok := socketEvent.Data.(slackevents.EventsAPIEvent)
-				if !ok {
-					continue
-				}
-				client.Ack(*socketEvent.Request)
-				err := slackHandler.HandleCallBackEvent(event)
-				if err != nil {
-					log.Print(err)
-				}
-			case socketmode.EventTypeInteractive:
-				interaction, ok := socketEvent.Data.(slack.InteractionCallback)
-				if !ok {
-					continue
-				}
-				err := slackHandler.HandleInteractionCallback(interaction)
-				if err != nil {
-					log.Print(err)
-				}
-			}
-		}
-	}()
+	http.Handle("/slack/events", &handler.EventHandler{
+		SlackHandler:  &slackHandler,
+		SigningSecret: signingSecret,
+	})
 
-	err := client.Run()
-	if err != nil {
-		log.Print(err)
-	}
+	http.Handle("/slack/interaction", &handler.InteractivityHandler{
+		SlackHandler: &slackHandler,
+	})
+
+	http.ListenAndServe(":8080", nil)
 }
