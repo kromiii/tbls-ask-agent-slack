@@ -1,3 +1,6 @@
 export OPENAI_API_KEY=sk-***
 export SLACK_OAUTH_TOKEN=xoxb-***
 export SLACK_SIGNING_SECRET=***
+# GHESを使う場合は以下の環境変数を設定
+# export GH_HOST=git.xxx.com
+# export GITHUB_ENTERPRISE_TOKEN=***
