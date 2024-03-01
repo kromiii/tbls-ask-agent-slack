@@ -18,3 +18,19 @@ spec:
         image: tbls-ask-agent-slack:latest
         ports:
         - containerPort: 8080
+        env:
+          - name: SLACK_SIGNING_SECRET
+            valueFrom:
+              secretKeyRef:
+                name: tbls-ask-agent-slack
+                key: slack-signing-secret
+          - name: SLACK_OAUTH_TOKEN
+            valueFrom:
+              secretKeyRef:
+                name: tbls-ask-agent-slack
+                key: slack-oauth-token
+          - name: OPENAI_API_KEY
+            valueFrom:
+              secretKeyRef:
+                name: tbls-ask-agent-slack
+                key: openai-api-key
