@@ -11,7 +11,10 @@ COPY . .
 RUN go build -o main .
 
 # 新しいステージを開始して最小限のイメージを作成
-FROM debian:bullseye-slim
+FROM alpine:latest
+
+# # 作業ディレクトリを設定
+WORKDIR /app
 
 # ビルドしたバイナリを新しいコンテナにコピー
 COPY --from=builder /app/main /app/main
