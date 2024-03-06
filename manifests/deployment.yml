@@ -34,3 +34,10 @@ spec:
               secretKeyRef:
                 name: tbls-ask-agent-slack
                 key: openai-api-key
+        volumeMounts:
+        - name: tbls-schemas
+          mountPath: /app
+      volumes:
+      - name: tbls-schemas
+        configMap:
+          name: tbls-schemas

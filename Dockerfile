@@ -18,7 +18,7 @@ WORKDIR /app
 
 # ビルドしたバイナリを新しいコンテナにコピー
 COPY --from=builder /app/main /app/main
-COPY --from=builder /app/config.yml /app/config.yml
+# COPY --from=builder /app/config.yml /app/config.yml
 
 # コンテナが起動したときに実行するコマンドを設定
 CMD ["/app/main"]
