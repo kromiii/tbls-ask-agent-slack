@@ -16,7 +16,21 @@ https://github.com/kromiii/tbls-ask-agent-slack/assets/15026387/b6ff5027-5af3-4e
 
 ## k8s へのデプロイ
 
+copy `config.yml.sample` to `config.yml` and edit it.
+
 ```
+$ cp config.yml.sample config.yml
+```
+
+create configmap and secret
+
+```
+$ kubectl create configmap tbls-schemas --from-file=config.yml
 $ kubectl create secret generic tbls-ask-agent-slack --from-literal=slack-signing-secret=$SLACK_SIGNING_SECRET --from-literal=slack-oauth-token=$SLACK_OAUTH_TOKEN --from-literal=openai-api-key=$OPENAI_API_KEY
+```
+
+apply manifests
+
+```
 $ kubectl apply -f manifests
 ```

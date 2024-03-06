@@ -26,7 +26,7 @@ func (h *SlackHandler) HandleCallBackEvent(event slackevents.EventsAPIEvent) err
 	innerEvent := event.InnerEvent
 	switch ev := innerEvent.Data.(type) {
 	case *slackevents.AppMentionEvent:
-		data, err := os.ReadFile("config.yml")
+		data, err := os.ReadFile("/schemas/config.yml")
 		if err != nil {
 			return err
 		}
