@@ -36,7 +36,7 @@ spec:
                 key: openai-api-key
         volumeMounts:
         - name: tbls-schemas
-          mountPath: /app
+          mountPath: /schemas
       volumes:
       - name: tbls-schemas
         configMap:
