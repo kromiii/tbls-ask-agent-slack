@@ -34,3 +34,7 @@ apply manifests
 ```
 $ kubectl apply -f manifests
 ```
+
+## slack-app の設定
+
+https://api.slack.com/apps から `manifests.yml` を使ってアプリを作成してください
