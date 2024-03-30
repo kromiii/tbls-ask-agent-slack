@@ -21,11 +21,6 @@ func main() {
 		Api: api,
 	}
 
-	// health check
-	http.HandleFunc("/health", func(w http.ResponseWriter, r *http.Request) {
-		w.WriteHeader(http.StatusOK)
-	})
-
 	http.Handle("/slack/events", &handler.EventHandler{
 		SlackHandler:  &slackHandler,
 		SigningSecret: signingSecret,
