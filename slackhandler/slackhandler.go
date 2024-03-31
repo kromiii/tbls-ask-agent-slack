@@ -15,18 +15,22 @@ type SlackHandler struct {
 	Api *slack.Client
 }
 
-type Config struct {
-	Schemas []struct {
-		Name string `yaml:"name"`
-		Path string `yaml:"path"`
-	} `yaml:"schemas"`
+type Schema struct {
+	Name string `yaml:"name"`
+	Path string `yaml:"path"`
 }
+
+type Config struct {
+	Schemas []Schema `yaml:"schemas"`
+}
+
+var fileLoader = os.ReadFile
 
 func (h *SlackHandler) HandleCallBackEvent(event slackevents.EventsAPIEvent) error {
 	innerEvent := event.InnerEvent
 	switch ev := innerEvent.Data.(type) {
 	case *slackevents.AppMentionEvent:
-		data, err := os.ReadFile("/schemas/config.yml")
+		data, err := fileLoader("/schemas/config.yml")
 		if err != nil {
 			return err
 		}
