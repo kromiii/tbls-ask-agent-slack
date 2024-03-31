@@ -14,18 +14,21 @@ var (
 	answer string
 )
 
+var o = openai.New(os.Getenv("OPENAI_API_KEY"), model)
+var analyze = datasource.Analyze
+var ask = o.Ask
+
 func Ask(query string, path string) string {
 	if os.Getenv("OPENAI_API_KEY") == "" {
 		return "OPENAI_API is not set"
 	}
 	ctx := context.Background()
-	o := openai.New(os.Getenv("OPENAI_API_KEY"), model)
 	dsn := config.DSN{URL: path}
-	s, err := datasource.Analyze(dsn)
+	s, err := analyze(dsn)
 	if err != nil {
 		return "Failed to analyze schema"
 	}
-	answer, err = o.Ask(ctx, query, s)
+	answer, err = ask(ctx, query, s)
 	if err != nil {
 		return "Failed to ask"
 	}

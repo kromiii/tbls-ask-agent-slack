@@ -5,7 +5,6 @@ go 1.21.7
 require (
 	github.com/k1LoW/tbls v1.67.1
 	github.com/k1LoW/tbls-ask v0.0.5
-	github.com/nlopes/slack v0.6.0
 	github.com/slack-go/slack v0.12.3
 	github.com/stretchr/testify v1.8.3
 	gopkg.in/yaml.v2 v2.4.0
@@ -96,6 +95,7 @@ require (
 	github.com/sashabaranov/go-openai v1.11.2 // indirect
 	github.com/sirupsen/logrus v1.9.0 // indirect
 	github.com/snowflakedb/gosnowflake v1.6.19 // indirect
+	github.com/stretchr/objx v0.5.0 // indirect
 	github.com/xdg-go/pbkdf2 v1.0.0 // indirect
 	github.com/xdg-go/scram v1.1.1 // indirect
 	github.com/xdg-go/stringprep v1.0.3 // indirect
