@@ -5,7 +5,9 @@ go 1.21.7
 require (
 	github.com/k1LoW/tbls v1.67.1
 	github.com/k1LoW/tbls-ask v0.0.5
+	github.com/nlopes/slack v0.6.0
 	github.com/slack-go/slack v0.12.3
+	github.com/stretchr/testify v1.8.3
 	gopkg.in/yaml.v2 v2.4.0
 )
 
@@ -47,6 +49,7 @@ require (
 	github.com/cncf/udpa/go v0.0.0-20220112060539-c52dc94e7fbe // indirect
 	github.com/cncf/xds/go v0.0.0-20230607035331-e9ce68804cb4 // indirect
 	github.com/danieljoos/wincred v1.1.2 // indirect
+	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/dvsekhvalnov/jose2go v1.6.0 // indirect
 	github.com/envoyproxy/go-control-plane v0.11.1-0.20230524094728-9239064ad72f // indirect
 	github.com/envoyproxy/protoc-gen-validate v0.10.1 // indirect
@@ -88,6 +91,7 @@ require (
 	github.com/pierrec/lz4/v4 v4.1.16 // indirect
 	github.com/pkg/browser v0.0.0-20210911075715-681adbf594b8 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
+	github.com/pmezard/go-difflib v1.0.1-0.20181226105442-5d4384ee4fb2 // indirect
 	github.com/samber/lo v1.38.1 // indirect
 	github.com/sashabaranov/go-openai v1.11.2 // indirect
 	github.com/sirupsen/logrus v1.9.0 // indirect
@@ -116,4 +120,5 @@ require (
 	google.golang.org/genproto v0.0.0-20230410155749-daa745c078e1 // indirect
 	google.golang.org/grpc v1.56.3 // indirect
 	google.golang.org/protobuf v1.33.0 // indirect
+	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
