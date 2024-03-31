@@ -53,7 +53,11 @@ func (h *EventHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 		w.Header().Set("Content-Type", "text")
-		w.Write([]byte(r.Challenge))
+		_, err = w.Write([]byte(r.Challenge))
+		if err != nil {
+			w.WriteHeader(http.StatusInternalServerError)
+			return
+		}
 	}
 
 	// その他Eventのハンドリング（以下、slackhandler.SlackHandlerで定義）

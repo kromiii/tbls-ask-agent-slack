@@ -1,0 +1,30 @@
+name: build
+
+on:
+  push:
+  pull_request:
+    branches:
+      - main
+jobs:
+  job-test:
+    name: Test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out source code
+        uses: actions/checkout@v3
+
+      - name: Set up Go
+        uses: actions/setup-go@v4
+        with:
+          go-version-file: go.mod
+
+      - name: Run lint
+        uses: reviewdog/action-golangci-lint@v2
+        with:
+          golangci_lint_flags: --timeout=5m
+
+      - name: Run test
+        run: go test ./... -coverprofile=coverage.out -covermode=count
+
+      - name: Run octocov
+        uses: k1LoW/octocov-action@v0
