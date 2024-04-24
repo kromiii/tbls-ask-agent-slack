@@ -2,6 +2,7 @@ package tbls
 
 import (
 	"context"
+	"log"
 	"os"
 
 	"github.com/k1LoW/tbls-ask/openai"
@@ -26,10 +27,12 @@ func Ask(query string, path string) string {
 	dsn := config.DSN{URL: path}
 	s, err := analyze(dsn)
 	if err != nil {
+		log.Printf("Failed to analyze schema: %v", err)
 		return "Failed to analyze schema"
 	}
 	answer, err = ask(ctx, query, s)
 	if err != nil {
+		log.Printf("Failed to ask: %v", err)
 		return "Failed to ask"
 	}
 	return answer
