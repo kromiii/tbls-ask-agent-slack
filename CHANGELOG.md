@@ -1,5 +1,7 @@
 # Changelog
 
+## [v0.1.2](https://github.com/kromiii/tbls-ask-agent-slack/compare/v0.1.1...v0.1.2) - 2024-04-27
+
 ## [v0.1.1](https://github.com/kromiii/tbls-ask-agent-slack/compare/v0.1.0...v0.1.1) - 2024-04-27
 - Add tagpr workflow for main branch by @kromiii in https://github.com/kromiii/tbls-ask-agent-slack/pull/11
 
