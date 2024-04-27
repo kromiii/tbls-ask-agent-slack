@@ -10,6 +10,8 @@ require (
 	gopkg.in/yaml.v2 v2.4.0
 )
 
+replace github.com/k1LoW/tbls => github.com/kromiii/tbls v0.0.0-20240427101013-1d62af709d55
+
 require (
 	cel.dev/expr v0.15.0 // indirect
 	cloud.google.com/go v0.112.2 // indirect
@@ -83,6 +85,7 @@ require (
 	github.com/json-iterator/go v1.1.12 // indirect
 	github.com/k1LoW/duration v1.2.0 // indirect
 	github.com/k1LoW/expand v0.12.0 // indirect
+	github.com/k1LoW/ghfs v1.3.1 // indirect
 	github.com/k1LoW/go-github-client/v58 v58.0.12 // indirect
 	github.com/k1LoW/repin v0.3.4 // indirect
 	github.com/klauspost/compress v1.17.8 // indirect
