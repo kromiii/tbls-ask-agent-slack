@@ -1,5 +1,8 @@
 # Changelog
 
+## [v0.1.5](https://github.com/kromiii/tbls-ask-agent-slack/compare/v0.1.4...v0.1.5) - 2024-04-27
+- use patched version of k1low/tbls by @kromiii in https://github.com/kromiii/tbls-ask-agent-slack/pull/19
+
 ## [v0.1.4](https://github.com/kromiii/tbls-ask-agent-slack/compare/v0.1.3...v0.1.4) - 2024-04-27
 - Handle interaction callback message posting improvement by @kromiii in https://github.com/kromiii/tbls-ask-agent-slack/pull/17
 
