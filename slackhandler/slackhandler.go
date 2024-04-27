@@ -2,6 +2,7 @@ package slackhandler
 
 import (
 	"errors"
+	"log"
 	"os"
 	"regexp"
 
@@ -98,16 +99,27 @@ func (h *SlackHandler) HandleInteractionCallback(interaction slack.InteractionCa
 		if err != nil {
 			return err
 		}
-		q := regexp.MustCompile(`<@U[0-9A-Za-z]+>`).ReplaceAllString(messages[0].Text, "")
-		a := tbls.Ask(q, action.SelectedOption.Value)
+
 		_, _, err = h.Api.PostMessage(
 			interaction.Channel.ID,
-			slack.MsgOptionText(a, false),
+			slack.MsgOptionText("質問を受け付けました。ちょっと待っててね。", false),
 			slack.MsgOptionTS(interaction.Message.Timestamp),
 		)
 		if err != nil {
 			return err
 		}
+		go func() {
+			q := regexp.MustCompile(`<@U[0-9A-Za-z]+>`).ReplaceAllString(messages[0].Text, "")
+			a := tbls.Ask(q, action.SelectedOption.Value)
+			_, _, err = h.Api.PostMessage(
+				interaction.Channel.ID,
+				slack.MsgOptionText(a, false),
+				slack.MsgOptionTS(interaction.Message.Timestamp),
+			)
+			if err != nil {
+				log.Printf("Failed to post message: %v", err)
+			}
+		}()
 	default:
 		return errors.New("unknown action")
 	}
