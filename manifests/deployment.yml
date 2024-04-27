@@ -34,6 +34,11 @@ spec:
               secretKeyRef:
                 name: tbls-ask-agent-slack
                 key: openai-api-key
+          - name: GITHUB_TOKEN
+            valueFrom:
+              secretKeyRef:
+                name: tbls-ask-agent-slack
+                key: github-token
         volumeMounts:
         - name: tbls-schemas
           mountPath: /schemas
