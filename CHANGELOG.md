@@ -1,5 +1,7 @@
 # Changelog
 
+## [v0.1.6](https://github.com/kromiii/tbls-ask-agent-slack/compare/v0.1.5...v0.1.6) - 2024-04-28
+
 ## [v0.1.5](https://github.com/kromiii/tbls-ask-agent-slack/compare/v0.1.4...v0.1.5) - 2024-04-27
 - use patched version of k1low/tbls by @kromiii in https://github.com/kromiii/tbls-ask-agent-slack/pull/19
 
