@@ -1,5 +1,7 @@
 # Changelog
 
+## [v0.1.7](https://github.com/kromiii/tbls-ask-agent-slack/compare/v0.1.6...v0.1.7) - 2024-04-28
+
 ## [v0.1.6](https://github.com/kromiii/tbls-ask-agent-slack/compare/v0.1.5...v0.1.6) - 2024-04-28
 
 ## [v0.1.5](https://github.com/kromiii/tbls-ask-agent-slack/compare/v0.1.4...v0.1.5) - 2024-04-27
