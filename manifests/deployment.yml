@@ -16,8 +16,6 @@ spec:
       - name: tbls-ask-agent-slack
         imagePullPolicy: Never
         image: tbls-ask-agent-slack:latest
-        ports:
-        - containerPort: 8080
         env:
           - name: SLACK_APP_TOKEN
             valueFrom:
