@@ -17,7 +17,7 @@ https://github.com/kromiii/tbls-ask-agent-slack/assets/15026387/b6ff5027-5af3-4e
 
 ## Slack-app settings
 
-Please create an app using `manifests.yml` from https://api.slack.com/apps.
+Please create an app using `manifests.yml` and install it to your workspace.
 
 ## Deploy to k8s
 
