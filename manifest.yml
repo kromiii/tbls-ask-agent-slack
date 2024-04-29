@@ -14,12 +14,10 @@ oauth_config:
       - channels:history
 settings:
   event_subscriptions:
-    request_url: https://your-custom-domain.com/slack/events
     bot_events:
       - app_mention
   interactivity:
     is_enabled: true
-    request_url: https://your-custom-domain.com/slack/interaction
   org_deploy_enabled: false
-  socket_mode_enabled: false
+  socket_mode_enabled: true
   token_rotation_enabled: false
