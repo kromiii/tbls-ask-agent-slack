@@ -1,5 +1,8 @@
 # Changelog
 
+## [v0.1.10](https://github.com/kromiii/tbls-ask-agent-slack/compare/v0.1.9...v0.1.10) - 2024-05-02
+- update pached version of tbls-ask by @kromiii in https://github.com/kromiii/tbls-ask-agent-slack/pull/26
+
 ## [v0.1.9](https://github.com/kromiii/tbls-ask-agent-slack/compare/v0.1.8...v0.1.9) - 2024-04-29
 - Switch to socket mode by @kromiii in https://github.com/kromiii/tbls-ask-agent-slack/pull/24
 
