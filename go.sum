@@ -240,8 +240,6 @@ github.com/k1LoW/go-github-client/v58 v58.0.12 h1:rIK+H2cSpK0ptOxNq0jITGu3ffRjLT
 github.com/k1LoW/go-github-client/v58 v58.0.12/go.mod h1:HFCYt6OBzCfusKY4aVYi4E3T4pbDDNdHQuWOL0pHkdI=
 github.com/k1LoW/repin v0.3.4 h1:xcNuBBc/ISHUNBzjXNTCux4OYZND5ZMiyz4SrRtpDhg=
 github.com/k1LoW/repin v0.3.4/go.mod h1:1abQMGdYFegTCsxbhZ3O5P8aKENYS37UhQKwKYKiYkg=
-github.com/k1LoW/tbls-ask v0.0.5 h1:bBfzxJX7feBFfUlM+tJ7tH2GsjQo+0gHNz6/4aAGON8=
-github.com/k1LoW/tbls-ask v0.0.5/go.mod h1:evTDrb6CIOE4eGYX90rDHh5Y7L7hoZ3ki6zJcsOxwKw=
 github.com/klauspost/compress v1.17.8 h1:YcnTYrq7MikUT7k0Yb5eceMmALQPYBW/Xltxn0NAMnU=
 github.com/klauspost/compress v1.17.8/go.mod h1:Di0epgTjJY877eYKx5yC51cX2A2Vl2ibi7bDH9ttBbw=
 github.com/klauspost/cpuid/v2 v2.2.7 h1:ZWSB3igEs+d0qvnxR/ZBzXVmxkgt8DdzP6m9pfuVLDM=
@@ -254,6 +252,8 @@ github.com/kr/text v0.2.0 h1:5Nx0Ya0ZqY2ygV366QzturHI13Jq95ApcVaJBhpS+AY=
 github.com/kr/text v0.2.0/go.mod h1:eLer722TekiGuMkidMxC/pM04lWEeraHUUmBw8l2grE=
 github.com/kromiii/tbls v0.0.0-20240427101013-1d62af709d55 h1:MHllgxk+aFR76dW2fMrsh0hEks8kW8iYZMvVN+4GqMA=
 github.com/kromiii/tbls v0.0.0-20240427101013-1d62af709d55/go.mod h1:l2+d5TgJ7ZsXFL4HaotwbDqlH3VPadVQLfubBwY2gcs=
+github.com/kromiii/tbls-ask v0.0.0-20240502120054-f7a86fa2ba86 h1:jODws7mLK0Fmv9oJQ3+KMtRm4Hjl0gvi+WUOXQ3XOxE=
+github.com/kromiii/tbls-ask v0.0.0-20240502120054-f7a86fa2ba86/go.mod h1:AhqzgRlwbhBXY/XUHsXr+OeiowbChHHwvYiAd1L45O0=
 github.com/kylelemons/godebug v1.1.0 h1:RPNrshWIDI6G2gRW9EHilWtl7Z6Sb1BR0xunSBf0SNc=
 github.com/kylelemons/godebug v1.1.0/go.mod h1:9/0rRGxNHcop5bhtWyNeEfOS8JIWk580+fNqagV/RAw=
 github.com/leodido/go-urn v1.2.0 h1:hpXL4XnriNwQ/ABnpepYM/1vCLWNDfUNts8dX3xTG6Y=
