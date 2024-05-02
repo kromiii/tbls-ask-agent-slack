@@ -10,7 +10,10 @@ require (
 	gopkg.in/yaml.v2 v2.4.0
 )
 
-replace github.com/k1LoW/tbls => github.com/kromiii/tbls v0.0.0-20240427101013-1d62af709d55
+replace (
+	github.com/k1LoW/tbls => github.com/kromiii/tbls v0.0.0-20240427101013-1d62af709d55
+	github.com/k1LoW/tbls-ask => github.com/kromiii/tbls-ask v0.0.0-20240502120054-f7a86fa2ba86
+)
 
 require (
 	cel.dev/expr v0.15.0 // indirect
