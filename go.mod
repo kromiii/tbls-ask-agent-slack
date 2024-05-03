@@ -12,7 +12,7 @@ require (
 
 replace (
 	github.com/k1LoW/tbls => github.com/kromiii/tbls v0.0.0-20240427101013-1d62af709d55
-	github.com/k1LoW/tbls-ask => github.com/kromiii/tbls-ask v0.0.0-20240502120054-f7a86fa2ba86
+	github.com/k1LoW/tbls-ask => github.com/kromiii/tbls-ask v0.0.0-20240503023436-66ac105ca239
 )
 
 require (
