@@ -11,6 +11,11 @@ require (
 )
 
 require (
+	cloud.google.com/go/ai v0.4.0 // indirect
+	cloud.google.com/go/longrunning v0.5.6 // indirect
+)
+
+require (
 	cel.dev/expr v0.15.0 // indirect
 	cloud.google.com/go v0.112.2 // indirect
 	cloud.google.com/go/auth v0.3.0 // indirect
@@ -69,6 +74,7 @@ require (
 	github.com/golang/protobuf v1.5.4 // indirect
 	github.com/golang/snappy v0.0.4 // indirect
 	github.com/google/flatbuffers v24.3.25+incompatible // indirect
+	github.com/google/generative-ai-go v0.11.2
 	github.com/google/go-github/v58 v58.0.0 // indirect
 	github.com/google/go-github/v60 v60.0.0 // indirect
 	github.com/google/go-querystring v1.1.0 // indirect
