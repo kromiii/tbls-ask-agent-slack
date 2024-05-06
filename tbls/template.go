@@ -20,18 +20,6 @@ const (
 ## Question
 {{ .Question }}
 `
-	defaultQueryPromptTmpl = `Answer the SQL query in the "Explanation of the query to be created" section, assuming the database was created with the following DDL.
-{{ .DatabaseVersion }}
-
-## DDL ( Data Definition Language )
-
-{{ .QuoteStart }}
-{{ .DDL }}
-{{ .QuoteEnd }}
-
-## Explanation of the query to be created
-{{ .Question }}
-`
 )
 
 func generateDDLRoughly(s *schema.Schema) string {

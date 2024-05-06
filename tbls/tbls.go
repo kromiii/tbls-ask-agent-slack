@@ -14,8 +14,6 @@ import (
 	"google.golang.org/api/option"
 )
 
-var analyze = datasource.Analyze
-
 func Ask(query string, path string) string {
 	if os.Getenv("GEMINI_API_KEY") == "" {
 		return "GEMINI_API_KEY is not set"
@@ -29,7 +27,7 @@ func Ask(query string, path string) string {
 	defer client.Close()
 
 	dsn := config.DSN{URL: path}
-	s, err := analyze(dsn)
+	s, err := datasource.Analyze(dsn)
 	if err != nil {
 		log.Printf("Failed to analyze schema: %v", err)
 		return "Failed to analyze schema"
