@@ -1,5 +1,8 @@
 # Changelog
 
+## [v0.1.11](https://github.com/kromiii/tbls-ask-agent-slack/compare/v0.1.10...v0.1.11) - 2024-05-06
+- Change schema directory by @kromiii in https://github.com/kromiii/tbls-ask-agent-slack/pull/29
+
 ## [v0.1.10](https://github.com/kromiii/tbls-ask-agent-slack/compare/v0.1.9...v0.1.10) - 2024-05-02
 - update pached version of tbls-ask by @kromiii in https://github.com/kromiii/tbls-ask-agent-slack/pull/26
 
