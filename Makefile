@@ -1,7 +1,7 @@
 .PHONY: create-configmap create-secret build-image apply-manifests clear all
 
 create-configmap:
-	kubectl create configmap tbls-schemas --from-file=config.yml
+	kubectl create configmap tbls-schemas --from-file=schemas/config.yml
 
 create-secret:
 	kubectl create secret generic tbls-ask-agent-slack --from-literal=slack-app-token=$$SLACK_APP_TOKEN --from-literal=slack-oauth-token=$$SLACK_OAUTH_TOKEN --from-literal=openai-api-key=$$OPENAI_API_KEY --from-literal=github-token=$$GITHUB_TOKEN
