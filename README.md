@@ -19,14 +19,23 @@ https://github.com/kromiii/tbls-ask-agent-slack/assets/15026387/b6ff5027-5af3-4e
 
 Please create an app using `manifests.yml` and install it to your workspace.
 
-## Deploy to k8s
+## Prepare schema
 
 Copy `schemas/config.yml.sample` to `schemas/config.yml` and edit it.
 
 ```sh
 $ cp schemas/config.yml.sample schemas/config.yml
-
 ```
+
+## Run locally
+
+```sh
+go run main.go
+```
+
+It is using socket mode for slack. You don't need to expose the server to the internet.
+
+## Deploy to k8s
 
 Build docker image locally
 
