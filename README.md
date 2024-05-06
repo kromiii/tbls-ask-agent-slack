@@ -21,10 +21,10 @@ Please create an app using `manifests.yml` and install it to your workspace.
 
 ## Deploy to k8s
 
-Copy `config.yml.sample` to `config.yml` and edit it.
+Copy `schemas/config.yml.sample` to `schemas/config.yml` and edit it.
 
 ```sh
-$ cp config.yml.sample config.yml
+$ cp schemas/config.yml.sample schemas/config.yml
 
 ```
 
