@@ -39,7 +39,7 @@ spec:
                 key: github-token
         volumeMounts:
         - name: tbls-schemas
-          mountPath: /schemas
+          mountPath: /app/schemas
       volumes:
       - name: tbls-schemas
         configMap:
