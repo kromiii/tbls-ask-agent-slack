@@ -44,14 +44,26 @@ func Ask(query string, path string) string {
 		"QuoteStart":      "```sql",
 		"QuoteEnd":        "```",
 		"DDL":             generateDDLRoughly(s),
-		"Question":        query,
+		// "Question":        query,
 	}); err != nil {
 		log.Printf("Failed to execute template: %v", err)
 		return "Failed to execute template"
 	}
 
 	model := client.GenerativeModel("gemini-pro")
-	resp, err := model.GenerateContent(ctx, genai.Text(buf.String()))
+	cs := model.StartChat()
+	cs.History = []*genai.Content{
+		{
+			Role:  "user",
+			Parts: []genai.Part{genai.Text(buf.String())},
+		},
+		{
+			Role:  "model",
+			Parts: []genai.Part{genai.Text("質問を入力してください")},
+		},
+	}
+	resp, err := cs.SendMessage(ctx, genai.Text(query))
+	// resp, err := model.GenerateContent(ctx, genai.Text(buf.String()))
 	if err != nil {
 		log.Printf("Failed to generate content: %v", err)
 		return "Failed to generate content"

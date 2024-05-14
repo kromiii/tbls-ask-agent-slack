@@ -16,9 +16,6 @@ const (
 {{ .QuoteStart }}
 {{ .DDL }}
 {{ .QuoteEnd }}
-
-## Question
-{{ .Question }}
 `
 )
 
