@@ -1,5 +1,8 @@
 # Changelog
 
+## [v0.1.13](https://github.com/kromiii/tbls-ask-agent-slack/compare/v0.1.12...v0.1.13) - 2024-05-20
+- use original version of tbls-ask by @kromiii in https://github.com/kromiii/tbls-ask-agent-slack/pull/33
+
 ## [v0.1.12](https://github.com/kromiii/tbls-ask-agent-slack/compare/v0.1.11...v0.1.12) - 2024-05-14
 - Update model by @kromiii in https://github.com/kromiii/tbls-ask-agent-slack/pull/31
 
