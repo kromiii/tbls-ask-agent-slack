@@ -10,8 +10,6 @@ require (
 	gopkg.in/yaml.v2 v2.4.0
 )
 
-replace github.com/k1LoW/tbls-ask => github.com/kromiii/tbls-ask v0.0.0-20240514123605-e9a42cf9b9e9
-
 require (
 	cel.dev/expr v0.15.0 // indirect
 	cloud.google.com/go v0.113.0 // indirect
