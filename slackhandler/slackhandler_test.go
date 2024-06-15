@@ -40,7 +40,7 @@ func TestHandleCallBackEvent(t *testing.T) {
 		}
 
 		// Mock the ReadFile function to return a predefined config
-		fileLoader = func(name string) ([]byte, error) {
+		fileLoader = func(_ string) ([]byte, error) {
 			config := Config{
 				Schemas: []Schema{
 					{Name: "Test", Path: "./config.yml.sample"},
