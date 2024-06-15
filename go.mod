@@ -4,7 +4,7 @@ go 1.22.2
 
 require (
 	github.com/k1LoW/tbls v1.76.0
-	github.com/k1LoW/tbls-ask v0.1.0
+	github.com/sashabaranov/go-openai v1.25.0
 	github.com/slack-go/slack v0.12.3
 	github.com/stretchr/testify v1.9.0
 	gopkg.in/yaml.v2 v2.4.0
@@ -80,20 +80,16 @@ require (
 	github.com/gorilla/websocket v1.4.2 // indirect
 	github.com/gsterjov/go-libsecret v0.0.0-20161001094733-a6f4afe4910c // indirect
 	github.com/jmespath/go-jmespath v0.4.0 // indirect
-	github.com/json-iterator/go v1.1.12 // indirect
 	github.com/k1LoW/duration v1.2.0 // indirect
 	github.com/k1LoW/expand v0.12.0 // indirect
 	github.com/k1LoW/ghfs v1.3.1 // indirect
 	github.com/k1LoW/go-github-client/v58 v58.0.12 // indirect
-	github.com/k1LoW/repin v0.3.4 // indirect
 	github.com/klauspost/compress v1.17.8 // indirect
 	github.com/klauspost/cpuid/v2 v2.2.7 // indirect
 	github.com/lib/pq v1.10.9 // indirect
 	github.com/mattn/go-colorable v0.1.13 // indirect
 	github.com/mattn/go-isatty v0.0.20 // indirect
 	github.com/minio/pkg v1.7.5 // indirect
-	github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd // indirect
-	github.com/modern-go/reflect2 v1.0.2 // indirect
 	github.com/montanaflynn/stats v0.7.1 // indirect
 	github.com/mtibben/percent v0.2.1 // indirect
 	github.com/pierrec/lz4/v4 v4.1.21 // indirect
@@ -101,7 +97,6 @@ require (
 	github.com/pkg/errors v0.9.1 // indirect
 	github.com/pmezard/go-difflib v1.0.1-0.20181226105442-5d4384ee4fb2 // indirect
 	github.com/samber/lo v1.39.0 // indirect
-	github.com/sashabaranov/go-openai v1.25.0 // indirect
 	github.com/sirupsen/logrus v1.9.3 // indirect
 	github.com/snowflakedb/gosnowflake v1.10.1 // indirect
 	github.com/xdg-go/pbkdf2 v1.0.0 // indirect

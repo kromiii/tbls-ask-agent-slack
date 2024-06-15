@@ -8,7 +8,6 @@ import (
 	"strings"
 	"text/template"
 
-	"github.com/k1LoW/tbls-ask/templates"
 	"github.com/k1LoW/tbls/config"
 	"github.com/k1LoW/tbls/datasource"
 	"github.com/sashabaranov/go-openai"
@@ -45,10 +44,10 @@ func Ask(messages []slack.Message, path string) string {
 	}
 	buf := new(bytes.Buffer)
 	if err := tpl.Execute(buf, map[string]any{
-		"DatabaseVersion": templates.DatabaseVersion(s),
+		"DatabaseVersion": DatabaseVersion(s),
 		"QuoteStart":      quoteStart,
 		"QuoteEnd":        quoteEnd,
-		"DDL":             templates.GenerateDDLRoughly(s),
+		"DDL":             GenerateDDLRoughly(s),
 	}); err != nil {
 		log.Printf("Failed to execute template: %v", err)
 		return "Failed to ask"
