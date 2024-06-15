@@ -1,19 +1,24 @@
 package tbls
 
 import (
+	"bytes"
 	"context"
 	"log"
 	"os"
 	"strings"
+	"text/template"
 
+	"github.com/k1LoW/tbls-ask/templates"
 	"github.com/k1LoW/tbls/config"
 	"github.com/k1LoW/tbls/datasource"
 	"github.com/sashabaranov/go-openai"
 	"github.com/slack-go/slack"
 )
 
-var (
-	model = "gpt-4-turbo"
+const (
+	model      = "gpt-4-turbo"
+	quoteStart = "```sql"
+	quoteEnd   = "```"
 )
 
 var analyze = datasource.Analyze
@@ -26,20 +31,37 @@ func Ask(messages []slack.Message, path string) string {
 	client := openai.NewClient(os.Getenv("OPENAI_API_KEY"))
 	ctx := context.Background()
 	dsn := config.DSN{URL: path}
-	_, err := analyze(dsn)
+	s, err := analyze(dsn)
 	if err != nil {
 		log.Printf("Failed to analyze schema: %v", err)
 		return "Failed to analyze schema"
 	}
 
 	m := []openai.ChatCompletionMessage{}
+	tpl, err := template.New("").Parse(DefaultPromtTmpl)
+	if err != nil {
+		log.Printf("Failed to parse template: %v", err)
+		return "Failed to ask"
+	}
+	buf := new(bytes.Buffer)
+	if err := tpl.Execute(buf, map[string]any{
+		"DatabaseVersion": templates.DatabaseVersion(s),
+		"QuoteStart":      quoteStart,
+		"QuoteEnd":        quoteEnd,
+		"DDL":             templates.GenerateDDLRoughly(s),
+	}); err != nil {
+		log.Printf("Failed to execute template: %v", err)
+		return "Failed to ask"
+	}
+	m = append(m, openai.ChatCompletionMessage{
+		Role:    "system",
+		Content: buf.String(),
+	})
 	for _, message := range messages {
 		// skip messages which does not include the mention to the bot or the message not from bot user
 		if message.User != botUserID && !strings.Contains(message.Text, "<@"+botUserID+">") {
 			continue
 		}
-		// Role "user" is used for messages from the user
-		// Role "assistant" is used for messages from the bot (assistant)
 		var role string
 		if message.User == botUserID {
 			role = "assistant"
