@@ -1,5 +1,9 @@
 # Changelog
 
+## [v0.1.16](https://github.com/kromiii/tbls-ask-agent-slack/compare/v0.1.15...v0.1.16) - 2024-06-15
+- ddl を relation 関係のみに限定する by @kromiii in https://github.com/kromiii/tbls-ask-agent-slack/pull/39
+- get bot user id by api by @kromiii in https://github.com/kromiii/tbls-ask-agent-slack/pull/41
+
 ## [v0.1.15](https://github.com/kromiii/tbls-ask-agent-slack/compare/v0.1.14...v0.1.15) - 2024-06-15
 - Slack message をスレッドで input する by @kromiii in https://github.com/kromiii/tbls-ask-agent-slack/pull/37
 
