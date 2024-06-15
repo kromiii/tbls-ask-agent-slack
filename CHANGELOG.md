@@ -1,5 +1,8 @@
 # Changelog
 
+## [v0.1.15](https://github.com/kromiii/tbls-ask-agent-slack/compare/v0.1.14...v0.1.15) - 2024-06-15
+- Slack message をスレッドで input する by @kromiii in https://github.com/kromiii/tbls-ask-agent-slack/pull/37
+
 ## [v0.1.14](https://github.com/kromiii/tbls-ask-agent-slack/compare/v0.1.13...v0.1.14) - 2024-06-13
 
 ## [v0.1.13](https://github.com/kromiii/tbls-ask-agent-slack/compare/v0.1.12...v0.1.13) - 2024-05-20
