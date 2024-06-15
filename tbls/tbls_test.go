@@ -32,7 +32,7 @@ func (m *MockClient) CreateChatCompletion(ctx context.Context, req openai.ChatCo
 func TestAsk(t *testing.T) {
 	t.Run("OPENAI_API_KEY not set", func(t *testing.T) {
 		os.Setenv("OPENAI_API_KEY", "")
-		assert.Equal(t, "OPENAI_API is not set", Ask([]slack.Message{}, "path"))
+		assert.Equal(t, "OPENAI_API is not set", Ask([]slack.Message{}, "path", "botUserID"))
 	})
 
 	t.Run("Failed to analyze schema", func(t *testing.T) {
@@ -40,6 +40,6 @@ func TestAsk(t *testing.T) {
 		analyze = func(dsn config.DSN) (*schema.Schema, error) {
 			return nil, errors.New("mock error")
 		}
-		assert.Equal(t, "Failed to analyze schema", Ask([]slack.Message{}, "path"))
+		assert.Equal(t, "Failed to analyze schema", Ask([]slack.Message{}, "path", "botUserID"))
 	})
 }
