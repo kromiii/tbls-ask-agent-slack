@@ -49,17 +49,15 @@ func GenerateDDLRoughly(s *schema.Schema) string {
 			}
 			td = append(td, d)
 		}
-		for _, i := range t.Indexes {
-			d := fmt.Sprintf("  %s", i.Def)
-			td = append(td, d)
-		}
 		for _, c := range t.Constraints {
 			switch c.Type {
 			case "PRIMARY KEY", "UNIQUE KEY":
 				continue
 			default:
-				d := fmt.Sprintf("  CONSTRAINT %s", c.Def)
-				td = append(td, d)
+				if strings.Contains(c.Def, "FOREIGN KEY") {
+					d := fmt.Sprintf("  CONSTRAINT %s", c.Def)
+					td = append(td, d)
+				}
 			}
 		}
 		ddl += fmt.Sprintf("%s\n", strings.Join(td, ",\n"))
