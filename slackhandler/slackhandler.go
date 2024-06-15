@@ -99,7 +99,13 @@ func (h *SlackHandler) HandleInteractionCallback(interaction slack.InteractionCa
 			return err
 		}
 
-		a := tbls.Ask(messages, action.SelectedOption.Value)
+		response, err := h.Api.AuthTest()
+		if err != nil {
+			return err
+		}
+		botUserID := response.UserID
+
+		a := tbls.Ask(messages, action.SelectedOption.Value, botUserID)
 		_, _, err = h.Api.PostMessage(
 			interaction.Channel.ID,
 			slack.MsgOptionText(a, false),

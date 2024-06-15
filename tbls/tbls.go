@@ -21,9 +21,8 @@ const (
 )
 
 var analyze = datasource.Analyze
-var botUserID = "U06JCJX67GC"
 
-func Ask(messages []slack.Message, path string) string {
+func Ask(messages []slack.Message, path string, botUserID string) string {
 	if os.Getenv("OPENAI_API_KEY") == "" {
 		return "OPENAI_API is not set"
 	}
