@@ -99,7 +99,6 @@ func (h *SlackHandler) HandleInteractionCallback(interaction slack.InteractionCa
 			return err
 		}
 
-		// q := regexp.MustCompile(`<@U[0-9A-Za-z]+>`).ReplaceAllString(messages[0].Text, "")
 		a := tbls.Ask(messages, action.SelectedOption.Value)
 		_, _, err = h.Api.PostMessage(
 			interaction.Channel.ID,
