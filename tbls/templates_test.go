@@ -31,11 +31,7 @@ func TestGenerateDDLRoughly(t *testing.T) {
 					},
 				},
 			},
-			`CREATE TABLE test (
-  id int NOT NULL,
-  name varchar NOT NULL
-);
-
+			`CREATE TABLE test (id int,name varchar);
 `,
 		},
 		{
@@ -60,11 +56,7 @@ func TestGenerateDDLRoughly(t *testing.T) {
 					},
 				},
 			},
-			`CREATE TABLE test (
-  id int NOT NULL COMMENT "ID",
-  name varchar
-) COMMENT = "test table";
-
+			`CREATE TABLE test (id int COMMENT "ID",name varchar) COMMENT = "test table";
 `,
 		},
 	}
