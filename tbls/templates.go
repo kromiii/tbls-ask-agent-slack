@@ -34,15 +34,12 @@ func GenerateDDLRoughly(s *schema.Schema) string {
 		if t.Type == "VIEW" {
 			continue
 		}
-		ddl += fmt.Sprintf("CREATE TABLE %s (\n", t.Name)
+		ddl += fmt.Sprintf("CREATE TABLE %s (", t.Name)
 		td := []string{}
 		for _, c := range t.Columns {
-			d := fmt.Sprintf("  %s %s", c.Name, c.Type)
+			d := fmt.Sprintf("%s %s", c.Name, c.Type)
 			if c.Default.String != "" {
 				d += fmt.Sprintf(" DEFAULT %s", c.Default.String)
-			}
-			if !c.Nullable {
-				d += " NOT NULL"
 			}
 			if c.Comment != "" {
 				d += fmt.Sprintf(" COMMENT %q", c.Comment)
@@ -55,16 +52,16 @@ func GenerateDDLRoughly(s *schema.Schema) string {
 				continue
 			default:
 				if strings.Contains(c.Def, "FOREIGN KEY") {
-					d := fmt.Sprintf("  CONSTRAINT %s", c.Def)
+					d := " CONSTRAINT " + c.Def
 					td = append(td, d)
 				}
 			}
 		}
-		ddl += fmt.Sprintf("%s\n", strings.Join(td, ",\n"))
+		ddl += strings.Join(td, ",")
 		if t.Comment != "" {
-			ddl += fmt.Sprintf(") COMMENT = %q;\n\n", t.Comment)
+			ddl += fmt.Sprintf(") COMMENT = %q;\n", t.Comment)
 		} else {
-			ddl += ");\n\n"
+			ddl += ");\n"
 		}
 	}
 	return ddl
