@@ -1,5 +1,8 @@
 # Changelog
 
+## [v0.1.18](https://github.com/kromiii/tbls-ask-agent-slack/compare/v0.1.17...v0.1.18) - 2024-07-09
+- Bump google.golang.org/grpc from 1.64.0 to 1.64.1 by @dependabot in https://github.com/kromiii/tbls-ask-agent-slack/pull/44
+
 ## [v0.1.17](https://github.com/kromiii/tbls-ask-agent-slack/compare/v0.1.16...v0.1.17) - 2024-06-16
 
 ## [v0.1.16](https://github.com/kromiii/tbls-ask-agent-slack/compare/v0.1.15...v0.1.16) - 2024-06-15
