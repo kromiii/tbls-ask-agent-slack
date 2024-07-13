@@ -1,2 +1,3 @@
 .envrc
 config.yml
+manifests/gcp-credential.yml
