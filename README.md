@@ -4,9 +4,8 @@ This is a slack-bot version of [tbls-ask](https://github.com/k1LoW/tbls-ask).
 
 You can call tbls-ask from slack by mentioning the bot.
 
-## Demo
+<img width="869" alt="image" src="https://github.com/user-attachments/assets/1a0657d8-16a4-4f8f-b040-80a3093e36c2">
 
-https://github.com/kromiii/tbls-ask-agent-slack/assets/15026387/b6ff5027-5af3-4e21-b95e-23584506bcbe
 
 ## Environment Variables
 
