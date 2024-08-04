@@ -54,7 +54,7 @@ func (h *SlackHandler) HandleCallBackEvent(event slackevents.EventsAPIEvent) err
 				Type: slack.MBTSection,
 				Text: &slack.TextBlockObject{
 					Type: slack.PlainTextType,
-					Text: "対象のスキーマを選んでください",
+					Text: "Please select the target schema",
 				},
 				Accessory: &slack.Accessory{
 					SelectElement: &slack.SelectBlockElement{
@@ -62,7 +62,7 @@ func (h *SlackHandler) HandleCallBackEvent(event slackevents.EventsAPIEvent) err
 						Type:     slack.OptTypeStatic,
 						Placeholder: &slack.TextBlockObject{
 							Type: slack.PlainTextType,
-							Text: "スキーマを選択",
+							Text: "Select schema",
 						},
 						Options: options,
 					},
