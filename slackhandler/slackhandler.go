@@ -5,7 +5,7 @@ import (
 	"log"
 	"os"
 
-	"github.com/kromiii/tbls-ask-agent-slack/tbls"
+	"github.com/kromiii/tbls-ask-agent-slack/openai"
 	"github.com/slack-go/slack"
 	"github.com/slack-go/slack/slackevents"
 	"gopkg.in/yaml.v2"
@@ -105,10 +105,11 @@ func (h *SlackHandler) HandleInteractionCallback(interaction slack.InteractionCa
 		}
 		botUserID := response.UserID
 
-		a := tbls.Ask(messages, action.SelectedOption.Value, botUserID)
+		answer := openai.Ask(messages, action.SelectedOption.Value, botUserID)
+
 		_, _, err = h.Api.PostMessage(
 			interaction.Channel.ID,
-			slack.MsgOptionText(a, false),
+			slack.MsgOptionText(answer, false),
 			slack.MsgOptionTS(interaction.Message.Timestamp),
 		)
 		if err != nil {
