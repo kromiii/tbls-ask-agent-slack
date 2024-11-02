@@ -1,26 +1,16 @@
-package tbls
+package openai
 
 import (
-	"bytes"
 	"context"
 	"log"
 	"os"
 	"strings"
-	"text/template"
 
-	"github.com/k1LoW/tbls/config"
-	"github.com/k1LoW/tbls/datasource"
 	"github.com/sashabaranov/go-openai"
 	"github.com/slack-go/slack"
-)
 
-const (
-	model      = "gpt-4-turbo"
-	quoteStart = "```sql"
-	quoteEnd   = "```"
+	"github.com/k1LoW/tbls-ask/analyzer"
 )
-
-var analyze = datasource.Analyze
 
 func Ask(messages []slack.Message, path string, botUserID string) string {
 	if os.Getenv("OPENAI_API_KEY") == "" {
@@ -28,32 +18,21 @@ func Ask(messages []slack.Message, path string, botUserID string) string {
 	}
 	client := openai.NewClient(os.Getenv("OPENAI_API_KEY"))
 	ctx := context.Background()
-	dsn := config.DSN{URL: path}
-	s, err := analyze(dsn)
+
+	var a analyzer.Analyzer
+	err := a.AnalyzeSchema(path, nil, nil, nil)
 	if err != nil {
-		log.Printf("Failed to analyze schema: %v", err)
 		return "Failed to analyze schema"
+	}
+	p, err := a.GeneratePrompt("Answer to the users' question based on the following chat history", false)
+	if err != nil {
+		return "Failed to generate prompt"
 	}
 
 	m := []openai.ChatCompletionMessage{}
-	tpl, err := template.New("").Parse(DefaultPromtTmpl)
-	if err != nil {
-		log.Printf("Failed to parse template: %v", err)
-		return "Failed to ask"
-	}
-	buf := new(bytes.Buffer)
-	if err := tpl.Execute(buf, map[string]any{
-		"DatabaseVersion": DatabaseVersion(s),
-		"QuoteStart":      quoteStart,
-		"QuoteEnd":        quoteEnd,
-		"DDL":             GenerateDDLRoughly(s),
-	}); err != nil {
-		log.Printf("Failed to execute template: %v", err)
-		return "Failed to ask"
-	}
 	m = append(m, openai.ChatCompletionMessage{
-		Role:    "system",
-		Content: buf.String(),
+		Role:    "user",
+		Content: p,
 	})
 	for _, message := range messages {
 		// skip messages which does not include the mention to the bot or the message not from bot user
@@ -73,7 +52,7 @@ func Ask(messages []slack.Message, path string, botUserID string) string {
 	}
 
 	res, err := client.CreateChatCompletion(ctx, openai.ChatCompletionRequest{
-		Model:       model,
+		Model:       "gpt-4o",
 		Temperature: 0.2, // https://community.openai.com/t/cheat-sheet-mastering-temperature-and-top-p-in-chatgpt-api-a-few-tips-and-tricks-on-controlling-the-creativity-deterministic-output-of-prompt-responses/172683
 		Messages:    m,
 	})

@@ -3,7 +3,7 @@ module github.com/kromiii/tbls-ask-agent-slack
 go 1.22.2
 
 require (
-	github.com/k1LoW/tbls v1.76.0
+	github.com/k1LoW/tbls-ask v0.2.0
 	github.com/sashabaranov/go-openai v1.25.0
 	github.com/slack-go/slack v0.12.3
 	github.com/stretchr/testify v1.9.0
@@ -84,6 +84,7 @@ require (
 	github.com/k1LoW/expand v0.12.0 // indirect
 	github.com/k1LoW/ghfs v1.3.1 // indirect
 	github.com/k1LoW/go-github-client/v58 v58.0.12 // indirect
+	github.com/k1LoW/tbls v1.76.0 // indirect
 	github.com/klauspost/compress v1.17.8 // indirect
 	github.com/klauspost/cpuid/v2 v2.2.7 // indirect
 	github.com/lib/pq v1.10.9 // indirect
