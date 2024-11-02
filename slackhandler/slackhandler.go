@@ -2,8 +2,10 @@ package slackhandler
 
 import (
 	"errors"
+	"fmt"
 	"log"
 	"os"
+	"strings"
 
 	"github.com/kromiii/tbls-ask-agent-slack/openai"
 	"github.com/slack-go/slack"
@@ -30,48 +32,113 @@ func (h *SlackHandler) HandleCallBackEvent(event slackevents.EventsAPIEvent) err
 	innerEvent := event.InnerEvent
 	switch ev := innerEvent.Data.(type) {
 	case *slackevents.AppMentionEvent:
-		data, err := fileLoader("./schemas/config.yml")
+		channelInfo, err := h.Api.GetConversationInfo(&slack.GetConversationInfoInput{
+			ChannelID: ev.Channel,
+		})
 		if err != nil {
-			return err
+			return fmt.Errorf("failed to get channel info: %w", err)
+		}
+
+		// Load schemas from config
+		configBytes, err := fileLoader("./schemas/config.yml")
+		if err != nil {
+			return fmt.Errorf("failed to load config: %w", err)
 		}
 
 		var config Config
-		err = yaml.Unmarshal(data, &config)
+		err = yaml.Unmarshal(configBytes, &config)
 		if err != nil {
-			return err
+			return fmt.Errorf("failed to unmarshal config: %w", err)
 		}
 
-		var options []*slack.OptionBlockObject
+		// Check if channel name contains any schema name
+		var matchedSchema *Schema
 		for _, schema := range config.Schemas {
-			options = append(options, &slack.OptionBlockObject{
-				Text:  &slack.TextBlockObject{Type: slack.PlainTextType, Text: schema.Name},
-				Value: schema.Path,
-			})
+			if strings.Contains(strings.ToLower(channelInfo.Name), strings.ToLower(schema.Name)) {
+				matchedSchema = &schema
+				break
+			}
 		}
 
-		_, _, err = h.Api.PostMessage(ev.Channel, slack.MsgOptionBlocks(
-			slack.SectionBlock{
-				Type: slack.MBTSection,
-				Text: &slack.TextBlockObject{
-					Type: slack.PlainTextType,
-					Text: "Please select the target schema",
-				},
-				Accessory: &slack.Accessory{
-					SelectElement: &slack.SelectBlockElement{
-						ActionID: "select_schema",
-						Type:     slack.OptTypeStatic,
-						Placeholder: &slack.TextBlockObject{
-							Type: slack.PlainTextType,
-							Text: "Select schema",
+		if matchedSchema != nil {
+			// If a matching schema is found, use it directly
+			response, err := h.Api.AuthTest()
+			if err != nil {
+				return fmt.Errorf("failed to get bot user ID: %w", err)
+			}
+			botUserID := response.UserID
+
+			var messages []slack.Message
+			var threadTS string
+			if ev.ThreadTimeStamp != "" {
+				messages, _, _, err = h.Api.GetConversationReplies(
+					&slack.GetConversationRepliesParameters{
+						ChannelID: ev.Channel,
+						Timestamp: ev.ThreadTimeStamp,
+						Inclusive: true,
+					},
+				)
+				if err != nil {
+					return fmt.Errorf("failed to get conversation replies: %w", err)
+				}
+				threadTS = ev.ThreadTimeStamp
+			} else {
+				// If it's not in a thread, just use the current message
+				messages = []slack.Message{
+					{
+						Msg: slack.Msg{
+							User:    ev.User,
+							Text:    ev.Text,
+							Channel: ev.Channel,
 						},
-						Options: options,
+					},
+				}
+				threadTS = ev.TimeStamp
+			}
+
+			answer := openai.Ask(messages, matchedSchema.Path, botUserID)
+
+			_, _, err = h.Api.PostMessage(
+				ev.Channel,
+				slack.MsgOptionText(answer, false),
+				slack.MsgOptionTS(threadTS),
+			)
+			if err != nil {
+				return fmt.Errorf("failed to post message: %w", err)
+			}
+		} else {
+			var options []*slack.OptionBlockObject
+			for _, schema := range config.Schemas {
+				options = append(options, &slack.OptionBlockObject{
+					Text:  &slack.TextBlockObject{Type: slack.PlainTextType, Text: schema.Name},
+					Value: schema.Path,
+				})
+			}
+
+			_, _, err = h.Api.PostMessage(ev.Channel, slack.MsgOptionBlocks(
+				slack.SectionBlock{
+					Type: slack.MBTSection,
+					Text: &slack.TextBlockObject{
+						Type: slack.PlainTextType,
+						Text: "Please select the target schema",
+					},
+					Accessory: &slack.Accessory{
+						SelectElement: &slack.SelectBlockElement{
+							ActionID: "select_schema",
+							Type:     slack.OptTypeStatic,
+							Placeholder: &slack.TextBlockObject{
+								Type: slack.PlainTextType,
+								Text: "Select schema",
+							},
+							Options: options,
+						},
 					},
 				},
-			},
-		), slack.MsgOptionTS(ev.TimeStamp))
+			), slack.MsgOptionTS(ev.TimeStamp))
 
-		if err != nil {
-			return err
+			if err != nil {
+				return err
+			}
 		}
 	default:
 		return errors.New("unknown event")
