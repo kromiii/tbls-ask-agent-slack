@@ -1,5 +1,8 @@
 # Changelog
 
+## [v0.1.21](https://github.com/kromiii/tbls-ask-agent-slack/compare/v0.1.20...v0.1.21) - 2024-11-02
+- チャンネル名からスキーマを推測する機能を追加 by @kromiii in https://github.com/kromiii/tbls-ask-agent-slack/pull/51
+
 ## [v0.1.20](https://github.com/kromiii/tbls-ask-agent-slack/compare/v0.1.19...v0.1.20) - 2024-11-02
 - Use tbls-ask module by @kromiii in https://github.com/kromiii/tbls-ask-agent-slack/pull/49
 
