@@ -1,5 +1,8 @@
 # Changelog
 
+## [v0.2.1](https://github.com/kromiii/tbls-ask-agent-slack/compare/v0.2.0...v0.2.1) - 2024-11-03
+- model を環境変数で切り替えられるようにする by @kromiii in https://github.com/kromiii/tbls-ask-agent-slack/pull/53
+
 ## [v0.1.21](https://github.com/kromiii/tbls-ask-agent-slack/compare/v0.1.20...v0.1.21) - 2024-11-02
 - チャンネル名からスキーマを推測する機能を追加 by @kromiii in https://github.com/kromiii/tbls-ask-agent-slack/pull/51
 
