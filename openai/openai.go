@@ -18,6 +18,10 @@ func Ask(messages []slack.Message, path string, botUserID string) string {
 	}
 	client := openai.NewClient(os.Getenv("OPENAI_API_KEY"))
 	ctx := context.Background()
+	model := os.Getenv("MODEL_NAME")
+	if model == "" {
+		model = "gpt-4o"
+	}
 
 	var a analyzer.Analyzer
 	err := a.AnalyzeSchema(path, nil, nil, nil)
@@ -52,7 +56,7 @@ func Ask(messages []slack.Message, path string, botUserID string) string {
 	}
 
 	res, err := client.CreateChatCompletion(ctx, openai.ChatCompletionRequest{
-		Model:       "gpt-4o",
+		Model:       model,
 		Temperature: 0.2, // https://community.openai.com/t/cheat-sheet-mastering-temperature-and-top-p-in-chatgpt-api-a-few-tips-and-tricks-on-controlling-the-creativity-deterministic-output-of-prompt-responses/172683
 		Messages:    m,
 	})
