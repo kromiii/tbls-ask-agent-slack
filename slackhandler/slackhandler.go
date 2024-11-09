@@ -7,7 +7,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/kromiii/tbls-ask-agent-slack/openai"
+	"github.com/kromiii/tbls-ask-agent-slack/client"
 	"github.com/slack-go/slack"
 	"github.com/slack-go/slack/slackevents"
 	"gopkg.in/yaml.v2"
@@ -110,7 +110,11 @@ func (h *SlackHandler) handleMatchedSchema(ev *slackevents.AppMentionEvent, sche
 		return err
 	}
 
-	answer := openai.Ask(messages, schema.Path, botUserID)
+	model := os.Getenv("MODEL_NAME")
+	if model == "" {
+		model = "gpt-4o"
+	}
+	answer := client.Ask(messages, schema.Path, botUserID, model)
 
 	return h.postMessage(ev.Channel, answer, threadTS)
 }
@@ -238,7 +242,12 @@ func (h *SlackHandler) handleSchemaSelection(interaction slack.InteractionCallba
 		return err
 	}
 
-	answer := openai.Ask(messages, action.SelectedOption.Value, botUserID)
+	model := os.Getenv("MODEL_NAME")
+	if model == "" {
+		model = "gpt-4o"
+	}
+	
+	answer := client.Ask(messages, action.SelectedOption.Value, botUserID, model)
 
 	err = h.postMessage(interaction.Channel.ID, answer, interaction.Message.Timestamp)
 	if err != nil {
