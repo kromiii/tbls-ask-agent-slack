@@ -3,7 +3,7 @@ module github.com/kromiii/tbls-ask-agent-slack
 go 1.22.2
 
 require (
-	github.com/k1LoW/tbls-ask v0.2.0
+	github.com/k1LoW/tbls-ask v0.3.0
 	github.com/sashabaranov/go-openai v1.25.0
 	github.com/slack-go/slack v0.12.3
 	github.com/stretchr/testify v1.9.0
@@ -13,11 +13,13 @@ require (
 require (
 	cel.dev/expr v0.15.0 // indirect
 	cloud.google.com/go v0.114.0 // indirect
+	cloud.google.com/go/ai v0.5.0 // indirect
 	cloud.google.com/go/auth v0.4.1 // indirect
 	cloud.google.com/go/auth/oauth2adapt v0.2.2 // indirect
 	cloud.google.com/go/bigquery v1.61.0 // indirect
 	cloud.google.com/go/compute/metadata v0.3.0 // indirect
 	cloud.google.com/go/iam v1.1.8 // indirect
+	cloud.google.com/go/longrunning v0.5.7 // indirect
 	cloud.google.com/go/spanner v1.63.0 // indirect
 	github.com/99designs/go-keychain v0.0.0-20191008050251-8e49817e8af4 // indirect
 	github.com/99designs/keyring v1.2.2 // indirect
@@ -70,6 +72,7 @@ require (
 	github.com/golang/protobuf v1.5.4 // indirect
 	github.com/golang/snappy v0.0.4 // indirect
 	github.com/google/flatbuffers v24.3.25+incompatible // indirect
+	github.com/google/generative-ai-go v0.13.0 // indirect
 	github.com/google/go-github/v58 v58.0.0 // indirect
 	github.com/google/go-github/v60 v60.0.0 // indirect
 	github.com/google/go-querystring v1.1.0 // indirect
@@ -79,11 +82,13 @@ require (
 	github.com/googleapis/gax-go/v2 v2.12.4 // indirect
 	github.com/gorilla/websocket v1.4.2 // indirect
 	github.com/gsterjov/go-libsecret v0.0.0-20161001094733-a6f4afe4910c // indirect
+	github.com/inconshreveable/mousetrap v1.1.0 // indirect
 	github.com/jmespath/go-jmespath v0.4.0 // indirect
 	github.com/k1LoW/duration v1.2.0 // indirect
 	github.com/k1LoW/expand v0.12.0 // indirect
 	github.com/k1LoW/ghfs v1.3.1 // indirect
 	github.com/k1LoW/go-github-client/v58 v58.0.12 // indirect
+	github.com/k1LoW/repin v0.3.4 // indirect
 	github.com/k1LoW/tbls v1.76.0 // indirect
 	github.com/klauspost/compress v1.17.8 // indirect
 	github.com/klauspost/cpuid/v2 v2.2.7 // indirect
@@ -100,6 +105,8 @@ require (
 	github.com/samber/lo v1.39.0 // indirect
 	github.com/sirupsen/logrus v1.9.3 // indirect
 	github.com/snowflakedb/gosnowflake v1.10.1 // indirect
+	github.com/spf13/cobra v1.8.0 // indirect
+	github.com/spf13/pflag v1.0.5 // indirect
 	github.com/stretchr/objx v0.5.2 // indirect
 	github.com/xdg-go/pbkdf2 v1.0.0 // indirect
 	github.com/xdg-go/scram v1.1.2 // indirect
