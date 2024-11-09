@@ -1,5 +1,9 @@
 # Changelog
 
+## [v0.2.2](https://github.com/kromiii/tbls-ask-agent-slack/compare/v0.2.1...v0.2.2) - 2024-11-09
+- bump tbls-ask to v0.3.0 by @kromiii in https://github.com/kromiii/tbls-ask-agent-slack/pull/55
+- Bump github.com/golang-jwt/jwt/v4 from 4.5.0 to 4.5.1 by @dependabot in https://github.com/kromiii/tbls-ask-agent-slack/pull/57
+
 ## [v0.2.1](https://github.com/kromiii/tbls-ask-agent-slack/compare/v0.2.0...v0.2.1) - 2024-11-03
 - model を環境変数で切り替えられるようにする by @kromiii in https://github.com/kromiii/tbls-ask-agent-slack/pull/53
 
