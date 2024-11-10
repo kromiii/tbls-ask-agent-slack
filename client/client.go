@@ -10,11 +10,21 @@ import (
 	"github.com/k1LoW/tbls-ask/chat"
 	"github.com/k1LoW/tbls-ask/prompt"
 	"github.com/k1LoW/tbls-ask/schema"
+	"github.com/kromiii/tbls-ask-agent-slack/search"
 )
 
 func Ask(messages []slack.Message, path string, botUserID string, model string) string {
 	ctx := context.Background()
-	schema, err := schema.Load(path, schema.Options{})
+
+	// messages の最後の要素を query (string) として取り出す
+	query := messages[len(messages)-1].Text
+	includes := search.RelevantTables(query)
+
+	schema, err := schema.Load(path, schema.Options{
+		Includes: includes,
+		Distance: 3,
+	})
+	
 	if err != nil {
 		return fmt.Sprintf("Failed to load schema: %v", err)
 	}
