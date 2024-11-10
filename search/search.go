@@ -36,7 +36,7 @@ func NewTableSearcher(db *sql.DB, openaiKey string) *TableSearcher {
 // SearchTables searches for relevant tables based on the query
 // limit specifies the maximum number of results to return
 // minScore specifies the minimum similarity score (0-1) for results
-func (ts *TableSearcher) SearchTables(ctx context.Context, query string, limit int, minScore float64) ([]SearchResult, error) {
+func (ts *TableSearcher) SearchTables(ctx context.Context, schemaName string, query string, limit int, minScore float64) ([]SearchResult, error) {
 	// Get query embedding
 	queryVector, err := ts.getQueryEmbedding(ctx, query)
 	if err != nil {
@@ -44,7 +44,7 @@ func (ts *TableSearcher) SearchTables(ctx context.Context, query string, limit i
 	}
 
 	// Get all table vectors from database
-	tableVectors, err := ts.getAllTableVectors()
+	tableVectors, err := ts.getAllTableVectors(schemaName)
 	if err != nil {
 		return nil, fmt.Errorf("failed to get table vectors: %w", err)
 	}
@@ -100,11 +100,12 @@ func (ts *TableSearcher) getQueryEmbedding(ctx context.Context, query string) ([
 	return resp.Data[0].Embedding, nil
 }
 
-func (ts *TableSearcher) getAllTableVectors() ([]tableVector, error) {
+func (ts *TableSearcher) getAllTableVectors(schemaName string) ([]tableVector, error) {
 	rows, err := ts.db.Query(`
 		SELECT schema_name, table_name, vector 
 		FROM table_vectors
-	`)
+		WHERE schema_name = $1
+	`, schemaName)
 	if err != nil {
 		return nil, err
 	}

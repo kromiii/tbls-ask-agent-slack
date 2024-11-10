@@ -114,7 +114,7 @@ func (h *SlackHandler) handleMatchedSchema(ev *slackevents.AppMentionEvent, sche
 	if model == "" {
 		model = "gpt-4o"
 	}
-	answer := client.Ask(messages, schema.Path, botUserID, model)
+	answer := client.Ask(messages, schema.Name, schema.Path, botUserID, model)
 
 	return h.postMessage(ev.Channel, answer, threadTS)
 }
@@ -246,8 +246,11 @@ func (h *SlackHandler) handleSchemaSelection(interaction slack.InteractionCallba
 	if model == "" {
 		model = "gpt-4o"
 	}
-	
-	answer := client.Ask(messages, action.SelectedOption.Value, botUserID, model)
+
+	selectedPath := action.SelectedOption.Value
+	selectedName := action.SelectedOption.Text.Text
+
+	answer := client.Ask(messages, selectedName, selectedPath, botUserID, model)
 
 	err = h.postMessage(interaction.Channel.ID, answer, interaction.Message.Timestamp)
 	if err != nil {
