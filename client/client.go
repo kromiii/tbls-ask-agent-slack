@@ -54,7 +54,7 @@ func Ask(messages []slack.Message, name string, path string, botUserID string, m
 
 	schema, err := schema.Load(path, schema.Options{
 		Includes: includes,
-		Distance: 0,
+		Distance: 2,
 	})
 	if err != nil {
 		return "Failed to load schema: " + err.Error()
