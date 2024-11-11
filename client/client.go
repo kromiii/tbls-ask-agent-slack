@@ -20,41 +20,36 @@ import (
 func Ask(messages []slack.Message, name string, path string, botUserID string, model string) string {
 	ctx := context.Background()
 
-	// messages の最後の要素を query (string) として取り出す
 	query := messages[len(messages)-1].Text
-	// vector search
+	var includes []string
+	var distance int
+
 	db, err := sql.Open("sqlite3", "vectors.db")
-	if err != nil {
-		return "Failed to open database: " + err.Error()
+	if err == nil {
+		defer db.Close()
+
+		searcher := search.NewTableSearcher(db, os.Getenv("OPENAI_API_KEY"))
+
+		results, err := searcher.SearchTables(
+			context.Background(),
+			name,
+			query,
+			5,
+			0.7,
+		)
+		if err == nil {
+			includes = make([]string, len(results))
+			distance = 2
+			for i, result := range results {
+				includes[i] = result.TableName
+			}
+			fmt.Println(includes)
+		}
 	}
-	defer db.Close()
-
-	// TableSearcherの初期化
-	searcher := search.NewTableSearcher(db, os.Getenv("OPENAI_API_KEY"))
-
-	// 検索の実行
-	results, err := searcher.SearchTables(
-		context.Background(),
-		name,
-		query, // 検索クエリ
-		5,     // 上位5件の結果を取得
-		0.7,   // 類似度スコアが0.7以上のものを取得
-	)
-	if err != nil {
-		return "Failed to search tables: " + err.Error()
-	}
-
-	includes := make([]string, len(results))
-	for i, result := range results {
-		includes[i] = result.TableName
-	}
-
-	// includes の中身を出力しておく
-	fmt.Println(includes)
 
 	schema, err := schema.Load(path, schema.Options{
 		Includes: includes,
-		Distance: 2,
+		Distance: distance,
 	})
 	if err != nil {
 		return "Failed to load schema: " + err.Error()
