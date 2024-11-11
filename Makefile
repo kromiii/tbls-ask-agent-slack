@@ -1,4 +1,4 @@
-.PHONY: create-configmap create-secret build-image apply-manifests clear all
+.PHONY: create-configmap create-secret build-image apply-manifests clear all server embeddings
 
 create-configmap:
 	kubectl create configmap tbls-schemas --from-file=schemas/config.yml
@@ -18,3 +18,10 @@ clear:
 	kubectl delete -f manifests
 
 all: create-configmap create-secret apply-manifests
+
+# For local development
+server:
+	go run main.go server
+
+embeddings:
+	go run main.go embeddings
