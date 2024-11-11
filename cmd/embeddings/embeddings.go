@@ -1,4 +1,4 @@
-package main
+package embeddings
 
 import (
 	"bytes"
@@ -31,7 +31,7 @@ type TableVector struct {
 	Vector     []float32
 }
 
-func main() {
+func Run() {
 	// Step 1: Read configuration file
 	config, err := readConfig("./schemas/config.yml")
 	if err != nil {
