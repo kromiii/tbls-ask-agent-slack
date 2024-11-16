@@ -16,7 +16,6 @@ import (
 	"gopkg.in/yaml.v2"
 )
 
-// Config represents the YAML configuration structure
 type Config struct {
 	Schemas []struct {
 		Name string `yaml:"name"`
@@ -24,7 +23,6 @@ type Config struct {
 	} `yaml:"schemas"`
 }
 
-// TableVector represents the database structure for storing vectors
 type TableVector struct {
 	SchemaName string
 	TableName  string
@@ -32,17 +30,14 @@ type TableVector struct {
 }
 
 func Run() {
-	// Step 1: Read configuration file
 	config, err := readConfig("./schemas/config.yml")
 	if err != nil {
 		fmt.Printf("Error reading config: %v\n", err)
 		return
 	}
 
-	// Step 2: Initialize OpenAI client
 	client := openai.NewClient(os.Getenv("OPENAI_API_KEY"))
 
-	// Step 3: Initialize SQLite database
 	db, err := initializeDB()
 	if err != nil {
 		fmt.Printf("Error initializing database: %v\n", err)
@@ -50,7 +45,6 @@ func Run() {
 	}
 	defer db.Close()
 
-	// Step 4: Process each schema
 	for _, schema := range config.Schemas {
 		err := processSchema(schema.Name, schema.Path, client, db)
 		if err != nil {
@@ -79,7 +73,11 @@ func initializeDB() (*sql.DB, error) {
 		return nil, err
 	}
 
-	// Create table if not exists
+	_, err = db.Exec(`DROP TABLE IF EXISTS table_vectors`)
+	if err != nil {
+		return nil, err
+	}
+
 	_, err = db.Exec(`
 		CREATE TABLE IF NOT EXISTS table_vectors (
 			schema_name TEXT,
@@ -92,30 +90,24 @@ func initializeDB() (*sql.DB, error) {
 }
 
 func processSchema(schemaName, schemaPath string, client *openai.Client, db *sql.DB) error {
-	// Fetch schema JSON
 	schemaData, err := fetchSchemaJSON(schemaPath)
 	if err != nil {
 		return err
 	}
 
-	// Parse schema using tbls
 	var s schema.Schema
 	if err := json.Unmarshal(schemaData, &s); err != nil {
 		return err
 	}
 
-	// Process each table
 	for _, table := range s.Tables {
-		// Create table description
 		description := createTableDescription(table)
 
-		// Get embedding from OpenAI
 		vector, err := getEmbedding(description, client)
 		if err != nil {
 			return err
 		}
 
-		// Store in database
 		if err := storeVector(db, schemaName, table.Name, vector); err != nil {
 			return err
 		}
