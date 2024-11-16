@@ -52,10 +52,16 @@ Copy `schemas/config.yml.sample` to `schemas/config.yml` and edit it.
 $ cp schemas/config.yml.sample schemas/config.yml
 ```
 
-## Run locally
+## Schema Embedding (optional)
 
 ```sh
-go run main.go
+make embeddings
+```
+
+## Run Server
+
+```sh
+make server
 ```
 
 It is using socket mode for slack. You don't need to expose the server to the internet.
