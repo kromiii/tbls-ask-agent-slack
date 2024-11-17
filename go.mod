@@ -1,20 +1,18 @@
 module github.com/kromiii/tbls-ask-agent-slack
 
-go 1.22.7
+go 1.22.9
 
 toolchain go1.23.1
 
 require (
 	github.com/k1LoW/tbls v1.79.3
-	github.com/k1LoW/tbls-ask v0.3.0
+	github.com/k1LoW/tbls-ask v0.3.1
 	github.com/mattn/go-sqlite3 v1.14.24
 	github.com/sashabaranov/go-openai v1.25.0
 	github.com/slack-go/slack v0.12.3
 	github.com/stretchr/testify v1.9.0
 	gopkg.in/yaml.v2 v2.4.0
 )
-
-replace github.com/k1LoW/tbls => github.com/kromiii/tbls v1.79.3-0.20241110125239-b60a820d5d1a
 
 require (
 	cel.dev/expr v0.18.0 // indirect
