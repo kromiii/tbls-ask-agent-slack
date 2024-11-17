@@ -1,0 +1,32 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: tbls-ask-bot-embeddings-job
+spec:
+  schedule: "0 0 * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+            - name: tbls-ask-agent-slack
+              image: tbls-ask-agent-slack:latest
+              command: ["/app/tbls-ask-bot", "embeddings"]
+              env:
+                - name: OPENAI_API_KEY
+                  valueFrom:
+                    secretKeyRef:
+                      name: tbls-ask-agent-slack
+                      key: openai-api-key
+                - name: GITHUB_TOKEN
+                  valueFrom:
+                    secretKeyRef:
+                      name: tbls-ask-agent-slack
+                      key: github-token
+          volumeMounts:
+            - name: tbls-schemas
+              mountPath: /app/schemas
+      volumes:
+      - name: tbls-schemas
+        configMap:
+          name: tbls-schemas
