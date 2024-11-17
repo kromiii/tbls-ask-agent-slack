@@ -11,7 +11,7 @@ spec:
           containers:
             - name: tbls-ask-agent-slack
               image: tbls-ask-agent-slack:latest
-              command: ["/app/tbls-ask-bot", "embeddings"]
+              args: ["embeddings"]
               env:
                 - name: OPENAI_API_KEY
                   valueFrom:
