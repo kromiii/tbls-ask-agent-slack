@@ -153,6 +153,7 @@ func TestHandleInteractionCallback(t *testing.T) {
 							ActionID: "select_schema",
 							SelectedOption: slack.OptionBlockObject{
 								Value: "/path/to/schema.yml",
+								Text: &slack.TextBlockObject{Text: "schema"},
 							},
 						},
 					},
