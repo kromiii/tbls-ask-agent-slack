@@ -43,7 +43,6 @@ func Ask(messages []slack.Message, name string, path string, botUserID string, m
 			for i, result := range results {
 				includes[i] = result.TableName
 			}
-			fmt.Println(includes)
 		}
 	}
 
