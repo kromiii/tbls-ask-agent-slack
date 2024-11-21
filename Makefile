@@ -6,6 +6,9 @@ create-configmap:
 create-secret:
 	kubectl create secret generic tbls-ask-agent-slack --from-literal=slack-app-token=$$SLACK_APP_TOKEN --from-literal=slack-oauth-token=$$SLACK_OAUTH_TOKEN --from-literal=openai-api-key=$$OPENAI_API_KEY --from-literal=github-token=$$GITHUB_TOKEN
 
+create-manual-embeddings-job:
+	kubectl create job --from=cronjob/tbls-ask-bot-embeddings-job tbls-ask-bot-embeddings-manual-001
+
 build-image:
 	docker build -t tbls-ask-agent-slack:latest .
 

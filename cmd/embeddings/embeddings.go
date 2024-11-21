@@ -68,7 +68,7 @@ func readConfig(filename string) (*Config, error) {
 }
 
 func initializeDB() (*sql.DB, error) {
-	db, err := sql.Open("sqlite3", "vectors.db")
+	db, err := sql.Open("sqlite3", "vectors-db/vectors.db")
 	if err != nil {
 		return nil, err
 	}

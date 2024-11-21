@@ -42,7 +42,12 @@ spec:
         volumeMounts:
         - name: tbls-schemas
           mountPath: /app/schemas
+        - name: vectors-db
+          mountPath: /app/vectors-db
       volumes:
       - name: tbls-schemas
         configMap:
           name: tbls-schemas
+      - name: vectors-db
+        persistentVolumeClaim:
+          claimName: vectors-db-pvc

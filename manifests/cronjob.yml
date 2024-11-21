@@ -10,6 +10,7 @@ spec:
         spec:
           containers:
             - name: tbls-ask-agent-slack
+              imagePullPolicy: Never
               image: tbls-ask-agent-slack:latest
               args: ["embeddings"]
               env:
@@ -23,10 +24,16 @@ spec:
                     secretKeyRef:
                       name: tbls-ask-agent-slack
                       key: github-token
-          volumeMounts:
+              volumeMounts:
+                - name: tbls-schemas
+                  mountPath: /app/schemas
+                - name: vectors-db
+                  mountPath: /app/vectors-db
+          volumes:
             - name: tbls-schemas
-              mountPath: /app/schemas
-      volumes:
-      - name: tbls-schemas
-        configMap:
-          name: tbls-schemas
+              configMap:
+                name: tbls-schemas
+            - name: vectors-db
+              persistentVolumeClaim:
+                claimName: vectors-db-pvc
+          restartPolicy: Never

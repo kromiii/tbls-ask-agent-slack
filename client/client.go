@@ -24,7 +24,7 @@ func Ask(messages []slack.Message, name string, path string, botUserID string, m
 	var includes []string
 	var distance int
 
-	db, err := sql.Open("sqlite3", "vectors.db")
+	db, err := sql.Open("sqlite3", "vectors-db/vectors.db")
 	if err == nil {
 		defer db.Close()
 
