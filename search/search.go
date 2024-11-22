@@ -11,20 +11,17 @@ import (
 	"github.com/sashabaranov/go-openai"
 )
 
-// SearchResult represents a single table search result with similarity score
 type SearchResult struct {
 	SchemaName string
 	TableName  string
 	Score      float64
 }
 
-// TableSearcher handles the table search functionality
 type TableSearcher struct {
 	db     *sql.DB
 	client *openai.Client
 }
 
-// NewTableSearcher creates a new instance of TableSearcher
 func NewTableSearcher(db *sql.DB, openaiKey string) *TableSearcher {
 	client := openai.NewClient(openaiKey)
 	return &TableSearcher{
@@ -37,19 +34,16 @@ func NewTableSearcher(db *sql.DB, openaiKey string) *TableSearcher {
 // limit specifies the maximum number of results to return
 // minScore specifies the minimum similarity score (0-1) for results
 func (ts *TableSearcher) SearchTables(ctx context.Context, schemaName string, query string, limit int, minScore float64) ([]SearchResult, error) {
-	// Get query embedding
 	queryVector, err := ts.getQueryEmbedding(ctx, query)
 	if err != nil {
 		return nil, fmt.Errorf("failed to get query embedding: %w", err)
 	}
 
-	// Get all table vectors from database
 	tableVectors, err := ts.getAllTableVectors(schemaName)
 	if err != nil {
 		return nil, fmt.Errorf("failed to get table vectors: %w", err)
 	}
 
-	// Calculate similarities and sort results
 	var results []SearchResult
 	for _, tv := range tableVectors {
 		score := cosineSimilarity(queryVector, tv.Vector)
@@ -62,12 +56,10 @@ func (ts *TableSearcher) SearchTables(ctx context.Context, schemaName string, qu
 		}
 	}
 
-	// Sort results by score in descending order
 	sort.Slice(results, func(i, j int) bool {
 		return results[i].Score > results[j].Score
 	})
 
-	// Limit results
 	if limit > 0 && len(results) > limit {
 		results = results[:limit]
 	}
@@ -128,7 +120,6 @@ func (ts *TableSearcher) getAllTableVectors(schemaName string) ([]tableVector, e
 	return vectors, rows.Err()
 }
 
-// cosineSimilarity calculates the cosine similarity between two vectors
 func cosineSimilarity(a, b []float32) float64 {
 	if len(a) != len(b) {
 		return 0
