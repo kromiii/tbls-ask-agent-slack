@@ -2,7 +2,9 @@ package client
 
 import (
 	"context"
+	"database/sql"
 	"fmt"
+	"os"
 	"strings"
 
 	"github.com/slack-go/slack"
@@ -10,14 +12,56 @@ import (
 	"github.com/k1LoW/tbls-ask/chat"
 	"github.com/k1LoW/tbls-ask/prompt"
 	"github.com/k1LoW/tbls-ask/schema"
+	"github.com/kromiii/tbls-ask-agent-slack/search"
+
+	_ "github.com/mattn/go-sqlite3"
 )
 
-func Ask(messages []slack.Message, path string, botUserID string, model string) string {
+func Ask(messages []slack.Message, name string, path string, botUserID string, model string) string {
 	ctx := context.Background()
-	schema, err := schema.Load(path, schema.Options{})
-	if err != nil {
-		return fmt.Sprintf("Failed to load schema: %v", err)
+
+	if len(messages) == 0 {
+		return "No messages found"
 	}
+
+	if messages[len(messages)-1].User == botUserID {
+		return ""
+	}
+
+	query := messages[len(messages)-1].Text
+	var includes []string
+	var distance int
+
+	db, err := sql.Open("sqlite3", "vectors-db/vectors.db")
+	if err == nil {
+		defer db.Close()
+
+		searcher := search.NewTableSearcher(db, os.Getenv("OPENAI_API_KEY"))
+
+		results, err := searcher.SearchTables(
+			context.Background(),
+			name,
+			query,
+			5,
+			0.7,
+		)
+		if err == nil {
+			includes = make([]string, len(results))
+			distance = 2
+			for i, result := range results {
+				includes[i] = result.TableName
+			}
+		}
+	}
+
+	schema, err := schema.Load(path, schema.Options{
+		Includes: includes,
+		Distance: distance,
+	})
+	if err != nil {
+		return "Failed to load schema: " + err.Error()
+	}
+
 	schemaPrompt, err := prompt.Generate(schema)
 	if err != nil {
 		return fmt.Sprintf("Failed to generate schema prompt: %v", err)
@@ -27,7 +71,6 @@ func Ask(messages []slack.Message, path string, botUserID string, model string) 
 	if err != nil {
 		return fmt.Sprintf("Failed to create chat service: %v", err)
 	}
-
 
 	m := []chat.Message{
 		{
@@ -39,7 +82,7 @@ func Ask(messages []slack.Message, path string, botUserID string, model string) 
 			Content: schemaPrompt,
 		},
 	}
-	
+
 	for _, message := range messages {
 		// skip messages which does not include the mention to the bot or the message not from bot user
 		if message.User != botUserID && !strings.Contains(message.Text, "<@"+botUserID+">") {
