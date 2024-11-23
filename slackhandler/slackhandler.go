@@ -35,23 +35,23 @@ type SlackAPI interface {
 
 var fileLoader = os.ReadFile
 
-func (h *SlackHandler) HandleCallBackEvent(event slackevents.EventsAPIEvent) error {
+func (h *SlackHandler) HandleCallBackEvent(event slackevents.EventsAPIEvent, path string) error {
 	innerEvent := event.InnerEvent
 	switch ev := innerEvent.Data.(type) {
 	case *slackevents.AppMentionEvent:
-		return h.handleAppMentionEvent(ev)
+		return h.handleAppMentionEvent(ev, path)
 	default:
 		return errors.New("unknown event")
 	}
 }
 
-func (h *SlackHandler) handleAppMentionEvent(ev *slackevents.AppMentionEvent) error {
+func (h *SlackHandler) handleAppMentionEvent(ev *slackevents.AppMentionEvent, path string) error {
 	channelInfo, err := h.getChannelInfo(ev.Channel)
 	if err != nil {
 		return err
 	}
 
-	config, err := h.loadConfig()
+	config, err := h.loadConfig(path)
 	if err != nil {
 		return err
 	}
@@ -75,8 +75,8 @@ func (h *SlackHandler) getChannelInfo(channelID string) (*slack.Channel, error) 
 	return channelInfo, nil
 }
 
-func (h *SlackHandler) loadConfig() (*Config, error) {
-	configBytes, err := fileLoader("./schemas/config.yml")
+func (h *SlackHandler) loadConfig(path string) (*Config, error) {
+	configBytes, err := fileLoader(path)
 	if err != nil {
 		return nil, fmt.Errorf("failed to load config: %w", err)
 	}
