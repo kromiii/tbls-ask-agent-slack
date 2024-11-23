@@ -2,8 +2,6 @@ module github.com/kromiii/tbls-ask-agent-slack
 
 go 1.22.9
 
-toolchain go1.23.1
-
 require (
 	github.com/DATA-DOG/go-sqlmock v1.5.2
 	github.com/k1LoW/tbls v1.79.3
