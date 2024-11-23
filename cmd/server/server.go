@@ -22,6 +22,8 @@ func Run() {
 		Api: api,
 	}
 
+	path := "./schemas/config.yml"
+
 	go func() {
 		for socketEvent := range client.Events {
 			switch socketEvent.Type {
@@ -37,7 +39,7 @@ func Run() {
 					continue
 				}
 				client.Ack(*socketEvent.Request)
-				err := slackHandler.HandleCallBackEvent(event)
+				err := slackHandler.HandleCallBackEvent(event, path)
 				if err != nil {
 					log.Print(err)
 				}
