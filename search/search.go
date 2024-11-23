@@ -17,9 +17,13 @@ type SearchResult struct {
 	Score      float64
 }
 
+type OpenAIClient interface {
+    CreateEmbeddings(ctx context.Context, request openai.EmbeddingRequestConverter) (openai.EmbeddingResponse, error)
+}
+
 type TableSearcher struct {
-	db     *sql.DB
-	client *openai.Client
+    db     *sql.DB
+    client OpenAIClient
 }
 
 func NewTableSearcher(db *sql.DB, openaiKey string) *TableSearcher {
