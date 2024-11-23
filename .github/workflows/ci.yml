@@ -9,7 +9,7 @@ on:
 jobs:
   job-test:
     name: Test
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - name: Check out source code
         uses: actions/checkout@v3
