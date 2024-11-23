@@ -1,5 +1,8 @@
 # Changelog
 
+## [v0.3.1](https://github.com/kromiii/tbls-ask-agent-slack/compare/v0.3.0...v0.3.1) - 2024-11-23
+- Add tests by @kromiii in https://github.com/kromiii/tbls-ask-agent-slack/pull/60
+
 ## [v0.3.0](https://github.com/kromiii/tbls-ask-agent-slack/compare/v0.2.2...v0.3.0) - 2024-11-22
 - Introducing RAG to tbls-ask-agent-slack by @kromiii in https://github.com/kromiii/tbls-ask-agent-slack/pull/58
 
