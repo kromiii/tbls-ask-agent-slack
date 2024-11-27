@@ -1,8 +1,9 @@
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
   name: tbls-ask-agent-slack
 spec:
+  serviceName: "tbls-ask-agent-slack"
   replicas: 1
   selector:
     matchLabels:
@@ -44,10 +45,44 @@ spec:
           mountPath: /app/schemas
         - name: vectors-db
           mountPath: /app/vectors-db
+      - name: cron-job
+        imagePullPolicy: Never
+        image: tbls-ask-agent-slack:latest
+        command: ["/bin/sh", "-c"]
+        args:
+          - |
+            while true; do
+              echo "Running embeddings job"
+              /app/tbls-ask-bot embeddings
+              echo "Finshed embeddings job"
+              echo "Sleeping for 7 days (604800 seconds)"
+              sleep 604800
+            done
+        env:
+          - name: OPENAI_API_KEY
+            valueFrom:
+              secretKeyRef:
+                name: tbls-ask-agent-slack
+                key: openai-api-key
+          - name: GITHUB_TOKEN
+            valueFrom:
+              secretKeyRef:
+                name: tbls-ask-agent-slack
+                key: github-token
+        volumeMounts:
+          - name: tbls-schemas
+            mountPath: /app/schemas
+          - name: vectors-db
+            mountPath: /app/vectors-db
       volumes:
       - name: tbls-schemas
         configMap:
           name: tbls-schemas
-      - name: vectors-db
-        persistentVolumeClaim:
-          claimName: vectors-db-pvc
+  volumeClaimTemplates:
+  - metadata:
+      name: vectors-db
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: 100Mi
