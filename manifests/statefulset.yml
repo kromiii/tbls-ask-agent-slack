@@ -52,11 +52,16 @@ spec:
         args:
           - |
             while true; do
-              echo "Running embeddings job"
-              /app/tbls-ask-bot embeddings
-              echo "Finshed embeddings job"
-              echo "Sleeping for 7 days (604800 seconds)"
-              sleep 604800
+              if [ ! -f /app/vectors-db/last_run ] || [ $(($(date +%s) - $(cat /app/vectors-db/last_run))) -ge 604800 ]; then
+                echo "Running embeddings job"
+                /app/tbls-ask-bot embeddings
+                echo "Finished embeddings job"
+                date +%s > /app/vectors-db/last_run
+              else
+                echo "Skipping embeddings job, last run was less than 7 days ago"
+              fi
+              echo "Sleeping for 1 hour (3600 seconds)"
+              sleep 3600
             done
         env:
           - name: OPENAI_API_KEY
