@@ -57,7 +57,7 @@ require (
 	github.com/buildkite/interpolate v0.1.4 // indirect
 	github.com/census-instrumentation/opencensus-proto v0.4.1 // indirect
 	github.com/cespare/xxhash/v2 v2.3.0 // indirect
-	github.com/cli/go-gh/v2 v2.11.0 // indirect
+	github.com/cli/go-gh/v2 v2.11.1 // indirect
 	github.com/cli/safeexec v1.0.1 // indirect
 	github.com/cncf/xds/go v0.0.0-20240905190251-b4127c9b8d78 // indirect
 	github.com/danieljoos/wincred v1.2.2 // indirect
