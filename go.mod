@@ -96,7 +96,7 @@ require (
 	github.com/k1LoW/errors v0.3.1 // indirect
 	github.com/k1LoW/expand v0.14.0 // indirect
 	github.com/k1LoW/ghfs v1.3.1 // indirect
-	github.com/k1LoW/go-github-client/v58 v58.0.12 // indirect
+	github.com/k1LoW/go-github-client/v58 v58.0.13 // indirect
 	github.com/k1LoW/repin v0.3.4 // indirect
 	github.com/klauspost/compress v1.17.11 // indirect
 	github.com/klauspost/cpuid/v2 v2.2.9 // indirect

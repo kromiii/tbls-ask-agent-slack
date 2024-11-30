@@ -993,6 +993,8 @@ github.com/k1LoW/ghfs v1.3.1 h1:xq/VenCDhSUDf1IsL0LBfWIn3QTCOOd8+pE0SNZF6wM=
 github.com/k1LoW/ghfs v1.3.1/go.mod h1:IaAooDKpTdx/I0lSethYNMowo0rs0h/+btPPHdZlnE4=
 github.com/k1LoW/go-github-client/v58 v58.0.12 h1:rIK+H2cSpK0ptOxNq0jITGu3ffRjLTe5ITCz1jik5c0=
 github.com/k1LoW/go-github-client/v58 v58.0.12/go.mod h1:HFCYt6OBzCfusKY4aVYi4E3T4pbDDNdHQuWOL0pHkdI=
+github.com/k1LoW/go-github-client/v58 v58.0.13 h1:iTZdV3EQBVSaTyF5dEPEyrULxgienSRDur571yoIgcI=
+github.com/k1LoW/go-github-client/v58 v58.0.13/go.mod h1:KRNfRyjoqVrYPYSVOtNOQBLXQS5tJ+yWNoGDjH5uXZ0=
 github.com/k1LoW/repin v0.3.4 h1:xcNuBBc/ISHUNBzjXNTCux4OYZND5ZMiyz4SrRtpDhg=
 github.com/k1LoW/repin v0.3.4/go.mod h1:1abQMGdYFegTCsxbhZ3O5P8aKENYS37UhQKwKYKiYkg=
 github.com/k1LoW/tbls v1.79.3 h1:7ojil93fjCzNM7dDLHekqChkP6r0K1PZ7U2rQ2PTTt8=
@@ -1037,6 +1039,7 @@ github.com/microsoft/go-mssqldb v1.7.2 h1:CHkFJiObW7ItKTJfHo1QX7QBBD1iV+mn1eOyRP
 github.com/microsoft/go-mssqldb v1.7.2/go.mod h1:kOvZKUdrhhFQmxLZqbwUV0rHkNkZpthMITIb2Ko1IoA=
 github.com/migueleliasweb/go-github-mock v0.0.23 h1:GOi9oX/+Seu9JQ19V8bPDLqDI7M9iEOjo3g8v1k6L2c=
 github.com/migueleliasweb/go-github-mock v0.0.23/go.mod h1:NsT8FGbkvIZQtDu38+295sZEX8snaUiiQgsGxi6GUxk=
+github.com/migueleliasweb/go-github-mock v1.0.1 h1:amLEECVny28RCD1ElALUpQxrAimamznkg9rN2O7t934=
 github.com/minio/asm2plan9s v0.0.0-20200509001527-cdd76441f9d8/go.mod h1:mC1jAcsrzbxHt8iiaC+zU4b1ylILSosueou12R++wfY=
 github.com/minio/c2goasm v0.0.0-20190812172519-36a3d3bbc4f3/go.mod h1:RagcQ7I8IeTMnF8JTXieKnO4Z6JCsikNEzj0DwauVzE=
 github.com/minio/pkg v1.7.5 h1:UOUJjewE5zoaDPlCMJtNx/swc1jT1ZR+IajT7hrLd44=
