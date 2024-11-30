@@ -40,6 +40,8 @@ spec:
                 key: github-token
           - name: MODEL_NAME
             value: gpt-4o
+          - name: CUSTOM_INSTRUCTION
+            value: "Always response in English"
         volumeMounts:
         - name: tbls-schemas
           mountPath: /app/schemas

@@ -1,6 +1,8 @@
 export OPENAI_API_KEY=sk-***
 export SLACK_OAUTH_TOKEN=xoxb-***
 export SLACK_APP_TOKEN=***
-# schemaにGHE上のファイルを参照する場合は以下の環境変数を設定
+# For GitHub Enterprise Server
 # export GH_HOST=git.xxx.com
 # export GITHUB_ENTERPRISE_TOKEN=***
+# Custom Instruction (optional)
+# export CUSTOM_INSTRUCTION="Always Respond in Japanese"

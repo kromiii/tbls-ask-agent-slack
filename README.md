@@ -39,6 +39,8 @@ The bot will respond with an SQL query that answers your question. For the examp
 * SLACK_APP_TOKEN: App token for Slack
 * SLACK_OAUTH_TOKEN: OAuth token for Slack
 * GITHUB_TOKEN: Token for GitHub API (optional)
+* CUSTOM_INSTRUCTION: Custom instruciton for LLM (optional)
+* MODEL_NAME: Model name for OpenAI (optional, default: gpt-4o)
 
 ## Slack-app settings
 
