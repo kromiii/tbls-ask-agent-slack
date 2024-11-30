@@ -6,11 +6,10 @@ import (
 	"database/sql"
 	"encoding/json"
 	"fmt"
-	"io"
-	"net/http"
 	"os"
 
-	"github.com/k1LoW/tbls/schema"
+	"github.com/k1LoW/tbls-ask/schema"
+	tblsschema "github.com/k1LoW/tbls/schema"
 	_ "github.com/mattn/go-sqlite3"
 	"github.com/sashabaranov/go-openai"
 	"gopkg.in/yaml.v2"
@@ -90,14 +89,9 @@ func initializeDB() (*sql.DB, error) {
 }
 
 func processSchema(schemaName, schemaPath string, client *openai.Client, db *sql.DB) error {
-	schemaData, err := fetchSchemaJSON(schemaPath)
+	s, err := schema.Load(schemaPath, schema.Options{})
 	if err != nil {
-		return err
-	}
-
-	var s schema.Schema
-	if err := json.Unmarshal(schemaData, &s); err != nil {
-		return err
+		return fmt.Errorf("failed to load schema: %v", err)
 	}
 
 	for _, table := range s.Tables {
@@ -116,17 +110,7 @@ func processSchema(schemaName, schemaPath string, client *openai.Client, db *sql
 	return nil
 }
 
-func fetchSchemaJSON(url string) ([]byte, error) {
-	resp, err := http.Get(url)
-	if err != nil {
-		return nil, err
-	}
-	defer resp.Body.Close()
-
-	return io.ReadAll(resp.Body)
-}
-
-func createTableDescription(table *schema.Table) string {
+func createTableDescription(table *tblsschema.Table) string {
 	var buf bytes.Buffer
 	buf.WriteString(fmt.Sprintf("Table Name: %s\n", table.Name))
 	buf.WriteString(fmt.Sprintf("Description: %s\n\n", table.Comment))
