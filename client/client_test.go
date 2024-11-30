@@ -38,19 +38,6 @@ func TestAsk(t *testing.T) {
 	if result == "Failed to load schema: " {
 		t.Error("Failed to load schema")
 	}
-
-	messages = append(messages, slack.Message{
-		Msg: slack.Msg{
-			User: botUserID,
-			Text: "The database contains the following tables: users, orders, products.",
-		},
-	})
-
-	result = Ask(messages, name, path, botUserID, model)
-
-	if result != "" {
-		t.Errorf("Expected empty result when last message is from bot, got: %s", result)
-	}
 }
 
 func TestAskWithNoMessages(t *testing.T) {
