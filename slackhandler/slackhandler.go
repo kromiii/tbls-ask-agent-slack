@@ -3,7 +3,6 @@ package slackhandler
 import (
 	"errors"
 	"fmt"
-	"log"
 	"os"
 	"strings"
 
@@ -252,9 +251,5 @@ func (h *SlackHandler) handleSchemaSelection(interaction slack.InteractionCallba
 
 	answer := client.Ask(messages, selectedName, selectedPath, botUserID, model)
 
-	err = h.postMessage(interaction.Channel.ID, answer, interaction.Message.Timestamp)
-	if err != nil {
-		log.Printf("Failed to post message: %v", err)
-	}
-	return err
+	return h.postMessage(interaction.Channel.ID, answer, interaction.Message.Timestamp)
 }
