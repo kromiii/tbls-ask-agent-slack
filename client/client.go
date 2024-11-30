@@ -24,10 +24,6 @@ func Ask(messages []slack.Message, name string, path string, botUserID string, m
 		return "No messages found"
 	}
 
-	if messages[len(messages)-1].User == botUserID {
-		return ""
-	}
-
 	query := messages[len(messages)-1].Text
 	var includes []string
 	var distance int
