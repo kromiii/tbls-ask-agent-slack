@@ -68,6 +68,8 @@ func Ask(messages []slack.Message, name string, path string, botUserID string, m
 		return fmt.Sprintf("Failed to create chat service: %v", err)
 	}
 
+	customInstruction := os.Getenv("CUSTOM_INSTRUCTION")
+
 	m := []chat.Message{
 		{
 			Role:    "system",
@@ -77,6 +79,13 @@ func Ask(messages []slack.Message, name string, path string, botUserID string, m
 			Role:    "user",
 			Content: schemaPrompt,
 		},
+	}
+
+	if customInstruction != "" {
+		m = append(m, chat.Message{
+			Role:    "system",
+			Content: customInstruction,
+		})
 	}
 
 	for _, message := range messages {
