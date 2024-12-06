@@ -34,12 +34,15 @@ func Ask(messages []slack.Message, name string, path string, botUserID string, m
 
 		searcher := search.NewTableSearcher(db, os.Getenv("OPENAI_API_KEY"))
 
+		const limit = 10
+		const minScore = 0
+
 		results, err := searcher.SearchTables(
 			context.Background(),
 			name,
 			query,
-			5,
-			0.7,
+			limit,
+			minScore,
 		)
 		if err == nil {
 			includes = make([]string, len(results))
