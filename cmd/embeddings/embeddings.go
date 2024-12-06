@@ -94,15 +94,22 @@ func processSchema(schemaName, schemaPath string, client *openai.Client, db *sql
 		return fmt.Errorf("failed to load schema: %v", err)
 	}
 
+	var descriptions []string
+	var tableNames []string
+
 	for _, table := range s.Tables {
 		description := createTableDescription(table)
+		descriptions = append(descriptions, description)
+		tableNames = append(tableNames, table.Name)
+	}
 
-		vector, err := getEmbedding(description, client)
-		if err != nil {
-			return err
-		}
+	vectors, err := getEmbeddings(descriptions, client)
+	if err != nil {
+		return err
+	}
 
-		if err := storeVector(db, schemaName, table.Name, vector); err != nil {
+	for i, vector := range vectors {
+		if err := storeVector(db, schemaName, tableNames[i], vector); err != nil {
 			return err
 		}
 	}
@@ -127,11 +134,11 @@ func createTableDescription(table *tblsschema.Table) string {
 	return buf.String()
 }
 
-func getEmbedding(text string, client *openai.Client) ([]float32, error) {
+func getEmbeddings(texts []string, client *openai.Client) ([][]float32, error) {
 	resp, err := client.CreateEmbeddings(
 		context.Background(),
 		openai.EmbeddingRequest{
-			Input: []string{text},
+			Input: texts,
 			Model: openai.AdaEmbeddingV2,
 		},
 	)
@@ -140,10 +147,15 @@ func getEmbedding(text string, client *openai.Client) ([]float32, error) {
 	}
 
 	if len(resp.Data) == 0 {
-		return nil, fmt.Errorf("no embedding received")
+		return nil, fmt.Errorf("no embeddings received")
 	}
 
-	return resp.Data[0].Embedding, nil
+	var embeddings [][]float32
+	for _, data := range resp.Data {
+		embeddings = append(embeddings, data.Embedding)
+	}
+
+	return embeddings, nil
 }
 
 func storeVector(db *sql.DB, schemaName, tableName string, vector []float32) error {
