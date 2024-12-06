@@ -17,6 +17,12 @@ import (
 	_ "github.com/mattn/go-sqlite3"
 )
 
+const (
+	distance = 2
+	limit    = 3
+	minScore = 0
+)
+
 func Ask(messages []slack.Message, name string, path string, botUserID string, model string) string {
 	ctx := context.Background()
 
@@ -26,16 +32,12 @@ func Ask(messages []slack.Message, name string, path string, botUserID string, m
 
 	query := messages[len(messages)-1].Text
 	var includes []string
-	var distance int
 
 	db, err := sql.Open("sqlite3", "vectors-db/vectors.db")
 	if err == nil {
 		defer db.Close()
 
 		searcher := search.NewTableSearcher(db, os.Getenv("OPENAI_API_KEY"))
-
-		const limit = 10
-		const minScore = 0
 
 		results, err := searcher.SearchTables(
 			context.Background(),
@@ -46,7 +48,6 @@ func Ask(messages []slack.Message, name string, path string, botUserID string, m
 		)
 		if err == nil {
 			includes = make([]string, len(results))
-			distance = 2
 			for i, result := range results {
 				includes[i] = result.TableName
 			}
