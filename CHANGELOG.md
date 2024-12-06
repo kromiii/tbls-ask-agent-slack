@@ -1,5 +1,8 @@
 # Changelog
 
+## [v0.3.3](https://github.com/kromiii/tbls-ask-agent-slack/compare/v0.3.2...v0.3.3) - 2024-12-06
+- Bulk embeddings by @kromiii in https://github.com/kromiii/tbls-ask-agent-slack/pull/66
+
 ## [v0.3.2](https://github.com/kromiii/tbls-ask-agent-slack/compare/v0.3.1...v0.3.2) - 2024-11-30
 - Bump github.com/cli/go-gh/v2 from 2.11.0 to 2.11.1 by @dependabot in https://github.com/kromiii/tbls-ask-agent-slack/pull/63
 - Use statefulset and fix some bugs by @kromiii in https://github.com/kromiii/tbls-ask-agent-slack/pull/62
