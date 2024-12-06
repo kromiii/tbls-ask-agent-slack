@@ -32,6 +32,7 @@ func Ask(messages []slack.Message, name string, path string, botUserID string, m
 
 	query := messages[len(messages)-1].Text
 	var includes []string
+	var selectedTablesFeedback string
 
 	db, err := sql.Open("sqlite3", "vectors-db/vectors.db")
 	if err == nil {
@@ -50,6 +51,7 @@ func Ask(messages []slack.Message, name string, path string, botUserID string, m
 			includes = make([]string, len(results))
 			for i, result := range results {
 				includes[i] = result.TableName
+				selectedTablesFeedback = "Selected tables: " + strings.Join(includes, ", ")
 			}
 		}
 	}
@@ -112,6 +114,9 @@ func Ask(messages []slack.Message, name string, path string, botUserID string, m
 	answer, err := service.Ask(ctx, m, false)
 	if err != nil {
 		return fmt.Sprintf("Failed to ask: %v", err)
+	}
+	if selectedTablesFeedback != "" {
+		answer = selectedTablesFeedback + "\n\n" + answer
 	}
 	return answer
 }
