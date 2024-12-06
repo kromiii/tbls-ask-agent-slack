@@ -19,8 +19,8 @@ import (
 
 const (
 	distance = 2
-	limit    = 3
-	minScore = 0
+	limit    = 5
+	minScore = 0.5
 )
 
 func Ask(messages []slack.Message, name string, path string, botUserID string, model string) string {
