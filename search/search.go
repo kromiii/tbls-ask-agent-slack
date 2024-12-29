@@ -2,146 +2,74 @@ package search
 
 import (
 	"context"
-	"database/sql"
-	"encoding/json"
 	"fmt"
-	"math"
-	"sort"
+	"os"
+	"strings"
 
+	"github.com/k1LoW/tbls/schema"
 	"github.com/sashabaranov/go-openai"
 )
 
-type SearchResult struct {
-	SchemaName string
-	TableName  string
-	Score      float64
-}
+const (
+	RelevantTablesPromptTmpl = `You are an AI assistant specializing in database analysis. Given the following list of tables and their descriptions (if available):
+%s
+Please analyze the user's query:
+"%s"
+Identify and list only the table names that are most relevant to answering this query. Do not include any explanations or additional text. Only provide a comma-separated list of table names.
+`
+)
 
-type OpenAIClient interface {
-    CreateEmbeddings(ctx context.Context, request openai.EmbeddingRequestConverter) (openai.EmbeddingResponse, error)
-}
-
-type TableSearcher struct {
-    db     *sql.DB
-    client OpenAIClient
-}
-
-func NewTableSearcher(db *sql.DB, openaiKey string) *TableSearcher {
-	client := openai.NewClient(openaiKey)
-	return &TableSearcher{
-		db:     db,
-		client: client,
-	}
-}
-
-// SearchTables searches for relevant tables based on the query
-// limit specifies the maximum number of results to return
-// minScore specifies the minimum similarity score (0-1) for results
-func (ts *TableSearcher) SearchTables(ctx context.Context, schemaName string, query string, limit int, minScore float64) ([]SearchResult, error) {
-	queryVector, err := ts.getQueryEmbedding(ctx, query)
-	if err != nil {
-		return nil, fmt.Errorf("failed to get query embedding: %w", err)
-	}
-
-	tableVectors, err := ts.getAllTableVectors(schemaName)
-	if err != nil {
-		return nil, fmt.Errorf("failed to get table vectors: %w", err)
-	}
-
-	var results []SearchResult
-	for _, tv := range tableVectors {
-		score := cosineSimilarity(queryVector, tv.Vector)
-		if score >= minScore {
-			results = append(results, SearchResult{
-				SchemaName: tv.SchemaName,
-				TableName:  tv.TableName,
-				Score:      score,
-			})
+func ExtractRelevantTables(ctx context.Context, s *schema.Schema, query string) ([]string, error) {
+	var tableInfo string
+	tableNames := make([]string, 0, len(s.Tables))
+	for _, t := range s.Tables {
+		if t.Type == "VIEW" || t.Type == "MATERIALIZED VIEW" {
+			continue
+		}
+		tableNames = append(tableNames, t.Name)
+		if t.Comment != "" {
+			tableInfo += fmt.Sprintf("%s: %s\n", t.Name, t.Comment)
+		} else {
+			tableInfo += fmt.Sprintf("%s\n", t.Name)
 		}
 	}
 
-	sort.Slice(results, func(i, j int) bool {
-		return results[i].Score > results[j].Score
-	})
+	prompt := fmt.Sprintf(RelevantTablesPromptTmpl, tableInfo, query)
 
-	if limit > 0 && len(results) > limit {
-		results = results[:limit]
-	}
-
-	return results, nil
-}
-
-type tableVector struct {
-	SchemaName string
-	TableName  string
-	Vector     []float32
-}
-
-func (ts *TableSearcher) getQueryEmbedding(ctx context.Context, query string) ([]float32, error) {
-	resp, err := ts.client.CreateEmbeddings(
-		ctx,
-		openai.EmbeddingRequest{
-			Input: []string{query},
-			Model: openai.AdaEmbeddingV2,
+	client := openai.NewClient(os.Getenv("OPENAI_API_KEY"))
+	resp, err := client.CreateChatCompletion(ctx, openai.ChatCompletionRequest{
+		Model: "gpt-4o",
+		Messages: []openai.ChatCompletionMessage{
+			{
+				Role: "user",
+				Content: prompt,
+			},
 		},
-	)
+	})
 	if err != nil {
 		return nil, err
 	}
 
-	if len(resp.Data) == 0 {
-		return nil, fmt.Errorf("no embedding received")
+	answer := resp.Choices[0].Message.Content
+
+	if answer == "" {
+		return nil, fmt.Errorf("failed to extract relevant tables: empty response")
 	}
 
-	return resp.Data[0].Embedding, nil
-}
-
-func (ts *TableSearcher) getAllTableVectors(schemaName string) ([]tableVector, error) {
-	rows, err := ts.db.Query(`
-		SELECT schema_name, table_name, vector 
-		FROM table_vectors
-		WHERE schema_name = $1
-	`, schemaName)
-	if err != nil {
-		return nil, err
-	}
-	defer rows.Close()
-
-	var vectors []tableVector
-	for rows.Next() {
-		var tv tableVector
-		var vectorBytes []byte
-		if err := rows.Scan(&tv.SchemaName, &tv.TableName, &vectorBytes); err != nil {
-			return nil, err
+	relevantTables := strings.Split(answer, ",")
+	for i, t := range relevantTables {
+		relevantTables[i] = strings.TrimSpace(t)
+		found := false
+		for _, tableName := range tableNames {
+			if tableName == relevantTables[i] {
+				found = true
+				break
+			}
 		}
-		
-		if err := json.Unmarshal(vectorBytes, &tv.Vector); err != nil {
-			return nil, err
+		if !found {
+			return nil, fmt.Errorf("failed to extract relevant tables: %s not found", relevantTables[i])
 		}
-		vectors = append(vectors, tv)
 	}
 
-	return vectors, rows.Err()
-}
-
-func cosineSimilarity(a, b []float32) float64 {
-	if len(a) != len(b) {
-		return 0
-	}
-
-	var dotProduct float64
-	var normA float64
-	var normB float64
-
-	for i := 0; i < len(a); i++ {
-		dotProduct += float64(a[i] * b[i])
-		normA += float64(a[i] * a[i])
-		normB += float64(b[i] * b[i])
-	}
-
-	if normA == 0 || normB == 0 {
-		return 0
-	}
-
-	return dotProduct / (math.Sqrt(normA) * math.Sqrt(normB))
+	return relevantTables, nil
 }

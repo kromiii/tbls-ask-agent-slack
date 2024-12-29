@@ -2,7 +2,6 @@ package client
 
 import (
 	"context"
-	"database/sql"
 	"fmt"
 	"os"
 	"strings"
@@ -13,45 +12,40 @@ import (
 	"github.com/k1LoW/tbls-ask/prompt"
 	"github.com/k1LoW/tbls-ask/schema"
 	"github.com/kromiii/tbls-ask-agent-slack/search"
-
-	_ "github.com/mattn/go-sqlite3"
 )
 
 const (
 	distance = 2
-	limit    = 5
-	minScore = 0.5
 )
 
-func Ask(messages []slack.Message, name string, path string, botUserID string, model string) string {
+func Ask(messages []slack.Message, name string, path string, botUserID string, model string, searchMode bool) string {
 	ctx := context.Background()
 
 	if len(messages) == 0 {
 		return "No messages found"
 	}
 
-	query := messages[len(messages)-1].Text
 	var includes []string
 	var selectedTablesFeedback string
 
-	db, err := sql.Open("sqlite3", "vectors-db/vectors.db")
-	if err == nil {
-		defer db.Close()
+	if searchMode {
+		entireSchema, err := schema.Load(path, schema.Options{})
+		if err != nil {
+			return "Failed to load schema: " + err.Error()
+		}
 
-		searcher := search.NewTableSearcher(db, os.Getenv("OPENAI_API_KEY"))
+		query := messages[len(messages)-1].Text
 
-		results, err := searcher.SearchTables(
+		results, err := search.ExtractRelevantTables(
 			context.Background(),
-			name,
+			entireSchema,
 			query,
-			limit,
-			minScore,
 		)
 		if err == nil {
 			includes = make([]string, len(results))
 			for i, result := range results {
-				includes[i] = result.TableName
-				selectedTablesFeedback = "Selected tables: " + strings.Join(includes, ", ")
+				includes[i] = result
+				selectedTablesFeedback = "Relevant tables: " + strings.Join(includes, ", ")
 			}
 		}
 	}
