@@ -2,7 +2,6 @@ package client
 
 import (
 	"context"
-	"database/sql"
 	"fmt"
 	"os"
 	"strings"
@@ -12,15 +11,6 @@ import (
 	"github.com/k1LoW/tbls-ask/chat"
 	"github.com/k1LoW/tbls-ask/prompt"
 	"github.com/k1LoW/tbls-ask/schema"
-	"github.com/kromiii/tbls-ask-agent-slack/search"
-
-	_ "github.com/mattn/go-sqlite3"
-)
-
-const (
-	distance = 2
-	limit    = 5
-	minScore = 0.5
 )
 
 func Ask(messages []slack.Message, name string, path string, botUserID string, model string) string {
@@ -30,36 +20,7 @@ func Ask(messages []slack.Message, name string, path string, botUserID string, m
 		return "No messages found"
 	}
 
-	query := messages[len(messages)-1].Text
-	var includes []string
-	var selectedTablesFeedback string
-
-	db, err := sql.Open("sqlite3", "vectors-db/vectors.db")
-	if err == nil {
-		defer db.Close()
-
-		searcher := search.NewTableSearcher(db, os.Getenv("OPENAI_API_KEY"))
-
-		results, err := searcher.SearchTables(
-			context.Background(),
-			name,
-			query,
-			limit,
-			minScore,
-		)
-		if err == nil {
-			includes = make([]string, len(results))
-			for i, result := range results {
-				includes[i] = result.TableName
-				selectedTablesFeedback = "Selected tables: " + strings.Join(includes, ", ")
-			}
-		}
-	}
-
-	schema, err := schema.Load(path, schema.Options{
-		Includes: includes,
-		Distance: distance,
-	})
+	schema, err := schema.Load(path, schema.Options{})
 	if err != nil {
 		return "Failed to load schema: " + err.Error()
 	}
@@ -114,9 +75,6 @@ func Ask(messages []slack.Message, name string, path string, botUserID string, m
 	answer, err := service.Ask(ctx, m, false)
 	if err != nil {
 		return fmt.Sprintf("Failed to ask: %v", err)
-	}
-	if selectedTablesFeedback != "" {
-		answer = selectedTablesFeedback + "\n\n" + answer
 	}
 	return answer
 }

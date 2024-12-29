@@ -3,11 +3,7 @@ module github.com/kromiii/tbls-ask-agent-slack
 go 1.22.9
 
 require (
-	github.com/DATA-DOG/go-sqlmock v1.5.2
-	github.com/k1LoW/tbls v1.79.3
 	github.com/k1LoW/tbls-ask v0.3.1
-	github.com/mattn/go-sqlite3 v1.14.24
-	github.com/sashabaranov/go-openai v1.25.0
 	github.com/slack-go/slack v0.12.3
 	github.com/stretchr/testify v1.9.0
 	gopkg.in/yaml.v2 v2.4.0
@@ -98,6 +94,7 @@ require (
 	github.com/k1LoW/ghfs v1.3.1 // indirect
 	github.com/k1LoW/go-github-client/v58 v58.0.13 // indirect
 	github.com/k1LoW/repin v0.3.4 // indirect
+	github.com/k1LoW/tbls v1.79.3 // indirect
 	github.com/klauspost/compress v1.17.11 // indirect
 	github.com/klauspost/cpuid/v2 v2.2.9 // indirect
 	github.com/lib/pq v1.10.9 // indirect
@@ -111,6 +108,7 @@ require (
 	github.com/planetscale/vtprotobuf v0.6.1-0.20240319094008-0393e58bdf10 // indirect
 	github.com/pmezard/go-difflib v1.0.1-0.20181226105442-5d4384ee4fb2 // indirect
 	github.com/samber/lo v1.47.0 // indirect
+	github.com/sashabaranov/go-openai v1.25.0 // indirect
 	github.com/segmentio/asm v1.2.0 // indirect
 	github.com/shopspring/decimal v1.4.0 // indirect
 	github.com/sirupsen/logrus v1.9.3 // indirect

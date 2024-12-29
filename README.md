@@ -54,12 +54,6 @@ Copy `schemas/config.yml.sample` to `schemas/config.yml` and edit it.
 $ cp schemas/config.yml.sample schemas/config.yml
 ```
 
-## Schema Embedding (optional)
-
-```sh
-make embeddings
-```
-
 ## Run Server
 
 ```sh
