@@ -41,6 +41,7 @@ The bot will respond with an SQL query that answers your question. For the examp
 * GITHUB_TOKEN: Token for GitHub API (optional)
 * CUSTOM_INSTRUCTION: Custom instruciton for LLM (optional)
 * MODEL_NAME: Model name for OpenAI (optional, default: gpt-4o)
+* TABLE_SEARCH: Enable table search (optional, default: false)
 
 ## Slack-app settings
 
@@ -52,12 +53,6 @@ Copy `schemas/config.yml.sample` to `schemas/config.yml` and edit it.
 
 ```sh
 $ cp schemas/config.yml.sample schemas/config.yml
-```
-
-## Schema Embedding (optional)
-
-```sh
-make embeddings
 ```
 
 ## Run Server
