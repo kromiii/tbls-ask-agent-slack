@@ -25,7 +25,7 @@ func TestAsk(t *testing.T) {
 
 	os.Setenv("OPENAI_API_KEY", "your-api-key")
 
-	result := Ask(messages, name, path, botUserID, model)
+	result := Ask(messages, name, path, botUserID, model, false)
 
 	if result == "" {
 		t.Error("Expected non-empty result, got empty string")
@@ -47,7 +47,7 @@ func TestAskWithNoMessages(t *testing.T) {
 	botUserID := "UBOTID123"
 	model := "gpt-3.5-turbo"
 
-	result := Ask(messages, name, path, botUserID, model)
+	result := Ask(messages, name, path, botUserID, model, false)
 
 	if result != "No messages found" {
 		t.Errorf("Expected 'No messages found', got: %s", result)
@@ -68,7 +68,7 @@ func TestAskWithInvalidSchema(t *testing.T) {
 	botUserID := "UBOTID123"
 	model := "gpt-3.5-turbo"
 
-	result := Ask(messages, name, path, botUserID, model)
+	result := Ask(messages, name, path, botUserID, model, false)
 
 	expectedPrefix := "Failed to load schema: failed to analyze schema: "
 	if !strings.HasPrefix(result, expectedPrefix) {
