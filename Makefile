@@ -1,4 +1,4 @@
-.PHONY: create-configmap create-secret build-image apply-manifests clear all server embeddings reset-pvc
+.PHONY: create-configmap create-secret build-image apply-manifests clear all server
 
 create-configmap:
 	kubectl create configmap tbls-schemas --from-file=schemas/config.yml
@@ -16,11 +16,6 @@ clear:
 	kubectl delete configmap tbls-schemas
 	kubectl delete secret tbls-ask-agent-slack
 	kubectl delete -f manifests
-
-reset-pvc:
-	kubectl delete -f manifests
-	kubectl delete pvc -l app=tbls-ask-agent-slack
-	kubectl apply -f manifests
 
 all: create-configmap create-secret apply-manifests
 

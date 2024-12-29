@@ -18,6 +18,6 @@ func main() {
 	case "server":
 		server.Run()
 	default:
-		fmt.Println("Invalid command. Usage: tbls-ask-bot [server|embeddings]")
+		fmt.Println("Invalid command. Usage: tbls-ask-bot server")
 	}
 }
