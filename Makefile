@@ -27,6 +27,3 @@ all: create-configmap create-secret apply-manifests
 # For local development
 server:
 	go run main.go server
-
-embeddings:
-	go run main.go embeddings
