@@ -42,6 +42,12 @@ The bot will respond with an SQL query that answers your question. For the examp
 * CUSTOM_INSTRUCTION: Custom instruciton for LLM (optional)
 * MODEL_NAME: Model name for OpenAI (optional, default: gpt-4o)
 
+If you want to use Gemini models, you need to set either `GEMINI_API_KEY` or `GOOGLE_APPLICATION_CREDENTIALS_JSON`.
+
+* GEMINI_API_KEY: API key for Gemini
+* GOOGLE_APPLICATION_CREDENTIALS_JSON: JSON key for Google Cloud
+* GOOGLE_CLOUD_REGION: Region for Google Cloud (optional, default: us-central1)
+
 ## Slack-app settings
 
 Please create an app using `manifests.yml` and install it to your workspace.
