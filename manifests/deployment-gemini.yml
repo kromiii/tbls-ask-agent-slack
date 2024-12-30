@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tbls-ask-agent-slack
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tbls-ask-agent-slack
+  template:
+    metadata:
+      labels:
+        app: tbls-ask-agent-slack
+    spec:
+      containers:
+      - name: tbls-ask-agent-slack
+        imagePullPolicy: Never
+        image: tbls-ask-agent-slack:latest
+        env:
+          - name: SLACK_APP_TOKEN
+            valueFrom:
+              secretKeyRef:
+                name: tbls-ask-agent-slack
+                key: slack-app-token
+          - name: SLACK_OAUTH_TOKEN
+            valueFrom:
+              secretKeyRef:
+                name: tbls-ask-agent-slack
+                key: slack-oauth-token
+          - name: GOOGLE_APPLICATION_CREDENTIALS_JSON
+            valueFrom:
+              secretKeyRef:
+                name: tbls-ask-agent-slack
+                key: google-application-credentials-json
+          - name: GITHUB_TOKEN
+            valueFrom:
+              secretKeyRef:
+                name: tbls-ask-agent-slack
+                key: github-token
+          - name: MODEL_NAME
+            value: gemini-1.5-pro
+          - name: GOOGLE_CLOUD_REGION
+            value: asia-notrtheast1
+        volumeMounts:
+        - name: tbls-schemas
+          mountPath: /app/schemas
+      volumes:
+      - name: tbls-schemas
+        configMap:
+          name: tbls-schemas

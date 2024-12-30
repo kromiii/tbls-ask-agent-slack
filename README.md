@@ -35,17 +35,25 @@ The bot will respond with an SQL query that answers your question. For the examp
 
 ## Environment Variables
 
-* OPENAI_API_KEY: API key for OpenAI
+### Required
+
 * SLACK_APP_TOKEN: App token for Slack
 * SLACK_OAUTH_TOKEN: OAuth token for Slack
-* GITHUB_TOKEN: Token for GitHub API (optional)
-* CUSTOM_INSTRUCTION: Custom instruciton for LLM (optional)
-* MODEL_NAME: Model name for OpenAI (optional, default: gpt-4o)
+* MODEL_NAME: Model name for LLM (default: gpt-4o)
+
+### API keys
+By default, we use OpenAI models. You need to set `OPENAI_API_KEY`.
+
+* OPENAI_API_KEY: API key for OpenAI
 
 If you want to use Gemini models, you need to set either `GEMINI_API_KEY` or `GOOGLE_APPLICATION_CREDENTIALS_JSON`.
 
 * GEMINI_API_KEY: API key for Gemini
 * GOOGLE_APPLICATION_CREDENTIALS_JSON: JSON key for Google Cloud
+
+### Optional
+* GITHUB_TOKEN: Token for GitHub API (optional)
+* CUSTOM_INSTRUCTION: Custom instruciton for LLM (optional)
 * GOOGLE_CLOUD_REGION: Region for Google Cloud (optional, default: us-central1)
 
 ## Slack-app settings
@@ -74,6 +82,12 @@ Build docker image locally
 
 ```
 make build-image
+```
+
+Choose which API to use
+
+```
+cp manifests/deployment-openai.yml manifests/deployment.yml
 ```
 
 Apply manifests
