@@ -1,8 +1,16 @@
 export OPENAI_API_KEY=sk-***
 export SLACK_OAUTH_TOKEN=xoxb-***
 export SLACK_APP_TOKEN=***
+export MODEL_NAME=gpt-4o
+# Custom Instruction (optional)
+# export CUSTOM_INSTRUCTION="Always Respond in Japanese"
+# For Gemini models
+# export MODEL_NAME=gemini-1.5-flash
+# export GEMINI_API_KEY=***
+# For Google Cloud
+# export GOOGLE_CLOUD_REGION=asia-northeast1
+# export GOOGLE_APPLICATION_CREDENTIALS_JSON=$(cat /path/to/your/credentials.json)
 # For GitHub Enterprise Server
 # export GH_HOST=git.xxx.com
 # export GITHUB_ENTERPRISE_TOKEN=***
-# Custom Instruction (optional)
-# export CUSTOM_INSTRUCTION="Always Respond in Japanese"
+
