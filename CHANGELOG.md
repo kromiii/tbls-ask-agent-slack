@@ -1,5 +1,10 @@
 # Changelog
 
+## [v0.3.4](https://github.com/kromiii/tbls-ask-agent-slack/compare/v0.3.3...v0.3.4) - 2024-12-30
+- revert embeddings by @kromiii in https://github.com/kromiii/tbls-ask-agent-slack/pull/69
+- Bump golang.org/x/crypto from 0.29.0 to 0.31.0 by @dependabot in https://github.com/kromiii/tbls-ask-agent-slack/pull/71
+- enable gemini on vertex ai by @kromiii in https://github.com/kromiii/tbls-ask-agent-slack/pull/72
+
 ## [v0.3.3](https://github.com/kromiii/tbls-ask-agent-slack/compare/v0.3.2...v0.3.3) - 2024-12-06
 - Bulk embeddings by @kromiii in https://github.com/kromiii/tbls-ask-agent-slack/pull/66
 
