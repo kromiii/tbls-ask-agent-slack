@@ -1,5 +1,7 @@
 # Changelog
 
+## [v0.3.5](https://github.com/kromiii/tbls-ask-agent-slack/compare/v0.3.4...v0.3.5) - 2025-01-14
+
 ## [v0.3.4](https://github.com/kromiii/tbls-ask-agent-slack/compare/v0.3.3...v0.3.4) - 2024-12-30
 - revert embeddings by @kromiii in https://github.com/kromiii/tbls-ask-agent-slack/pull/69
 - Bump golang.org/x/crypto from 0.29.0 to 0.31.0 by @dependabot in https://github.com/kromiii/tbls-ask-agent-slack/pull/71
