@@ -55,6 +55,7 @@ If you want to use Gemini models, you need to set either `GEMINI_API_KEY` or `GO
 * GITHUB_TOKEN: Token for GitHub API (optional)
 * CUSTOM_INSTRUCTION: Custom instruciton for LLM (optional)
 * GOOGLE_CLOUD_REGION: Region for Google Cloud (optional, default: us-central1)
+* DEBUG_MODE: When set to "true", outputs prompt contents to logs (optional)
 
 ## Slack-app settings
 

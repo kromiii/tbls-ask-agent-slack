@@ -3,6 +3,7 @@ package client
 import (
 	"context"
 	"fmt"
+	"log"
 	"os"
 	"strings"
 
@@ -70,6 +71,14 @@ func Ask(messages []slack.Message, name string, path string, botUserID string, m
 			Role:    role,
 			Content: message.Text,
 		})
+	}
+
+	if os.Getenv("DEBUG_MODE") == "true" {
+		log.Println("=== Debug: Prompt contents ===")
+		for _, msg := range m {
+			log.Printf("Role: %s\nContent: %s\n", msg.Role, msg.Content)
+		}
+		log.Println("============================")
 	}
 
 	answer, err := service.Ask(ctx, m, false)
