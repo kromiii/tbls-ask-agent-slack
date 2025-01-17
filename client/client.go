@@ -41,7 +41,7 @@ func Ask(messages []slack.Message, name string, path string, botUserID string, m
 	m := []chat.Message{
 		{
 			Role:    "system",
-			Content: "You are a database expert. You are given a database schema and a question. Answer the question based on the schema.",
+			Content: "You are a database expert. You are given a database schema with chat histories. Answer the users' question based on the following schema.",
 		},
 		{
 			Role:    "user",
@@ -57,8 +57,7 @@ func Ask(messages []slack.Message, name string, path string, botUserID string, m
 	}
 
 	for _, message := range messages {
-		// skip messages which does not include the mention to the bot or the message not from bot user
-		if message.User != botUserID && !strings.Contains(message.Text, "<@"+botUserID+">") {
+		if strings.Contains(message.Text, "Please select the target schema") {
 			continue
 		}
 		var role string
@@ -66,6 +65,7 @@ func Ask(messages []slack.Message, name string, path string, botUserID string, m
 			role = "assistant"
 		} else {
 			role = "user"
+			message.Text = strings.ReplaceAll(message.Text, "<@"+botUserID+">", "@bot")
 		}
 		m = append(m, chat.Message{
 			Role:    role,
