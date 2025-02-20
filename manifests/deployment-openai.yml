@@ -38,7 +38,7 @@ spec:
                 name: tbls-ask-agent-slack
                 key: github-token
           - name: MODEL_NAME
-            value: gpt-4o
+            value: gpt-4o-mini
         volumeMounts:
         - name: tbls-schemas
           mountPath: /app/schemas

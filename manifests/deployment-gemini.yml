@@ -27,11 +27,11 @@ spec:
               secretKeyRef:
                 name: tbls-ask-agent-slack
                 key: slack-oauth-token
-          - name: GOOGLE_APPLICATION_CREDENTIALS_JSON
+          - name: GEMINI_API_KEY
             valueFrom:
               secretKeyRef:
                 name: tbls-ask-agent-slack
-                key: google-application-credentials-json
+                key: gemini-api-key
           - name: GITHUB_TOKEN
             valueFrom:
               secretKeyRef:
@@ -39,8 +39,6 @@ spec:
                 key: github-token
           - name: MODEL_NAME
             value: gemini-1.5-pro
-          - name: GOOGLE_CLOUD_REGION
-            value: asia-northeast1
         volumeMounts:
         - name: tbls-schemas
           mountPath: /app/schemas
