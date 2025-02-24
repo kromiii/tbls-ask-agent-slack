@@ -1,5 +1,9 @@
 # Changelog
 
+## [v0.3.10](https://github.com/kromiii/tbls-ask-agent-slack/compare/v0.3.9...v0.3.10) - 2025-02-24
+- update documents by @kromiii in https://github.com/kromiii/tbls-ask-agent-slack/pull/79
+- enable o- models by @kromiii in https://github.com/kromiii/tbls-ask-agent-slack/pull/81
+
 ## [v0.3.9](https://github.com/kromiii/tbls-ask-agent-slack/compare/v0.3.8...v0.3.9) - 2025-02-13
 
 ## [v0.3.8](https://github.com/kromiii/tbls-ask-agent-slack/compare/v0.3.7...v0.3.8) - 2025-02-13
