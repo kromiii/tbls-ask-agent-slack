@@ -40,7 +40,7 @@ func Ask(messages []slack.Message, name string, path string, botUserID string, m
 
 	m := []chat.Message{
 		{
-			Role:    "system",
+			Role:    "user",
 			Content: "You are a database expert. You are given a database schema with chat histories. Answer the users' question based on the following schema.",
 		},
 		{
@@ -51,7 +51,7 @@ func Ask(messages []slack.Message, name string, path string, botUserID string, m
 
 	if customInstruction != "" {
 		m = append(m, chat.Message{
-			Role:    "system",
+			Role:    "user",
 			Content: customInstruction,
 		})
 	}

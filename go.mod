@@ -1,9 +1,9 @@
 module github.com/kromiii/tbls-ask-agent-slack
 
-go 1.22.10
+go 1.23.6
 
 require (
-	github.com/k1LoW/tbls-ask v0.4.1
+	github.com/k1LoW/tbls-ask v0.4.2
 	github.com/slack-go/slack v0.12.3
 	github.com/stretchr/testify v1.10.0
 	gopkg.in/yaml.v2 v2.4.0
