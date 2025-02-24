@@ -46,15 +46,13 @@ By default, we use OpenAI models. You need to set `OPENAI_API_KEY`.
 
 * OPENAI_API_KEY: API key for OpenAI
 
-If you want to use Gemini models, you need to set either `GEMINI_API_KEY` or `GOOGLE_APPLICATION_CREDENTIALS_JSON`.
+If you want to use Gemini models, you need to set `GEMINI_API_KEY`.
 
 * GEMINI_API_KEY: API key for Gemini
-* GOOGLE_APPLICATION_CREDENTIALS_JSON: JSON key for Google Cloud
 
 ### Optional
 * GITHUB_TOKEN: Token for GitHub API (optional)
 * CUSTOM_INSTRUCTION: Custom instruciton for LLM (optional)
-* GOOGLE_CLOUD_REGION: Region for Google Cloud (optional, default: us-central1)
 * DEBUG_MODE: When set to "true", outputs prompt contents to logs (optional)
 
 ## Slack-app settings
@@ -75,7 +73,7 @@ $ cp schemas/config.yml.sample schemas/config.yml
 make server
 ```
 
-It is using socket mode for slack. You don't need to expose the server to the internet.
+This app uses socket mode for slack, so you don't need to expose the server to the internet. That means you don't need to set `SLACK_SIGNING_SECRET`.
 
 ## Deploy to k8s
 
