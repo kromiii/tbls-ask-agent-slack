@@ -1,5 +1,8 @@
 # Changelog
 
+## [v0.4.0](https://github.com/kromiii/tbls-ask-agent-slack/compare/v0.3.11...v0.4.0) - 2025-03-13
+- Bump golang.org/x/net from 0.33.0 to 0.36.0 by @dependabot in https://github.com/kromiii/tbls-ask-agent-slack/pull/83
+
 ## [v0.3.11](https://github.com/kromiii/tbls-ask-agent-slack/compare/v0.3.10...v0.3.11) - 2025-02-24
 
 ## [v0.3.10](https://github.com/kromiii/tbls-ask-agent-slack/compare/v0.3.9...v0.3.10) - 2025-02-24
