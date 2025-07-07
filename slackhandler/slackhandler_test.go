@@ -13,7 +13,6 @@ import (
 // MockSlackAPI is a mock of the Slack API client
 type MockSlackAPI struct {
 	mock.Mock
-	*slack.Client
 }
 
 func (m *MockSlackAPI) GetConversationInfo(params *slack.GetConversationInfoInput) (*slack.Channel, error) {
