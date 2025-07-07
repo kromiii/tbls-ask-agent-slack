@@ -119,6 +119,11 @@ func (h *SlackHandler) handleMatchedSchema(ev *slackevents.AppMentionEvent, sche
 }
 
 func (h *SlackHandler) handleUnmatchedSchema(ev *slackevents.AppMentionEvent, schemas []Schema) error {
+	// If there's only one schema, use it automatically
+	if len(schemas) == 1 {
+		return h.handleMatchedSchema(ev, &schemas[0])
+	}
+
 	options := h.createSchemaOptions(schemas)
 
 	_, _, err := h.Api.PostMessage(ev.Channel, slack.MsgOptionBlocks(
