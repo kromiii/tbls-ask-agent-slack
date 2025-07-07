@@ -5,7 +5,9 @@ import (
 	"fmt"
 	"os"
 	"strings"
+	"time"
 
+	"github.com/jellydator/ttlcache/v3"
 	"github.com/kromiii/tbls-ask-agent-slack/client"
 	"github.com/slack-go/slack"
 	"github.com/slack-go/slack/slackevents"
@@ -13,7 +15,8 @@ import (
 )
 
 type SlackHandler struct {
-	Api SlackAPI
+	Api           SlackAPI
+	threadSchemas *ttlcache.Cache[string, *Schema] // threadTS -> selected schema with TTL
 }
 
 type Schema struct {
@@ -30,9 +33,23 @@ type SlackAPI interface {
 	AuthTest() (*slack.AuthTestResponse, error)
 	GetConversationReplies(params *slack.GetConversationRepliesParameters) ([]slack.Message, bool, string, error)
 	PostMessage(channelID string, options ...slack.MsgOption) (string, string, error)
+	UpdateMessage(channelID, timestamp string, options ...slack.MsgOption) (string, string, string, error)
 }
 
 var fileLoader = os.ReadFile
+
+// NewSlackHandler creates a new SlackHandler with initialized thread schema cache
+func NewSlackHandler(api SlackAPI) *SlackHandler {
+	cache := ttlcache.New[string, *Schema](
+		ttlcache.WithTTL[string, *Schema](1 * time.Hour),
+	)
+	go cache.Start() // Start the cache's automatic cleanup goroutine
+
+	return &SlackHandler{
+		Api:           api,
+		threadSchemas: cache,
+	}
+}
 
 func (h *SlackHandler) HandleCallBackEvent(event slackevents.EventsAPIEvent, path string) error {
 	innerEvent := event.InnerEvent
@@ -45,6 +62,16 @@ func (h *SlackHandler) HandleCallBackEvent(event slackevents.EventsAPIEvent, pat
 }
 
 func (h *SlackHandler) handleAppMentionEvent(ev *slackevents.AppMentionEvent, path string) error {
+	// Check if schema is already selected for this thread
+	threadTS := ev.ThreadTimeStamp
+	if threadTS == "" {
+		threadTS = ev.TimeStamp
+	}
+
+	if item := h.threadSchemas.Get(threadTS); item != nil {
+		return h.handleMatchedSchema(ev, item.Value())
+	}
+
 	channelInfo, err := h.getChannelInfo(ev.Channel)
 	if err != nil {
 		return err
@@ -58,6 +85,8 @@ func (h *SlackHandler) handleAppMentionEvent(ev *slackevents.AppMentionEvent, pa
 	matchedSchema := h.findMatchingSchema(channelInfo.Name, config.Schemas)
 
 	if matchedSchema != nil {
+		// Store the matched schema for this thread
+		h.threadSchemas.Set(threadTS, matchedSchema, ttlcache.DefaultTTL)
 		return h.handleMatchedSchema(ev, matchedSchema)
 	} else {
 		return h.handleUnmatchedSchema(ev, config.Schemas)
@@ -232,16 +261,43 @@ func (h *SlackHandler) HandleInteractionCallback(interaction slack.InteractionCa
 }
 
 func (h *SlackHandler) handleSchemaSelection(interaction slack.InteractionCallback, action *slack.BlockAction) error {
-	threadTimestamp := interaction.Message.ThreadTimestamp
+	selectedPath := action.SelectedOption.Value
+	selectedName := action.SelectedOption.Text.Text
+
+	// Update the message to remove the form and show the selected schema
+	updatedText := fmt.Sprintf("Selected schema: *%s*\n\nProcessing your query...", selectedName)
+	_, _, _, err := h.Api.UpdateMessage(
+		interaction.Channel.ID,
+		interaction.Message.Timestamp,
+		slack.MsgOptionText(updatedText, false),
+	)
+	if err != nil {
+		return fmt.Errorf("failed to update message: %w", err)
+	}
+
+	// Store the selected schema for this thread
+	threadTS := interaction.Message.ThreadTimestamp
+	if threadTS == "" {
+		threadTS = interaction.Message.Timestamp
+	}
+
+	selectedSchema := &Schema{
+		Name: selectedName,
+		Path: selectedPath,
+	}
+
+	h.threadSchemas.Set(threadTS, selectedSchema, ttlcache.DefaultTTL)
+
+	// Get conversation replies to process the query
 	messages, _, _, err := h.Api.GetConversationReplies(
 		&slack.GetConversationRepliesParameters{
 			ChannelID: interaction.Channel.ID,
-			Timestamp: threadTimestamp,
+			Timestamp: threadTS,
 			Inclusive: true,
 		},
 	)
 	if err != nil {
-		return err
+		return fmt.Errorf("failed to get conversation replies: %w", err)
 	}
 
 	botUserID, err := h.getBotUserID()
@@ -254,10 +310,7 @@ func (h *SlackHandler) handleSchemaSelection(interaction slack.InteractionCallba
 		model = "gpt-4o"
 	}
 
-	selectedPath := action.SelectedOption.Value
-	selectedName := action.SelectedOption.Text.Text
-
 	answer := client.Ask(messages, selectedName, selectedPath, botUserID, model)
 
-	return h.postMessage(interaction.Channel.ID, answer, interaction.Message.Timestamp)
+	return h.postMessage(interaction.Channel.ID, answer, threadTS)
 }
