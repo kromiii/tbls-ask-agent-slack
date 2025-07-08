@@ -75,6 +75,8 @@ func TestHandleAppMentionEvent(t *testing.T) {
 						Conversation: slack.Conversation{},
 					},
 				}, nil)
+				mockAPI.On("AuthTest").Return(&slack.AuthTestResponse{UserID: "UBOTID12345"}, nil)
+				mockAPI.On("GetConversationReplies", mock.Anything).Return([]slack.Message{}, false, "", nil)
 				mockAPI.On("PostMessage", mock.Anything, mock.Anything).Return("", "", nil)
 			},
 			ev: &slackevents.AppMentionEvent{
