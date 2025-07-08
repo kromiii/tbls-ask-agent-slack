@@ -23,7 +23,7 @@ func TestAsk(t *testing.T) {
 	botUserID := "UBOTID123"
 	model := "gpt-3.5-turbo"
 
-	os.Setenv("OPENAI_API_KEY", "your-api-key")
+	_ = os.Setenv("OPENAI_API_KEY", "your-api-key")
 
 	result := Ask(messages, name, path, botUserID, model)
 
