@@ -1,5 +1,17 @@
 # Changelog
 
+## [v0.4.0](https://github.com/kromiii/tbls-ask-agent-slack/compare/v0.3.11...v0.4.0) - 2025-07-08
+- Bump golang.org/x/net from 0.33.0 to 0.36.0 by @dependabot in https://github.com/kromiii/tbls-ask-agent-slack/pull/83
+- Bump github.com/expr-lang/expr from 1.16.9 to 1.17.0 by @dependabot in https://github.com/kromiii/tbls-ask-agent-slack/pull/85
+- Bump github.com/golang-jwt/jwt/v4 from 4.5.1 to 4.5.2 by @dependabot in https://github.com/kromiii/tbls-ask-agent-slack/pull/87
+- Bump github.com/golang-jwt/jwt/v5 from 5.2.1 to 5.2.2 by @dependabot in https://github.com/kromiii/tbls-ask-agent-slack/pull/86
+- Bump golang.org/x/net from 0.36.0 to 0.38.0 by @dependabot in https://github.com/kromiii/tbls-ask-agent-slack/pull/89
+- Bump github.com/snowflakedb/gosnowflake from 1.12.1 to 1.13.3 by @dependabot in https://github.com/kromiii/tbls-ask-agent-slack/pull/90
+- Bump github.com/cli/go-gh/v2 from 2.11.1 to 2.12.1 by @dependabot in https://github.com/kromiii/tbls-ask-agent-slack/pull/91
+- 機能追加(slackhandler.go): スキーマが1つだけの場合、選択する必要がない by @pyama86 in https://github.com/kromiii/tbls-ask-agent-slack/pull/92
+- 同じスレッドで質問を繰り返すとき都度スキーマを聞かれたくない by @pyama86 in https://github.com/kromiii/tbls-ask-agent-slack/pull/93
+- docker image の base image を変更 by @kromiii in https://github.com/kromiii/tbls-ask-agent-slack/pull/94
+
 ## [v0.3.11](https://github.com/kromiii/tbls-ask-agent-slack/compare/v0.3.10...v0.3.11) - 2025-02-24
 
 ## [v0.3.10](https://github.com/kromiii/tbls-ask-agent-slack/compare/v0.3.9...v0.3.10) - 2025-02-24
