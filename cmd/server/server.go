@@ -18,9 +18,7 @@ func Run() {
 	api := slack.New(oauthToken, slack.OptionAppLevelToken(appToken))
 	client := socketmode.New(api)
 
-	slackHandler := slackhandler.SlackHandler{
-		Api: api,
-	}
+	slackHandler := slackhandler.NewSlackHandler(api)
 
 	path := "./schemas/config.yml"
 

@@ -35,6 +35,11 @@ func (m *MockSlackAPI) PostMessage(channelID string, options ...slack.MsgOption)
 	return args.String(0), args.String(1), args.Error(2)
 }
 
+func (m *MockSlackAPI) UpdateMessage(channelID, timestamp string, options ...slack.MsgOption) (string, string, string, error) {
+	args := m.Called(channelID, timestamp, options)
+	return args.String(0), args.String(1), args.String(2), args.Error(3)
+}
+
 func TestHandleAppMentionEvent(t *testing.T) {
 	t.Parallel() // Enable parallel execution for this test function
 
@@ -108,7 +113,7 @@ func TestHandleAppMentionEvent(t *testing.T) {
 
 			// Setup
 			mockAPI := &MockSlackAPI{}
-			handler := &SlackHandler{Api: mockAPI}
+			handler := NewSlackHandler(mockAPI)
 
 			// Mock fileLoader
 			oldFileLoader := fileLoader
@@ -173,6 +178,7 @@ func TestHandleInteractionCallback(t *testing.T) {
 				},
 			},
 			setup: func(mockAPI *MockSlackAPI) {
+				mockAPI.On("UpdateMessage", mock.Anything, mock.Anything, mock.Anything).Return("", "", "", nil)
 				mockAPI.On("GetConversationReplies", mock.Anything).Return([]slack.Message{}, false, "", nil)
 				mockAPI.On("AuthTest").Return(&slack.AuthTestResponse{UserID: "UBOTID12345"}, nil)
 				mockAPI.On("PostMessage", mock.Anything, mock.Anything).Return("", "", nil)
@@ -212,7 +218,7 @@ func TestHandleInteractionCallback(t *testing.T) {
 
 			// Setup
 			mockAPI := new(MockSlackAPI)
-			handler := &SlackHandler{Api: mockAPI}
+			handler := NewSlackHandler(mockAPI)
 
 			if tt.setup != nil {
 				tt.setup(mockAPI)
