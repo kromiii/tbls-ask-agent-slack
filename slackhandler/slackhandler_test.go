@@ -13,7 +13,6 @@ import (
 // MockSlackAPI is a mock of the Slack API client
 type MockSlackAPI struct {
 	mock.Mock
-	*slack.Client
 }
 
 func (m *MockSlackAPI) GetConversationInfo(params *slack.GetConversationInfoInput) (*slack.Channel, error) {
@@ -75,6 +74,8 @@ func TestHandleAppMentionEvent(t *testing.T) {
 						Conversation: slack.Conversation{},
 					},
 				}, nil)
+				mockAPI.On("AuthTest").Return(&slack.AuthTestResponse{UserID: "UBOTID12345"}, nil)
+				mockAPI.On("GetConversationReplies", mock.Anything).Return([]slack.Message{}, false, "", nil)
 				mockAPI.On("PostMessage", mock.Anything, mock.Anything).Return("", "", nil)
 			},
 			ev: &slackevents.AppMentionEvent{
