@@ -1,5 +1,8 @@
 # Changelog
 
+## [v0.4.1](https://github.com/kromiii/tbls-ask-agent-slack/compare/v0.4.0...v0.4.1) - 2025-07-09
+- 修正(client.go): メッセージフィルタリング条件を拡張し、"Selected schema:"を含むメッセージをスキップ by @pyama86 in https://github.com/kromiii/tbls-ask-agent-slack/pull/95
+
 ## [v0.4.0](https://github.com/kromiii/tbls-ask-agent-slack/compare/v0.3.11...v0.4.0) - 2025-07-08
 - Bump golang.org/x/net from 0.33.0 to 0.36.0 by @dependabot in https://github.com/kromiii/tbls-ask-agent-slack/pull/83
 - Bump github.com/expr-lang/expr from 1.16.9 to 1.17.0 by @dependabot in https://github.com/kromiii/tbls-ask-agent-slack/pull/85
