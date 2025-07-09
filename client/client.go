@@ -57,7 +57,7 @@ func Ask(messages []slack.Message, name string, path string, botUserID string, m
 	}
 
 	for _, message := range messages {
-		if strings.Contains(message.Text, "Please select the target schema") {
+		if strings.Contains(message.Text, "Please select the target schema") || strings.Contains(message.Text, "Selected schema:") {
 			continue
 		}
 		var role string
