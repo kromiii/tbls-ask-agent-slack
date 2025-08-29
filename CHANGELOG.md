@@ -1,5 +1,8 @@
 # Changelog
 
+## [v0.4.2](https://github.com/kromiii/tbls-ask-agent-slack/compare/v0.4.1...v0.4.2) - 2025-08-29
+- gpt-5使いたいです by @pyama86 in https://github.com/kromiii/tbls-ask-agent-slack/pull/97
+
 ## [v0.4.1](https://github.com/kromiii/tbls-ask-agent-slack/compare/v0.4.0...v0.4.1) - 2025-07-09
 - 修正(client.go): メッセージフィルタリング条件を拡張し、"Selected schema:"を含むメッセージをスキップ by @pyama86 in https://github.com/kromiii/tbls-ask-agent-slack/pull/95
 
