@@ -1,5 +1,8 @@
 # Changelog
 
+## [v0.4.3](https://github.com/kromiii/tbls-ask-agent-slack/compare/v0.4.2...v0.4.3) - 2025-08-29
+- Update Go base image version to 1.24.6 by @kromiii in https://github.com/kromiii/tbls-ask-agent-slack/pull/99
+
 ## [v0.4.2](https://github.com/kromiii/tbls-ask-agent-slack/compare/v0.4.1...v0.4.2) - 2025-08-29
 - gpt-5使いたいです by @pyama86 in https://github.com/kromiii/tbls-ask-agent-slack/pull/97
 
