@@ -67,7 +67,7 @@ func (h *SlackHandler) handleAppMentionEvent(ev *slackevents.AppMentionEvent, pa
 	}
 
 	if item := h.threadSchemas.Get(threadTS); item != nil {
-		return h.handleMatchedSchema(ev, item.Value())
+		return h.processQueryWithKnownSchema(ev, item.Value())
 	}
 
 	config, err := h.loadConfig(path)
@@ -75,7 +75,7 @@ func (h *SlackHandler) handleAppMentionEvent(ev *slackevents.AppMentionEvent, pa
 		return err
 	}
 
-	return h.handleUnmatchedSchema(ev, config.Schemas)
+	return h.promptSchemaSelection(ev, config.Schemas)
 }
 
 
@@ -95,7 +95,7 @@ func (h *SlackHandler) loadConfig(path string) (*Config, error) {
 }
 
 
-func (h *SlackHandler) handleMatchedSchema(ev *slackevents.AppMentionEvent, schema *Schema) error {
+func (h *SlackHandler) processQueryWithKnownSchema(ev *slackevents.AppMentionEvent, schema *Schema) error {
 	botUserID, err := h.getBotUserID()
 	if err != nil {
 		return err
@@ -115,13 +115,13 @@ func (h *SlackHandler) handleMatchedSchema(ev *slackevents.AppMentionEvent, sche
 	return h.postMessage(ev.Channel, answer, threadTS)
 }
 
-func (h *SlackHandler) handleUnmatchedSchema(ev *slackevents.AppMentionEvent, schemas []Schema) error {
+func (h *SlackHandler) promptSchemaSelection(ev *slackevents.AppMentionEvent, schemas []Schema) error {
 	// If there's only one schema, use it automatically. If there are no schemas, notify the user.
 	if len(schemas) <= 1 {
 		if len(schemas) == 0 {
 			return h.postMessage(ev.Channel, "No schemas are configured.", ev.TimeStamp)
 		}
-		return h.handleMatchedSchema(ev, &schemas[0])
+		return h.processQueryWithKnownSchema(ev, &schemas[0])
 	}
 
 	options := h.createSchemaOptions(schemas)
