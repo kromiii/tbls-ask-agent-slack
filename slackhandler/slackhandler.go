@@ -4,7 +4,6 @@ import (
 	"errors"
 	"fmt"
 	"os"
-	"strings"
 	"time"
 
 	"github.com/jellydator/ttlcache/v3"
@@ -29,7 +28,6 @@ type Config struct {
 }
 
 type SlackAPI interface {
-	GetConversationInfo(params *slack.GetConversationInfoInput) (*slack.Channel, error)
 	AuthTest() (*slack.AuthTestResponse, error)
 	GetConversationReplies(params *slack.GetConversationRepliesParameters) ([]slack.Message, bool, string, error)
 	PostMessage(channelID string, options ...slack.MsgOption) (string, string, error)
@@ -72,36 +70,14 @@ func (h *SlackHandler) handleAppMentionEvent(ev *slackevents.AppMentionEvent, pa
 		return h.handleMatchedSchema(ev, item.Value())
 	}
 
-	channelInfo, err := h.getChannelInfo(ev.Channel)
-	if err != nil {
-		return err
-	}
-
 	config, err := h.loadConfig(path)
 	if err != nil {
 		return err
 	}
 
-	matchedSchema := h.findMatchingSchema(channelInfo.Name, config.Schemas)
-
-	if matchedSchema != nil {
-		// Store the matched schema for this thread
-		h.threadSchemas.Set(threadTS, matchedSchema, ttlcache.DefaultTTL)
-		return h.handleMatchedSchema(ev, matchedSchema)
-	} else {
-		return h.handleUnmatchedSchema(ev, config.Schemas)
-	}
+	return h.handleUnmatchedSchema(ev, config.Schemas)
 }
 
-func (h *SlackHandler) getChannelInfo(channelID string) (*slack.Channel, error) {
-	channelInfo, err := h.Api.GetConversationInfo(&slack.GetConversationInfoInput{
-		ChannelID: channelID,
-	})
-	if err != nil {
-		return nil, fmt.Errorf("failed to get channel info: %w", err)
-	}
-	return channelInfo, nil
-}
 
 func (h *SlackHandler) loadConfig(path string) (*Config, error) {
 	configBytes, err := fileLoader(path)
@@ -118,14 +94,6 @@ func (h *SlackHandler) loadConfig(path string) (*Config, error) {
 	return &config, nil
 }
 
-func (h *SlackHandler) findMatchingSchema(channelName string, schemas []Schema) *Schema {
-	for _, schema := range schemas {
-		if strings.Contains(strings.ToLower(channelName), strings.ToLower(schema.Name)) {
-			return &schema
-		}
-	}
-	return nil
-}
 
 func (h *SlackHandler) handleMatchedSchema(ev *slackevents.AppMentionEvent, schema *Schema) error {
 	botUserID, err := h.getBotUserID()
