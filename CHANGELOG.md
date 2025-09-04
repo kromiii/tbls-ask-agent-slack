@@ -1,5 +1,8 @@
 # Changelog
 
+## [v0.4.4](https://github.com/kromiii/tbls-ask-agent-slack/compare/v0.4.3...v0.4.4) - 2025-09-04
+- チャンネル名とのマッチング機能を削除 by @kromiii in https://github.com/kromiii/tbls-ask-agent-slack/pull/101
+
 ## [v0.4.3](https://github.com/kromiii/tbls-ask-agent-slack/compare/v0.4.2...v0.4.3) - 2025-08-29
 - Update Go base image version to 1.24.6 by @kromiii in https://github.com/kromiii/tbls-ask-agent-slack/pull/99
 
