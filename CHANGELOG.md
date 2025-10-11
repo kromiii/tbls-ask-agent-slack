@@ -1,5 +1,8 @@
 # Changelog
 
+## [v0.4.6](https://github.com/kromiii/tbls-ask-agent-slack/compare/v0.4.5...v0.4.6) - 2025-10-11
+- bump golang version in Dockerfile to 1.24.8-alpine by @kromiii in https://github.com/kromiii/tbls-ask-agent-slack/pull/105
+
 ## [v0.4.5](https://github.com/kromiii/tbls-ask-agent-slack/compare/v0.4.4...v0.4.5) - 2025-10-10
 - bump tbls-ask to v0.6.4 by @kromiii in https://github.com/kromiii/tbls-ask-agent-slack/pull/103
 
