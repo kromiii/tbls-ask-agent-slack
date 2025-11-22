@@ -1,5 +1,8 @@
 # Changelog
 
+## [v0.5.0](https://github.com/kromiii/tbls-ask-agent-slack/compare/v0.4.6...v0.5.0) - 2025-11-22
+- Bump golang.org/x/crypto from 0.42.0 to 0.45.0 by @dependabot[bot] in https://github.com/kromiii/tbls-ask-agent-slack/pull/107
+
 ## [v0.4.6](https://github.com/kromiii/tbls-ask-agent-slack/compare/v0.4.5...v0.4.6) - 2025-10-11
 - bump golang version in Dockerfile to 1.24.8-alpine by @kromiii in https://github.com/kromiii/tbls-ask-agent-slack/pull/105
 
