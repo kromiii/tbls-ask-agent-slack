@@ -1,5 +1,10 @@
 # Changelog
 
+## [v0.5.0](https://github.com/kromiii/tbls-ask-agent-slack/compare/v0.4.6...v0.5.0) - 2026-01-26
+- Bump golang.org/x/crypto from 0.42.0 to 0.45.0 by @dependabot[bot] in https://github.com/kromiii/tbls-ask-agent-slack/pull/107
+- Bump github.com/expr-lang/expr from 1.17.6 to 1.17.7 by @dependabot[bot] in https://github.com/kromiii/tbls-ask-agent-slack/pull/109
+- Add "all" option to schema selection for querying multiple databases by @pyama86 in https://github.com/kromiii/tbls-ask-agent-slack/pull/110
+
 ## [v0.4.6](https://github.com/kromiii/tbls-ask-agent-slack/compare/v0.4.5...v0.4.6) - 2025-10-11
 - bump golang version in Dockerfile to 1.24.8-alpine by @kromiii in https://github.com/kromiii/tbls-ask-agent-slack/pull/105
 
