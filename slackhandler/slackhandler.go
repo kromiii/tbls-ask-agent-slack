@@ -15,7 +15,8 @@ import (
 
 type SlackHandler struct {
 	Api           SlackAPI
-	threadSchemas *ttlcache.Cache[string, *Schema] // threadTS -> selected schema with TTL
+	threadSchemas *ttlcache.Cache[string, []*client.SchemaInfo] // threadTS -> selected schemas with TTL
+	configPath    string                                        // config file path for loading schemas
 }
 
 type Schema struct {
@@ -38,8 +39,8 @@ var fileLoader = os.ReadFile
 
 // NewSlackHandler creates a new SlackHandler with initialized thread schema cache
 func NewSlackHandler(api SlackAPI) *SlackHandler {
-	cache := ttlcache.New[string, *Schema](
-		ttlcache.WithTTL[string, *Schema](1 * time.Hour),
+	cache := ttlcache.New[string, []*client.SchemaInfo](
+		ttlcache.WithTTL[string, []*client.SchemaInfo](1 * time.Hour),
 	)
 	go cache.Start() // Start the cache's automatic cleanup goroutine
 
@@ -66,8 +67,10 @@ func (h *SlackHandler) handleAppMentionEvent(ev *slackevents.AppMentionEvent, pa
 		threadTS = ev.TimeStamp
 	}
 
+	h.configPath = path
+
 	if item := h.threadSchemas.Get(threadTS); item != nil {
-		return h.processQueryWithKnownSchema(ev, item.Value())
+		return h.processQueryWithKnownSchemas(ev, item.Value())
 	}
 
 	config, err := h.loadConfig(path)
@@ -77,7 +80,6 @@ func (h *SlackHandler) handleAppMentionEvent(ev *slackevents.AppMentionEvent, pa
 
 	return h.promptSchemaSelection(ev, config.Schemas)
 }
-
 
 func (h *SlackHandler) loadConfig(path string) (*Config, error) {
 	configBytes, err := fileLoader(path)
@@ -94,8 +96,7 @@ func (h *SlackHandler) loadConfig(path string) (*Config, error) {
 	return &config, nil
 }
 
-
-func (h *SlackHandler) processQueryWithKnownSchema(ev *slackevents.AppMentionEvent, schema *Schema) error {
+func (h *SlackHandler) processQueryWithKnownSchemas(ev *slackevents.AppMentionEvent, schemas []*client.SchemaInfo) error {
 	botUserID, err := h.getBotUserID()
 	if err != nil {
 		return err
@@ -110,7 +111,7 @@ func (h *SlackHandler) processQueryWithKnownSchema(ev *slackevents.AppMentionEve
 	if model == "" {
 		model = "gpt-4o"
 	}
-	answer := client.Ask(messages, schema.Name, schema.Path, botUserID, model)
+	answer := client.AskWithSchemas(messages, schemas, botUserID, model)
 
 	return h.postMessage(ev.Channel, answer, threadTS)
 }
@@ -121,7 +122,7 @@ func (h *SlackHandler) promptSchemaSelection(ev *slackevents.AppMentionEvent, sc
 		if len(schemas) == 0 {
 			return h.postMessage(ev.Channel, "No schemas are configured.", ev.TimeStamp)
 		}
-		return h.processQueryWithKnownSchema(ev, &schemas[0])
+		return h.processQueryWithKnownSchemas(ev, []*client.SchemaInfo{{Name: schemas[0].Name, Path: schemas[0].Path}})
 	}
 
 	options := h.createSchemaOptions(schemas)
@@ -203,8 +204,19 @@ func (h *SlackHandler) postMessage(channel, text, threadTS string) error {
 	return nil
 }
 
+const allSchemaValue = "__all__"
+
 func (h *SlackHandler) createSchemaOptions(schemas []Schema) []*slack.OptionBlockObject {
 	var options []*slack.OptionBlockObject
+
+	// Add "all" option first when there are multiple schemas
+	if len(schemas) > 1 {
+		options = append(options, &slack.OptionBlockObject{
+			Text:  &slack.TextBlockObject{Type: slack.PlainTextType, Text: "all"},
+			Value: allSchemaValue,
+		})
+	}
+
 	for _, schema := range schemas {
 		options = append(options, &slack.OptionBlockObject{
 			Text:  &slack.TextBlockObject{Type: slack.PlainTextType, Text: schema.Name},
@@ -249,12 +261,25 @@ func (h *SlackHandler) handleSchemaSelection(interaction slack.InteractionCallba
 		threadTS = interaction.Message.Timestamp
 	}
 
-	selectedSchema := &Schema{
-		Name: selectedName,
-		Path: selectedPath,
+	var selectedSchemas []*client.SchemaInfo
+
+	// Handle "all" selection
+	if selectedPath == allSchemaValue {
+		config, err := h.loadConfig(h.configPath)
+		if err != nil {
+			return fmt.Errorf("failed to load config for all schemas: %w", err)
+		}
+		for _, s := range config.Schemas {
+			selectedSchemas = append(selectedSchemas, &client.SchemaInfo{Name: s.Name, Path: s.Path})
+		}
+	} else {
+		selectedSchemas = []*client.SchemaInfo{{
+			Name: selectedName,
+			Path: selectedPath,
+		}}
 	}
 
-	h.threadSchemas.Set(threadTS, selectedSchema, ttlcache.DefaultTTL)
+	h.threadSchemas.Set(threadTS, selectedSchemas, ttlcache.DefaultTTL)
 
 	// Get conversation replies to process the query
 	messages, _, _, err := h.Api.GetConversationReplies(
@@ -278,7 +303,7 @@ func (h *SlackHandler) handleSchemaSelection(interaction slack.InteractionCallba
 		model = "gpt-4o"
 	}
 
-	answer := client.Ask(messages, selectedName, selectedPath, botUserID, model)
+	answer := client.AskWithSchemas(messages, selectedSchemas, botUserID, model)
 
 	return h.postMessage(interaction.Channel.ID, answer, threadTS)
 }

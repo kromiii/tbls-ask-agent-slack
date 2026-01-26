@@ -75,3 +75,86 @@ func TestAskWithInvalidSchema(t *testing.T) {
 		t.Errorf("Expected result to start with '%s', got: %s", expectedPrefix, result)
 	}
 }
+
+func TestAskWithSchemasNoMessages(t *testing.T) {
+	messages := []slack.Message{}
+	schemas := []*SchemaInfo{{Name: "test_db", Path: "testdata/schema.json"}}
+	botUserID := "UBOTID123"
+	model := "gpt-3.5-turbo"
+
+	result := AskWithSchemas(messages, schemas, botUserID, model)
+
+	if result != "No messages found" {
+		t.Errorf("Expected 'No messages found', got: %s", result)
+	}
+}
+
+func TestAskWithSchemasNoSchemas(t *testing.T) {
+	messages := []slack.Message{
+		{
+			Msg: slack.Msg{
+				User: "U123456",
+				Text: "What tables are in the database?",
+			},
+		},
+	}
+	var schemas []*SchemaInfo
+	botUserID := "UBOTID123"
+	model := "gpt-3.5-turbo"
+
+	result := AskWithSchemas(messages, schemas, botUserID, model)
+
+	if result != "No schemas provided" {
+		t.Errorf("Expected 'No schemas provided', got: %s", result)
+	}
+}
+
+func TestAskWithSchemasSingleSchema(t *testing.T) {
+	messages := []slack.Message{
+		{
+			Msg: slack.Msg{
+				User: "U123456",
+				Text: "What tables are in the database?",
+			},
+		},
+	}
+	schemas := []*SchemaInfo{{Name: "test_db", Path: "testdata/schema.json"}}
+	botUserID := "UBOTID123"
+	model := "gpt-3.5-turbo"
+
+	t.Setenv("OPENAI_API_KEY", "your-api-key")
+
+	result := AskWithSchemas(messages, schemas, botUserID, model)
+
+	if result == "" {
+		t.Error("Expected non-empty result, got empty string")
+	}
+
+	if result == "No messages found" || result == "No schemas provided" {
+		t.Errorf("Unexpected result: %s", result)
+	}
+}
+
+func TestAskWithSchemasMultipleSchemasInvalidPath(t *testing.T) {
+	messages := []slack.Message{
+		{
+			Msg: slack.Msg{
+				User: "U123456",
+				Text: "What tables are in the database?",
+			},
+		},
+	}
+	schemas := []*SchemaInfo{
+		{Name: "db1", Path: "nonexistent/schema1.json"},
+		{Name: "db2", Path: "nonexistent/schema2.json"},
+	}
+	botUserID := "UBOTID123"
+	model := "gpt-3.5-turbo"
+
+	result := AskWithSchemas(messages, schemas, botUserID, model)
+
+	expectedPrefix := "Failed to load schema db1: failed to analyze schema: "
+	if !strings.HasPrefix(result, expectedPrefix) {
+		t.Errorf("Expected result to start with '%s', got: %s", expectedPrefix, result)
+	}
+}

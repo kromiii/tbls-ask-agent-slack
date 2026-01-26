@@ -14,21 +14,29 @@ import (
 	"github.com/k1LoW/tbls-ask/schema"
 )
 
-func Ask(messages []slack.Message, name string, path string, botUserID string, model string) string {
-	ctx := context.Background()
+// SchemaInfo represents a schema with name and path
+type SchemaInfo struct {
+	Name string
+	Path string
+}
 
+func Ask(messages []slack.Message, name string, path string, botUserID string, model string) string {
+	return AskWithSchemas(messages, []*SchemaInfo{{Name: name, Path: path}}, botUserID, model)
+}
+
+// AskWithSchemas handles multiple schemas, providing all schema contexts with DB names
+func AskWithSchemas(messages []slack.Message, schemas []*SchemaInfo, botUserID string, model string) string {
 	if len(messages) == 0 {
 		return "No messages found"
 	}
 
-	schema, err := schema.Load(path, schema.Options{})
-	if err != nil {
-		return "Failed to load schema: " + err.Error()
+	if len(schemas) == 0 {
+		return "No schemas provided"
 	}
 
-	schemaPrompt, err := prompt.Generate(schema)
+	schemaPrompt, systemPrompt, err := buildSchemaPrompt(schemas)
 	if err != nil {
-		return fmt.Sprintf("Failed to generate schema prompt: %v", err)
+		return err.Error()
 	}
 
 	service, err := chat.NewService(model)
@@ -36,24 +44,61 @@ func Ask(messages []slack.Message, name string, path string, botUserID string, m
 		return fmt.Sprintf("Failed to create chat service: %v", err)
 	}
 
-	customInstruction := os.Getenv("CUSTOM_INSTRUCTION")
+	m := buildChatMessages(systemPrompt, schemaPrompt, messages, botUserID)
 
-	m := []chat.Message{
-		{
-			Role:    "user",
-			Content: "You are a database expert. You are given a database schema with chat histories. Answer the users' question based on the following schema.",
-		},
-		{
-			Role:    "user",
-			Content: schemaPrompt,
-		},
+	debugLogMessages(m)
+
+	ctx := context.Background()
+	answer, err := service.Ask(ctx, m, false)
+	if err != nil {
+		return fmt.Sprintf("Failed to ask: %v", err)
+	}
+	return answer
+}
+
+func buildSchemaPrompt(schemas []*SchemaInfo) (schemaPrompt string, systemPrompt string, err error) {
+	if len(schemas) == 1 {
+		loadedSchema, err := schema.Load(schemas[0].Path, schema.Options{})
+		if err != nil {
+			return "", "", fmt.Errorf("Failed to load schema: %s", err.Error())
+		}
+
+		schemaPrompt, err := prompt.Generate(loadedSchema)
+		if err != nil {
+			return "", "", fmt.Errorf("Failed to generate schema prompt: %v", err)
+		}
+
+		return schemaPrompt, "You are a database expert. You are given a database schema with chat histories. Answer the users' question based on the following schema.", nil
 	}
 
-	if customInstruction != "" {
-		m = append(m, chat.Message{
-			Role:    "user",
-			Content: customInstruction,
-		})
+	var schemaPrompts []string
+	for _, s := range schemas {
+		loadedSchema, err := schema.Load(s.Path, schema.Options{})
+		if err != nil {
+			return "", "", fmt.Errorf("Failed to load schema %s: %v", s.Name, err)
+		}
+
+		sp, err := prompt.Generate(loadedSchema)
+		if err != nil {
+			return "", "", fmt.Errorf("Failed to generate schema prompt for %s: %v", s.Name, err)
+		}
+
+		schemaPrompts = append(schemaPrompts, fmt.Sprintf("=== Database: %s ===\n%s", s.Name, sp))
+	}
+
+	return strings.Join(schemaPrompts, "\n\n"),
+		"You are a database expert. You are given multiple database schemas with chat histories. Each schema is labeled with its database name. Answer the users' question based on the following schemas.",
+		nil
+}
+
+func buildChatMessages(systemPrompt, schemaPrompt string, messages []slack.Message, botUserID string) []chat.Message {
+	m := []chat.Message{
+		{Role: "user", Content: systemPrompt},
+		{Role: "user", Content: schemaPrompt},
+	}
+
+	if customInstruction := os.Getenv("CUSTOM_INSTRUCTION"); customInstruction != "" {
+		m = append(m, chat.Message{Role: "user", Content: customInstruction})
 	}
 
 	for _, message := range messages {
@@ -67,12 +112,13 @@ func Ask(messages []slack.Message, name string, path string, botUserID string, m
 			role = "user"
 			message.Text = strings.ReplaceAll(message.Text, "<@"+botUserID+">", "@bot")
 		}
-		m = append(m, chat.Message{
-			Role:    role,
-			Content: message.Text,
-		})
+		m = append(m, chat.Message{Role: role, Content: message.Text})
 	}
 
+	return m
+}
+
+func debugLogMessages(m []chat.Message) {
 	if os.Getenv("DEBUG_MODE") == "true" {
 		log.Println("=== Debug: Prompt contents ===")
 		for _, msg := range m {
@@ -80,10 +126,4 @@ func Ask(messages []slack.Message, name string, path string, botUserID string, m
 		}
 		log.Println("============================")
 	}
-
-	answer, err := service.Ask(ctx, m, false)
-	if err != nil {
-		return fmt.Sprintf("Failed to ask: %v", err)
-	}
-	return answer
 }
