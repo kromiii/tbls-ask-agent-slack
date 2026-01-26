@@ -14,7 +14,6 @@ type MockSlackAPI struct {
 	mock.Mock
 }
 
-
 func (m *MockSlackAPI) AuthTest() (*slack.AuthTestResponse, error) {
 	args := m.Called()
 	return args.Get(0).(*slack.AuthTestResponse), args.Error(1)
@@ -218,4 +217,115 @@ func TestHandleInteractionCallback(t *testing.T) {
 			mockAPI.AssertExpectations(t)
 		})
 	}
+}
+
+func TestCreateSchemaOptions(t *testing.T) {
+	t.Parallel()
+
+	tests := []struct {
+		name            string
+		schemas         []Schema
+		expectedOptions int
+		hasAllOption    bool
+	}{
+		{
+			name: "Single schema - no all option",
+			schemas: []Schema{
+				{Name: "db1", Path: "/path/to/db1.yml"},
+			},
+			expectedOptions: 1,
+			hasAllOption:    false,
+		},
+		{
+			name: "Multiple schemas - has all option",
+			schemas: []Schema{
+				{Name: "db1", Path: "/path/to/db1.yml"},
+				{Name: "db2", Path: "/path/to/db2.yml"},
+			},
+			expectedOptions: 3, // all + db1 + db2
+			hasAllOption:    true,
+		},
+		{
+			name: "Three schemas - has all option first",
+			schemas: []Schema{
+				{Name: "db1", Path: "/path/to/db1.yml"},
+				{Name: "db2", Path: "/path/to/db2.yml"},
+				{Name: "db3", Path: "/path/to/db3.yml"},
+			},
+			expectedOptions: 4, // all + db1 + db2 + db3
+			hasAllOption:    true,
+		},
+	}
+
+	for _, tt := range tests {
+		tt := tt
+		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
+
+			mockAPI := new(MockSlackAPI)
+			handler := NewSlackHandler(mockAPI)
+
+			options := handler.createSchemaOptions(tt.schemas)
+
+			assert.Equal(t, tt.expectedOptions, len(options))
+
+			if tt.hasAllOption {
+				assert.Equal(t, "all", options[0].Text.Text)
+				assert.Equal(t, allSchemaValue, options[0].Value)
+			}
+		})
+	}
+}
+
+func TestHandleAllSchemaSelection(t *testing.T) {
+	t.Parallel()
+
+	mockAPI := new(MockSlackAPI)
+	handler := NewSlackHandler(mockAPI)
+	handler.configPath = "./schemas/config.yml"
+
+	oldFileLoader := fileLoader
+	fileLoader = func(filename string) ([]byte, error) {
+		return []byte(`schemas:
+  - name: db1
+    path: /path/to/db1.yml
+  - name: db2
+    path: /path/to/db2.yml`), nil
+	}
+	t.Cleanup(func() { fileLoader = oldFileLoader })
+
+	mockAPI.On("UpdateMessage", mock.Anything, mock.Anything, mock.Anything).Return("", "", "", nil)
+	mockAPI.On("GetConversationReplies", mock.Anything).Return([]slack.Message{}, false, "", nil)
+	mockAPI.On("AuthTest").Return(&slack.AuthTestResponse{UserID: "UBOTID12345"}, nil)
+	mockAPI.On("PostMessage", mock.Anything, mock.Anything).Return("", "", nil)
+
+	interaction := slack.InteractionCallback{
+		ActionCallback: slack.ActionCallbacks{
+			BlockActions: []*slack.BlockAction{
+				{
+					ActionID: "select_schema",
+					SelectedOption: slack.OptionBlockObject{
+						Value: allSchemaValue,
+						Text:  &slack.TextBlockObject{Text: "all"},
+					},
+				},
+			},
+		},
+		Channel: slack.Channel{
+			GroupConversation: slack.GroupConversation{
+				Conversation: slack.Conversation{
+					ID: "C1234567890",
+				},
+			},
+		},
+		Message: slack.Message{
+			Msg: slack.Msg{
+				Timestamp: "1234567890.123456",
+			},
+		},
+	}
+
+	err := handler.HandleInteractionCallback(interaction)
+	assert.NoError(t, err)
+	mockAPI.AssertExpectations(t)
 }
