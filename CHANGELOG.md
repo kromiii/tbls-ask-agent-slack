@@ -1,5 +1,8 @@
 # Changelog
 
+## [v0.5.1](https://github.com/kromiii/tbls-ask-agent-slack/compare/v0.5.0...v0.5.1) - 2026-01-28
+- READMEを更新 by @kromiii in https://github.com/kromiii/tbls-ask-agent-slack/pull/111
+
 ## [v0.5.0](https://github.com/kromiii/tbls-ask-agent-slack/compare/v0.4.6...v0.5.0) - 2026-01-26
 - Bump golang.org/x/crypto from 0.42.0 to 0.45.0 by @dependabot[bot] in https://github.com/kromiii/tbls-ask-agent-slack/pull/107
 - Bump github.com/expr-lang/expr from 1.17.6 to 1.17.7 by @dependabot[bot] in https://github.com/kromiii/tbls-ask-agent-slack/pull/109
