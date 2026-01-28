@@ -25,6 +25,15 @@ The bot will respond with an SQL query that answers your question. For the examp
 3. It generates an appropriate SQL query to answer your question.
 4. The bot returns the SQL query in the Slack thread.
 
+### Multiple Schemas Support
+
+If you have configured multiple schemas in `schemas/config.yml`, the bot will ask you to select a schema (or "all") when you mention it.
+
+1. Mention the bot with your question.
+2. The bot will respond with a dropdown menu to select the target schema.
+3. Select the schema you want to query against.
+4. The bot will generate the SQL query based on the selected schema.
+
 ## Limitations
 
 - The bot provides SQL queries but does not execute them directly on your database.
@@ -57,11 +66,11 @@ If you want to use Gemini models, you need to set `GEMINI_API_KEY`.
 
 ## Slack-app settings
 
-Please create an app using `manifests.yml` and install it to your workspace.
+Please create an app using `manifest.yml` and install it to your workspace.
 
 ## Prepare schema
 
-Copy `schemas/config.yml.sample` to `schemas/config.yml` and edit it.
+Copy `schemas/config.yml.sample` to `schemas/config.yml` and edit it. You can define multiple schemas in this file.
 
 ```sh
 $ cp schemas/config.yml.sample schemas/config.yml
