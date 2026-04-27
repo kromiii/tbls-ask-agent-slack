@@ -5,7 +5,7 @@ go 1.25.0
 require (
 	github.com/jellydator/ttlcache/v3 v3.4.0
 	github.com/k1LoW/tbls-ask v0.6.8
-	github.com/slack-go/slack v0.22.0
+	github.com/slack-go/slack v0.23.0
 	github.com/stretchr/testify v1.11.1
 	gopkg.in/yaml.v2 v2.4.0
 )
