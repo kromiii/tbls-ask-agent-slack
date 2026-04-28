@@ -1,5 +1,13 @@
 # Changelog
 
+## [v0.5.1](https://github.com/kromiii/tbls-ask-agent-slack/compare/v0.5.0...v0.5.1) - 2026-04-28
+- READMEを更新 by @kromiii in https://github.com/kromiii/tbls-ask-agent-slack/pull/111
+- Bump github.com/aws/aws-sdk-go-v2/aws/protocol/eventstream from 1.7.1 to 1.7.8 by @dependabot[bot] in https://github.com/kromiii/tbls-ask-agent-slack/pull/117
+- Bump go.opentelemetry.io/otel/sdk from 1.37.0 to 1.43.0 by @dependabot[bot] in https://github.com/kromiii/tbls-ask-agent-slack/pull/113
+- Bump github.com/slack-go/slack from 0.17.3 to 0.22.0 by @dependabot[bot] in https://github.com/kromiii/tbls-ask-agent-slack/pull/120
+- Bump github.com/k1LoW/tbls-ask from 0.6.4 to 0.6.8 by @dependabot[bot] in https://github.com/kromiii/tbls-ask-agent-slack/pull/119
+- Bump github.com/slack-go/slack from 0.22.0 to 0.23.0 in the all-dependencies group by @dependabot[bot] in https://github.com/kromiii/tbls-ask-agent-slack/pull/121
+
 ## [v0.5.0](https://github.com/kromiii/tbls-ask-agent-slack/compare/v0.4.6...v0.5.0) - 2026-01-26
 - Bump golang.org/x/crypto from 0.42.0 to 0.45.0 by @dependabot[bot] in https://github.com/kromiii/tbls-ask-agent-slack/pull/107
 - Bump github.com/expr-lang/expr from 1.17.6 to 1.17.7 by @dependabot[bot] in https://github.com/kromiii/tbls-ask-agent-slack/pull/109
