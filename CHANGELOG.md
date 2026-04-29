@@ -1,5 +1,7 @@
 # Changelog
 
+## [v0.5.2](https://github.com/kromiii/tbls-ask-agent-slack/compare/v0.5.1...v0.5.2) - 2026-04-29
+
 ## [v0.5.1](https://github.com/kromiii/tbls-ask-agent-slack/compare/v0.5.0...v0.5.1) - 2026-04-28
 - READMEを更新 by @kromiii in https://github.com/kromiii/tbls-ask-agent-slack/pull/111
 - Bump github.com/aws/aws-sdk-go-v2/aws/protocol/eventstream from 1.7.1 to 1.7.8 by @dependabot[bot] in https://github.com/kromiii/tbls-ask-agent-slack/pull/117
