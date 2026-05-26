@@ -1,5 +1,9 @@
 # Changelog
 
+## [v0.5.4](https://github.com/kromiii/tbls-ask-agent-slack/compare/v0.5.3...v0.5.4) - 2026-05-26
+- Bump github.com/slack-go/slack from 0.23.0 to 0.23.1 in the all-dependencies group by @dependabot[bot] in https://github.com/kromiii/tbls-ask-agent-slack/pull/125
+- Bump github.com/slack-go/slack from 0.23.1 to 0.24.0 in the all-dependencies group by @dependabot[bot] in https://github.com/kromiii/tbls-ask-agent-slack/pull/128
+
 ## [v0.5.3](https://github.com/kromiii/tbls-ask-agent-slack/compare/v0.5.2...v0.5.3) - 2026-05-08
 - Bump github.com/apache/thrift from 0.22.0 to 0.23.0 by @dependabot[bot] in https://github.com/kromiii/tbls-ask-agent-slack/pull/123
 
