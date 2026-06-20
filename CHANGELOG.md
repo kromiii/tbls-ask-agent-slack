@@ -1,5 +1,10 @@
 # Changelog
 
+## [v0.5.6](https://github.com/kromiii/tbls-ask-agent-slack/compare/v0.5.5...v0.5.6) - 2026-06-20
+
+- Bump github.com/slack-go/slack from 0.25.0 to 0.26.0 in the all-dependencies group by @dependabot[bot] in https://github.com/kromiii/tbls-ask-agent-slack/pull/131
+- Bump go.mongodb.org/mongo-driver from 1.17.4 to 1.17.7 by @dependabot[bot] in https://github.com/kromiii/tbls-ask-agent-slack/pull/133
+
 ## [v0.5.5](https://github.com/kromiii/tbls-ask-agent-slack/compare/v0.5.4...v0.5.5) - 2026-06-09
 
 - Bump github.com/slack-go/slack from 0.24.0 to 0.25.0 in the all-dependencies group by @dependabot[bot] in https://github.com/kromiii/tbls-ask-agent-slack/pull/129
