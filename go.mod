@@ -3,7 +3,7 @@ module github.com/kromiii/tbls-ask-agent-slack
 go 1.25.0
 
 require (
-	github.com/jellydator/ttlcache/v3 v3.4.0
+	github.com/jellydator/ttlcache/v3 v3.4.1
 	github.com/k1LoW/tbls-ask v0.6.8
 	github.com/slack-go/slack v0.26.0
 	github.com/stretchr/testify v1.11.1
