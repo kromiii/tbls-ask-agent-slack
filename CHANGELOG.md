@@ -1,5 +1,9 @@
 # Changelog
 
+## [v0.5.8](https://github.com/kromiii/tbls-ask-agent-slack/compare/v0.5.7...v0.5.8) - 2026-06-30
+
+- Bump github.com/slack-go/slack from 0.26.0 to 0.27.0 in the all-dependencies group by @dependabot[bot] in https://github.com/kromiii/tbls-ask-agent-slack/pull/136
+
 ## [v0.5.7](https://github.com/kromiii/tbls-ask-agent-slack/compare/v0.5.6...v0.5.7) - 2026-06-23
 
 - Bump github.com/jellydator/ttlcache/v3 from 3.4.0 to 3.4.1 in the all-dependencies group by @dependabot[bot] in https://github.com/kromiii/tbls-ask-agent-slack/pull/134
