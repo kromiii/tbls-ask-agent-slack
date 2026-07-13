@@ -1,5 +1,9 @@
 # Changelog
 
+## [v0.5.11](https://github.com/kromiii/tbls-ask-agent-slack/compare/v0.5.10...v0.5.11) - 2026-07-13
+
+- Bump golang.org/x/crypto from 0.51.0 to 0.52.0 by @dependabot[bot] in https://github.com/kromiii/tbls-ask-agent-slack/pull/142
+
 ## [v0.5.10](https://github.com/kromiii/tbls-ask-agent-slack/compare/v0.5.9...v0.5.10) - 2026-07-07
 
 - Bump github.com/k1LoW/tbls-ask from 0.6.8 to 0.6.9 in the all-dependencies group by @dependabot[bot] in https://github.com/kromiii/tbls-ask-agent-slack/pull/140
