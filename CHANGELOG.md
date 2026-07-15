@@ -1,5 +1,10 @@
 # Changelog
 
+## [v0.5.12](https://github.com/kromiii/tbls-ask-agent-slack/compare/v0.5.11...v0.5.12) - 2026-07-15
+
+- Bump github.com/k1LoW/tbls-ask from 0.6.9 to 0.6.10 in the all-dependencies group by @dependabot[bot] in https://github.com/kromiii/tbls-ask-agent-slack/pull/144
+- fix: resolve golangci-lint errors and test data race by @kromiii in https://github.com/kromiii/tbls-ask-agent-slack/pull/146
+
 ## [v0.5.11](https://github.com/kromiii/tbls-ask-agent-slack/compare/v0.5.10...v0.5.11) - 2026-07-13
 
 - Bump golang.org/x/crypto from 0.51.0 to 0.52.0 by @dependabot[bot] in https://github.com/kromiii/tbls-ask-agent-slack/pull/142
