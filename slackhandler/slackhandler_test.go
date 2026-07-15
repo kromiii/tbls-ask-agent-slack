@@ -278,8 +278,6 @@ func TestCreateSchemaOptions(t *testing.T) {
 }
 
 func TestHandleAllSchemaSelection(t *testing.T) {
-	t.Parallel()
-
 	mockAPI := new(MockSlackAPI)
 	handler := NewSlackHandler(mockAPI)
 	handler.configPath = "./schemas/config.yml"

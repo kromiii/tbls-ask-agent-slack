@@ -36,7 +36,9 @@ func Run() {
 				if !ok {
 					continue
 				}
-				client.Ack(*socketEvent.Request)
+				if err := client.Ack(*socketEvent.Request); err != nil {
+					log.Print(err)
+				}
 				err := slackHandler.HandleCallBackEvent(event, path)
 				if err != nil {
 					log.Print(err)
@@ -46,7 +48,9 @@ func Run() {
 				if !ok {
 					continue
 				}
-				client.Ack(*socketEvent.Request)
+				if err := client.Ack(*socketEvent.Request); err != nil {
+					log.Print(err)
+				}
 				err := slackHandler.HandleInteractionCallback(interaction)
 				if err != nil {
 					log.Print(err)

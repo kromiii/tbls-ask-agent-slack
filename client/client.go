@@ -60,12 +60,12 @@ func buildSchemaPrompt(schemas []*SchemaInfo) (schemaPrompt string, systemPrompt
 	if len(schemas) == 1 {
 		loadedSchema, err := schema.Load(schemas[0].Path, schema.Options{})
 		if err != nil {
-			return "", "", fmt.Errorf("Failed to load schema: %s", err.Error())
+			return "", "", fmt.Errorf("failed to load schema: %s", err.Error())
 		}
 
 		schemaPrompt, err := prompt.Generate(loadedSchema)
 		if err != nil {
-			return "", "", fmt.Errorf("Failed to generate schema prompt: %v", err)
+			return "", "", fmt.Errorf("failed to generate schema prompt: %v", err)
 		}
 
 		return schemaPrompt, "You are a database expert. You are given a database schema with chat histories. Answer the users' question based on the following schema.", nil
@@ -75,12 +75,12 @@ func buildSchemaPrompt(schemas []*SchemaInfo) (schemaPrompt string, systemPrompt
 	for _, s := range schemas {
 		loadedSchema, err := schema.Load(s.Path, schema.Options{})
 		if err != nil {
-			return "", "", fmt.Errorf("Failed to load schema %s: %v", s.Name, err)
+			return "", "", fmt.Errorf("failed to load schema %s: %v", s.Name, err)
 		}
 
 		sp, err := prompt.Generate(loadedSchema)
 		if err != nil {
-			return "", "", fmt.Errorf("Failed to generate schema prompt for %s: %v", s.Name, err)
+			return "", "", fmt.Errorf("failed to generate schema prompt for %s: %v", s.Name, err)
 		}
 
 		schemaPrompts = append(schemaPrompts, fmt.Sprintf("=== Database: %s ===\n%s", s.Name, sp))
