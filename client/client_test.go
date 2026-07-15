@@ -35,7 +35,7 @@ func TestAsk(t *testing.T) {
 		t.Error("Unexpected 'No messages found' result")
 	}
 
-	if result == "Failed to load schema: " {
+	if result == "failed to load schema: " {
 		t.Error("Failed to load schema")
 	}
 }
@@ -70,7 +70,7 @@ func TestAskWithInvalidSchema(t *testing.T) {
 
 	result := Ask(messages, name, path, botUserID, model)
 
-	expectedPrefix := "Failed to load schema: failed to analyze schema: "
+	expectedPrefix := "failed to load schema: failed to analyze schema: "
 	if !strings.HasPrefix(result, expectedPrefix) {
 		t.Errorf("Expected result to start with '%s', got: %s", expectedPrefix, result)
 	}
@@ -153,7 +153,7 @@ func TestAskWithSchemasMultipleSchemasInvalidPath(t *testing.T) {
 
 	result := AskWithSchemas(messages, schemas, botUserID, model)
 
-	expectedPrefix := "Failed to load schema db1: failed to analyze schema: "
+	expectedPrefix := "failed to load schema db1: failed to analyze schema: "
 	if !strings.HasPrefix(result, expectedPrefix) {
 		t.Errorf("Expected result to start with '%s', got: %s", expectedPrefix, result)
 	}
