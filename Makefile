@@ -1,4 +1,4 @@
-.PHONY: create-configmap create-secret build-image apply-manifests clear all server
+.PHONY: create-configmap create-secret build-image apply-manifests clear all server credits
 
 create-configmap:
 	kubectl create configmap tbls-schemas --from-file=schemas/config.yml
@@ -27,4 +27,8 @@ all: create-configmap create-secret apply-manifests
 # For local development
 server:
 	go run main.go server
+
+# Regenerate third-party dependency license notices
+credits:
+	go run github.com/Songmu/gocredits/cmd/gocredits@latest -skip-missing -w .
 
