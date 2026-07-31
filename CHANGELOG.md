@@ -1,5 +1,9 @@
 # Changelog
 
+## [v0.5.13](https://github.com/kromiii/tbls-ask-agent-slack/compare/v0.5.12...v0.5.13) - 2026-07-31
+
+- Add third-party dependency license credits by @kromiii in https://github.com/kromiii/tbls-ask-agent-slack/pull/147
+
 ## [v0.5.12](https://github.com/kromiii/tbls-ask-agent-slack/compare/v0.5.11...v0.5.12) - 2026-07-15
 
 - Bump github.com/k1LoW/tbls-ask from 0.6.9 to 0.6.10 in the all-dependencies group by @dependabot[bot] in https://github.com/kromiii/tbls-ask-agent-slack/pull/144
