@@ -103,3 +103,9 @@ Apply manifests
 ```
 make all
 ```
+
+## License
+
+This project is licensed under the [MIT License](LICENSE).
+
+Third-party dependency licenses are listed in [`CREDITS`](CREDITS), generated with [gocredits](https://github.com/Songmu/gocredits) (run `make credits` to regenerate).
