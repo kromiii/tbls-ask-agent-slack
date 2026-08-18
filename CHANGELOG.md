@@ -1,5 +1,9 @@
 # Changelog
 
+## [v0.5.14](https://github.com/kromiii/tbls-ask-agent-slack/compare/v0.5.13...v0.5.14) - 2026-08-18
+
+- Bump github.com/stretchr/testify from 1.11.1 to 1.12.0 in the all-dependencies group by @dependabot[bot] in https://github.com/kromiii/tbls-ask-agent-slack/pull/149
+
 ## [v0.5.13](https://github.com/kromiii/tbls-ask-agent-slack/compare/v0.5.12...v0.5.13) - 2026-07-31
 
 - Add third-party dependency license credits by @kromiii in https://github.com/kromiii/tbls-ask-agent-slack/pull/147
