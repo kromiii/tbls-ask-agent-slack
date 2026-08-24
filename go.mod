@@ -5,8 +5,8 @@ go 1.25.0
 require (
 	github.com/jellydator/ttlcache/v3 v3.4.1
 	github.com/k1LoW/tbls-ask v0.6.10
-	github.com/slack-go/slack v0.27.0
-	github.com/stretchr/testify v1.12.0
+	github.com/slack-go/slack v0.29.0
+	github.com/stretchr/testify v1.12.1
 	gopkg.in/yaml.v2 v2.4.0
 )
 
@@ -140,7 +140,7 @@ require (
 	go.opentelemetry.io/otel/sdk v1.43.0 // indirect
 	go.opentelemetry.io/otel/sdk/metric v1.43.0 // indirect
 	go.opentelemetry.io/otel/trace v1.43.0 // indirect
-	go.yaml.in/yaml/v3 v3.0.4 // indirect
+	go.yaml.in/yaml/v3 v3.0.5 // indirect
 	golang.org/x/crypto v0.52.0 // indirect
 	golang.org/x/exp v0.0.0-20250819193227-8b4c13bb791b // indirect
 	golang.org/x/mod v0.35.0 // indirect
