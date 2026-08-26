@@ -1,5 +1,9 @@
 # Changelog
 
+## [v0.5.15](https://github.com/kromiii/tbls-ask-agent-slack/compare/v0.5.14...v0.5.15) - 2026-08-26
+
+- Bump the all-dependencies group with 2 updates by @dependabot[bot] in https://github.com/kromiii/tbls-ask-agent-slack/pull/151
+
 ## [v0.5.14](https://github.com/kromiii/tbls-ask-agent-slack/compare/v0.5.13...v0.5.14) - 2026-08-18
 
 - Bump github.com/stretchr/testify from 1.11.1 to 1.12.0 in the all-dependencies group by @dependabot[bot] in https://github.com/kromiii/tbls-ask-agent-slack/pull/149
