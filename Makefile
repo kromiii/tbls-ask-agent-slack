@@ -1,23 +1,18 @@
-.PHONY: build-image server credits helm-install-openai helm-install-gemini helm-uninstall
+VALUES_FILE ?= my-values.yaml
 
-# Helm deployment targets
-helm-install-openai:
-	helm upgrade --install tbls-ask ./chart \
-		--set provider=openai \
-		--set modelName=gpt-4o-mini \
-		--set secret.slackAppToken=$$SLACK_APP_TOKEN \
-		--set secret.slackOAuthToken=$$SLACK_OAUTH_TOKEN \
-		--set secret.openaiApiKey=$$OPENAI_API_KEY \
-		--set secret.githubToken=$$GITHUB_TOKEN
+.PHONY: build-image server credits helm-install helm-uninstall
 
-helm-install-gemini:
-	helm upgrade --install tbls-ask ./chart \
-		--set provider=gemini \
-		--set modelName=gemini-1.5-pro \
-		--set secret.slackAppToken=$$SLACK_APP_TOKEN \
-		--set secret.slackOAuthToken=$$SLACK_OAUTH_TOKEN \
-		--set secret.geminiApiKey=$$GEMINI_API_KEY \
-		--set secret.githubToken=$$GITHUB_TOKEN
+build-image:
+	docker build -t tbls-ask-agent-slack:latest .
+
+# Deploy using values file
+helm-install:
+	@if [ ! -f $(VALUES_FILE) ]; then \
+		echo "Error: '$(VALUES_FILE)' not found."; \
+		echo "Please copy chart/values-openai.yaml.example (or values-gemini.yaml.example) to $(VALUES_FILE) and set your tokens."; \
+		exit 1; \
+	fi
+	helm upgrade --install tbls-ask ./chart -f $(VALUES_FILE)
 
 helm-uninstall:
 	helm uninstall tbls-ask

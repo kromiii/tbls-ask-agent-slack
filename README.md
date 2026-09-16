@@ -86,7 +86,67 @@ This app uses socket mode for slack, so you don't need to expose the server to t
 
 ## Deploy to k8s
 
-You can deploy to Kubernetes using the Helm chart located in `chart/`.
+You can deploy to Kubernetes using the Helm chart.
+
+### 1. Prepare your values file
+
+Copy the example file to `my-values.yaml` and configure your credentials and database schemas:
+
+For OpenAI:
+```sh
+cp chart/values-openai.yaml.example my-values.yaml
+```
+
+For Gemini:
+```sh
+cp chart/values-gemini.yaml.example my-values.yaml
+```
+
+Open `my-values.yaml` and fill in your tokens:
+```yaml
+provider: openai
+modelName: gpt-4o-mini
+
+secret:
+  slackAppToken: "xapp-..."
+  slackOAuthToken: "xoxb-..."
+  openaiApiKey: "sk-..."
+
+# Schema configuration
+# schemaConfig:
+#   content: |
+#     schemas:
+#       - name: "my_db"
+#         path: "https://example.com/schema.json"
+```
+
+> [!NOTE]
+> `my-values.yaml` is ignored by `.gitignore` to prevent leaking secrets.
+
+### 2. Deploy
+
+#### Using Make
+```sh
+make helm-install
+```
+
+#### Using Helm CLI directly
+```sh
+helm upgrade --install tbls-ask ./chart -f my-values.yaml
+```
+
+#### Using GHCR (without cloning repository)
+Once released to GitHub Packages, you can install directly from GHCR:
+```sh
+helm upgrade --install tbls-ask oci://ghcr.io/kromiii/charts/tbls-ask-agent-slack --version <version> -f my-values.yaml
+```
+
+### Uninstall
+```sh
+make helm-uninstall
+# or
+helm uninstall tbls-ask
+```
 
 ### Build Docker Image (Optional / Local development)
 
@@ -95,37 +155,6 @@ If you are building the container image locally:
 ```sh
 make build-image
 ```
-
-### Quick Start with Make
-
-Make sure your environment variables (`SLACK_APP_TOKEN`, `SLACK_OAUTH_TOKEN`, `OPENAI_API_KEY` or `GEMINI_API_KEY`) are exported.
-
-For OpenAI:
-```sh
-make helm-install-openai
-```
-
-For Gemini:
-```sh
-make helm-install-gemini
-```
-
-To uninstall:
-```sh
-make helm-uninstall
-```
-
-### Deploy directly with Helm
-
-1. Copy and adjust the values file:
-   ```sh
-   cp chart/values-openai.yaml.example chart/my-values.yaml
-   # edit chart/my-values.yaml with your tokens and schemas
-   ```
-2. Install the chart:
-   ```sh
-   helm install tbls-ask ./chart -f chart/my-values.yaml
-   ```
 
 ## License
 

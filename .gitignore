@@ -1,4 +1,6 @@
 .envrc
 config.yml
 vectors-db/vectors.db
-manifests/deployment.yml
+my-values*.yaml
+*secrets*.yaml
+.cr-release-packages/
