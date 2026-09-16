@@ -1,0 +1,71 @@
+# Default values for tbls-ask-agent-slack.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 1
+
+image:
+  repository: ghcr.io/kromiii/tbls-ask-agent-slack
+  pullPolicy: Always
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: ""
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+# LLM provider: "openai" or "gemini"
+provider: openai
+
+# Model name for LLM
+# Examples:
+#   For OpenAI: gpt-4o, gpt-4o-mini
+#   For Gemini: gemini-1.5-pro, gemini-1.5-flash
+modelName: gpt-4o-mini
+
+# Optional LLM configurations
+customInstruction: ""
+debugMode: false
+
+# Secret configuration for API tokens
+secret:
+  # Whether to create a Secret resource
+  create: true
+  # Override the name of the Secret (defaults to fullname)
+  name: ""
+  # Existing secret name to use instead of creating one (when create is false)
+  existingSecret: ""
+
+  # Values for the secret (used when create is true)
+  slackAppToken: ""
+  slackOAuthToken: ""
+  openaiApiKey: ""
+  geminiApiKey: ""
+  githubToken: ""
+
+# Schema configuration mounted to /app/schemas/config.yml
+schemaConfig:
+  # Whether to create a ConfigMap resource
+  create: true
+  # Existing ConfigMap name to use instead of creating one (when create is false)
+  existingConfigMap: ""
+
+  # Content of schemas/config.yml (used when create is true)
+  content: |
+    schemas:
+      - name: "wordpress"
+        path: "https://raw.githubusercontent.com/k1LoW/tbls-ask/main/testdata/wordpress.json"
+      - name: "test"
+        path: "https://raw.githubusercontent.com/k1LoW/tbls/main/sample/mysql/schema.json"
+
+resources: {}
+  # limits:
+  #   cpu: 200m
+  #   memory: 256Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+
+nodeSelector: {}
+tolerations: []
+affinity: {}

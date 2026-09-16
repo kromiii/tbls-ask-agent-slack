@@ -1,0 +1,16 @@
+# Example values for Gemini configuration
+provider: gemini
+modelName: gemini-1.5-pro
+
+secret:
+  slackAppToken: "xapp-..."
+  slackOAuthToken: "xoxb-..."
+  geminiApiKey: "AIza..."
+  githubToken: "" # Optional
+
+# Schema configuration
+# schemaConfig:
+#   content: |
+#     schemas:
+#       - name: "my_db"
+#         path: "https://example.com/schema.json"

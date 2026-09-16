@@ -1,0 +1,87 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "tbls-ask-agent-slack.fullname" . }}
+  labels:
+    {{- include "tbls-ask-agent-slack.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "tbls-ask-agent-slack.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "tbls-ask-agent-slack.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+            - name: SLACK_APP_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "tbls-ask-agent-slack.secretName" . }}
+                  key: slack-app-token
+            - name: SLACK_OAUTH_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "tbls-ask-agent-slack.secretName" . }}
+                  key: slack-oauth-token
+            {{- if eq .Values.provider "openai" }}
+            - name: OPENAI_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "tbls-ask-agent-slack.secretName" . }}
+                  key: openai-api-key
+            {{- else if eq .Values.provider "gemini" }}
+            - name: GEMINI_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "tbls-ask-agent-slack.secretName" . }}
+                  key: gemini-api-key
+            {{- end }}
+            - name: GITHUB_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "tbls-ask-agent-slack.secretName" . }}
+                  key: github-token
+                  optional: true
+            - name: MODEL_NAME
+              value: {{ .Values.modelName | quote }}
+            {{- if .Values.customInstruction }}
+            - name: CUSTOM_INSTRUCTION
+              value: {{ .Values.customInstruction | quote }}
+            {{- end }}
+            {{- if .Values.debugMode }}
+            - name: DEBUG_MODE
+              value: "true"
+            {{- end }}
+          volumeMounts:
+            - name: tbls-schemas
+              mountPath: /app/schemas
+          {{- with .Values.resources }}
+          resources:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+      volumes:
+        - name: tbls-schemas
+          configMap:
+            name: {{ include "tbls-ask-agent-slack.configMapName" . }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}

@@ -1,0 +1,16 @@
+# Example values for OpenAI configuration
+provider: openai
+modelName: gpt-4o-mini
+
+secret:
+  slackAppToken: "xapp-..."
+  slackOAuthToken: "xoxb-..."
+  openaiApiKey: "sk-..."
+  githubToken: "" # Optional
+
+# Schema configuration
+# schemaConfig:
+#   content: |
+#     schemas:
+#       - name: "my_db"
+#         path: "https://example.com/schema.json"

@@ -1,0 +1,10 @@
+tbls-ask-agent-slack has been deployed!
+
+Provider: {{ .Values.provider }}
+Model:    {{ .Values.modelName }}
+
+Check pod status:
+  kubectl get pods -l "app.kubernetes.io/name={{ include "tbls-ask-agent-slack.name" . }},app.kubernetes.io/instance={{ .Release.Name }}"
+
+View pod logs:
+  kubectl logs -f deployment/{{ include "tbls-ask-agent-slack.fullname" . }}

@@ -1,4 +1,4 @@
-.PHONY: create-configmap create-secret build-image apply-manifests clear all server credits
+.PHONY: create-configmap create-secret build-image apply-manifests clear all server credits helm-install-openai helm-install-gemini helm-uninstall
 
 create-configmap:
 	kubectl create configmap tbls-schemas --from-file=schemas/config.yml
@@ -23,6 +23,28 @@ clear:
 	kubectl delete -f manifests/deployment.yml
 
 all: create-configmap create-secret apply-manifests
+
+# Helm deployment targets
+helm-install-openai:
+	helm upgrade --install tbls-ask ./chart \
+		--set provider=openai \
+		--set modelName=gpt-4o-mini \
+		--set secret.slackAppToken=$$SLACK_APP_TOKEN \
+		--set secret.slackOAuthToken=$$SLACK_OAUTH_TOKEN \
+		--set secret.openaiApiKey=$$OPENAI_API_KEY \
+		--set secret.githubToken=$$GITHUB_TOKEN
+
+helm-install-gemini:
+	helm upgrade --install tbls-ask ./chart \
+		--set provider=gemini \
+		--set modelName=gemini-1.5-pro \
+		--set secret.slackAppToken=$$SLACK_APP_TOKEN \
+		--set secret.slackOAuthToken=$$SLACK_OAUTH_TOKEN \
+		--set secret.geminiApiKey=$$GEMINI_API_KEY \
+		--set secret.githubToken=$$GITHUB_TOKEN
+
+helm-uninstall:
+	helm uninstall tbls-ask
 
 # For local development
 server:

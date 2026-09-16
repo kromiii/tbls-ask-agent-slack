@@ -84,7 +84,42 @@ make server
 
 This app uses socket mode for slack, so you don't need to expose the server to the internet. That means you don't need to set `SLACK_SIGNING_SECRET`.
 
-## Deploy to k8s
+## Deploy to k8s (using Helm)
+
+You can deploy to Kubernetes using the Helm chart located in `chart/`.
+
+### Quick Start with Make
+
+Make sure your environment variables (`SLACK_APP_TOKEN`, `SLACK_OAUTH_TOKEN`, `OPENAI_API_KEY` or `GEMINI_API_KEY`) are exported.
+
+For OpenAI:
+```sh
+make helm-install-openai
+```
+
+For Gemini:
+```sh
+make helm-install-gemini
+```
+
+To uninstall:
+```sh
+make helm-uninstall
+```
+
+### Deploy directly with Helm
+
+1. Copy and adjust the values file:
+   ```sh
+   cp chart/values-openai.yaml.example chart/my-values.yaml
+   # edit chart/my-values.yaml with your tokens and schemas
+   ```
+2. Install the chart:
+   ```sh
+   helm install tbls-ask ./chart -f chart/my-values.yaml
+   ```
+
+## Deploy to k8s (Plain Manifests)
 
 Build docker image locally
 
