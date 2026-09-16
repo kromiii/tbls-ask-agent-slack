@@ -112,12 +112,12 @@ secret:
   slackOAuthToken: "xoxb-..."
   openaiApiKey: "sk-..."
 
-# Schema configuration
-# schemaConfig:
-#   content: |
-#     schemas:
-#       - name: "my_db"
-#         path: "https://example.com/schema.json"
+# Schema configuration: specify your tbls database schemas
+schemaConfig:
+  content: |
+    schemas:
+      - name: "my_db"
+        path: "https://raw.githubusercontent.com/k1LoW/tbls/main/sample/mysql/schema.json"
 ```
 
 > [!NOTE]
