@@ -84,9 +84,17 @@ make server
 
 This app uses socket mode for slack, so you don't need to expose the server to the internet. That means you don't need to set `SLACK_SIGNING_SECRET`.
 
-## Deploy to k8s (using Helm)
+## Deploy to k8s
 
 You can deploy to Kubernetes using the Helm chart located in `chart/`.
+
+### Build Docker Image (Optional / Local development)
+
+If you are building the container image locally:
+
+```sh
+make build-image
+```
 
 ### Quick Start with Make
 
@@ -118,26 +126,6 @@ make helm-uninstall
    ```sh
    helm install tbls-ask ./chart -f chart/my-values.yaml
    ```
-
-## Deploy to k8s (Plain Manifests)
-
-Build docker image locally
-
-```
-make build-image
-```
-
-Choose which API to use
-
-```
-cp manifests/deployment-openai.yml manifests/deployment.yml
-```
-
-Apply manifests
-
-```
-make all
-```
 
 ## License
 
