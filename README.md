@@ -91,17 +91,47 @@ This app uses socket mode for slack, so you don't need to expose the server to t
 
 ## Deploy to k8s
 
-Build docker image locally
+You can deploy `tbls-ask-agent-slack` to Kubernetes using the Helm chart located in `charts/tbls-ask-agent-slack`.
 
-```
+### Quick start with Makefile
+
+1. Build docker image locally (if needed):
+
+```sh
 make build-image
 ```
 
-Apply manifests
+2. Deploy using Helm (uses environment variables and `schemas/config.yml`):
 
+```sh
+make helm-deploy
 ```
-make all
+
+To uninstall:
+
+```sh
+make helm-uninstall
 ```
+
+### Deploy directly with Helm
+
+```sh
+helm upgrade --install tbls-ask-agent-slack ./charts/tbls-ask-agent-slack \
+  --set secret.slackAppToken="$SLACK_APP_TOKEN" \
+  --set secret.slackOAuthToken="$SLACK_OAUTH_TOKEN" \
+  --set secret.openaiApiKey="$OPENAI_API_KEY" \
+  --set secret.githubToken="$GITHUB_TOKEN" \
+  --set config.openaiBaseUrl="$OPENAI_BASE_URL" \
+  --set-file schemas.config=schemas/config.yml
+```
+
+Or customize settings with a custom `values.yaml`:
+
+```sh
+helm upgrade --install tbls-ask-agent-slack ./charts/tbls-ask-agent-slack -f my-values.yaml
+```
+
+See [values.yaml](charts/tbls-ask-agent-slack/values.yaml) for all configurable parameters, including using existing Secrets / ConfigMaps and resource limits.
 
 ## License
 

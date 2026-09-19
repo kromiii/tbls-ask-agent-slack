@@ -6,7 +6,7 @@ on:
     paths-ignore:
       - "README.md"
       - "LICENSE"
-      - "manifests/*"
+      - "charts/**"
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
