@@ -53,15 +53,12 @@ If you have configured multiple schemas in `schemas/config.yml`, the bot will as
 ### API keys
 By default, we use OpenAI models. You need to set `OPENAI_API_KEY`.
 
-* OPENAI_API_KEY: API key for OpenAI
-
-If you want to use Gemini models, you need to set `GEMINI_API_KEY`.
-
-* GEMINI_API_KEY: API key for Gemini
+* OPENAI_API_KEY: API key for OpenAI (or OpenAI-compatible API)
 
 ### Optional
+* OPENAI_BASE_URL: Base URL for OpenAI-compatible endpoints (e.g. `https://generativelanguage.googleapis.com/v1beta/openai/` for Gemini, or Ollama/OpenRouter) (optional)
 * GITHUB_TOKEN: Token for GitHub API (optional)
-* CUSTOM_INSTRUCTION: Custom instruciton for LLM (optional)
+* CUSTOM_INSTRUCTION: Custom instruction for LLM (optional)
 * DEBUG_MODE: When set to "true", outputs prompt contents to logs (optional)
 
 ### Setup .env (For local development)
@@ -98,12 +95,6 @@ Build docker image locally
 
 ```
 make build-image
-```
-
-Choose which API to use
-
-```
-cp manifests/deployment-openai.yml manifests/deployment.yml
 ```
 
 Apply manifests
