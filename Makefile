@@ -8,8 +8,7 @@ create-secret:
 	--from-literal=slack-app-token=$$SLACK_APP_TOKEN \
 	--from-literal=slack-oauth-token=$$SLACK_OAUTH_TOKEN \
 	--from-literal=github-token=$$GITHUB_TOKEN \
-	--from-literal=openai-api-key=$$OPENAI_API_KEY \
-	--from-literal=gemini-api-key=$$GEMINI_API_KEY
+	--from-literal=openai-api-key=$$OPENAI_API_KEY
 
 build-image:
 	docker build -t tbls-ask-agent-slack:latest .
