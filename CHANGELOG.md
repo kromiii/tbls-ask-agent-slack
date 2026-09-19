@@ -1,5 +1,14 @@
 # Changelog
 
+## [v0.5.17](https://github.com/kromiii/tbls-ask-agent-slack/compare/v0.5.16...v0.5.17) - 2026-09-19
+
+- feat: add godotenv support for local development by @kromiii in https://github.com/kromiii/tbls-ask-agent-slack/pull/158
+- chore: bump tbls-ask to v0.7.0 and unify deployment manifests by @kromiii in https://github.com/kromiii/tbls-ask-agent-slack/pull/160
+- fix: remove redundant nil check for socketmode client.Run by @kromiii in https://github.com/kromiii/tbls-ask-agent-slack/pull/161
+- feat: replace k8s manifests with helm chart by @kromiii in https://github.com/kromiii/tbls-ask-agent-slack/pull/162
+- apply pinact by @kromiii in https://github.com/kromiii/tbls-ask-agent-slack/pull/163
+- update README by @kromiii in https://github.com/kromiii/tbls-ask-agent-slack/pull/164
+
 ## [v0.5.16](https://github.com/kromiii/tbls-ask-agent-slack/compare/v0.5.15...v0.5.16) - 2026-09-03
 
 - Bump google.golang.org/grpc from 1.79.3 to 1.83.1 by @dependabot[bot] in https://github.com/kromiii/tbls-ask-agent-slack/pull/153
