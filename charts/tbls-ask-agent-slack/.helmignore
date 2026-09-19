@@ -1,0 +1,5 @@
+# Patterns to ignore when packaging a Helm chart.
+.git/
+.gitignore
+*.tgz
+.DS_Store

@@ -30,3 +30,6 @@ jobs:
 
       - name: Run octocov
         uses: k1LoW/octocov-action@v0
+
+      - name: Lint Helm Chart
+        run: helm lint charts/tbls-ask-agent-slack

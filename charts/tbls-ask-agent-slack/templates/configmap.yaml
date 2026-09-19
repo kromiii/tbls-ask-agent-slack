@@ -1,0 +1,15 @@
+{{- if and .Values.schemas.create (not .Values.schemas.existingConfigMap) }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "tbls-ask-agent-slack.configMapName" . }}
+  labels:
+    {{- include "tbls-ask-agent-slack.labels" . | nindent 4 }}
+data:
+  config.yml: |
+    {{- if kindIs "string" .Values.schemas.config }}
+{{ .Values.schemas.config | indent 4 }}
+    {{- else }}
+{{ toYaml .Values.schemas.config | indent 4 }}
+    {{- end }}
+{{- end }}

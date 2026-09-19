@@ -1,0 +1,5 @@
+1. Get the application status by running:
+  kubectl --namespace {{ .Release.Namespace }} get pods -l "app.kubernetes.io/name={{ include "tbls-ask-agent-slack.name" . }},app.kubernetes.io/instance={{ .Release.Name }}"
+
+2. Check the logs:
+  kubectl --namespace {{ .Release.Namespace }} logs -l "app.kubernetes.io/name={{ include "tbls-ask-agent-slack.name" . }},app.kubernetes.io/instance={{ .Release.Name }}" -f

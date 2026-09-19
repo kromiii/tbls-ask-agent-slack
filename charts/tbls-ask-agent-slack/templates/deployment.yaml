@@ -1,0 +1,111 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "tbls-ask-agent-slack.fullname" . }}
+  labels:
+    {{- include "tbls-ask-agent-slack.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "tbls-ask-agent-slack.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "tbls-ask-agent-slack.labels" . | nindent 8 }}
+        {{- with .Values.podLabels }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "tbls-ask-agent-slack.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+            {{- $secretName := include "tbls-ask-agent-slack.secretName" . }}
+            {{- if or .Values.secret.create .Values.secret.existingSecret }}
+            - name: SLACK_APP_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: {{ $secretName }}
+                  key: {{ .Values.secret.keys.slackAppToken | default "slack-app-token" }}
+            - name: SLACK_OAUTH_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: {{ $secretName }}
+                  key: {{ .Values.secret.keys.slackOAuthToken | default "slack-oauth-token" }}
+            - name: OPENAI_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: {{ $secretName }}
+                  key: {{ .Values.secret.keys.openaiApiKey | default "openai-api-key" }}
+            - name: GITHUB_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: {{ $secretName }}
+                  key: {{ .Values.secret.keys.githubToken | default "github-token" }}
+                  optional: true
+            {{- end }}
+            {{- if .Values.config.modelName }}
+            - name: MODEL_NAME
+              value: {{ .Values.config.modelName | quote }}
+            {{- end }}
+            {{- if .Values.config.openaiBaseUrl }}
+            - name: OPENAI_BASE_URL
+              value: {{ .Values.config.openaiBaseUrl | quote }}
+            {{- end }}
+            {{- if .Values.config.customInstruction }}
+            - name: CUSTOM_INSTRUCTION
+              value: {{ .Values.config.customInstruction | quote }}
+            {{- end }}
+            {{- if .Values.config.debugMode }}
+            - name: DEBUG_MODE
+              value: {{ .Values.config.debugMode | quote }}
+            {{- end }}
+            {{- with .Values.extraEnv }}
+            {{- toYaml . | nindent 12 }}
+            {{- end }}
+          volumeMounts:
+            {{- if or .Values.schemas.create .Values.schemas.existingConfigMap }}
+            - name: tbls-schemas
+              mountPath: {{ .Values.schemas.mountPath | default "/app/schemas" }}
+            {{- end }}
+            {{- with .Values.extraVolumeMounts }}
+            {{- toYaml . | nindent 12 }}
+            {{- end }}
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+      volumes:
+        {{- if or .Values.schemas.create .Values.schemas.existingConfigMap }}
+        - name: tbls-schemas
+          configMap:
+            name: {{ include "tbls-ask-agent-slack.configMapName" . }}
+        {{- end }}
+        {{- with .Values.extraVolumes }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
