@@ -4,10 +4,13 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/joho/godotenv"
 	"github.com/kromiii/tbls-ask-agent-slack/cmd/server"
 )
 
 func main() {
+	_ = godotenv.Load()
+
 	args := os.Args[1:]
 	if len(args) < 1 {
 		fmt.Println("Usage: tbls-ask-bot server")

@@ -1,3 +1,4 @@
+.env
 .envrc
 config.yml
 vectors-db/vectors.db
