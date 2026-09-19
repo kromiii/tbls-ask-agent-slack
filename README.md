@@ -64,6 +64,14 @@ If you want to use Gemini models, you need to set `GEMINI_API_KEY`.
 * CUSTOM_INSTRUCTION: Custom instruciton for LLM (optional)
 * DEBUG_MODE: When set to "true", outputs prompt contents to logs (optional)
 
+### Setup .env (For local development)
+
+Copy `.env.sample` to `.env` and edit it with your credentials:
+
+```sh
+$ cp .env.sample .env
+```
+
 ## Slack-app settings
 
 Please create an app using `manifest.yml` and install it to your workspace.
