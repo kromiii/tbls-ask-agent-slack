@@ -59,8 +59,7 @@ func Run() {
 		}
 	}()
 
+	// client.Run() blocks until an unrecoverable error occurs and never returns nil.
 	err := client.Run()
-	if err != nil {
-		log.Print(err)
-	}
+	log.Print(err)
 }
