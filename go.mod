@@ -6,7 +6,7 @@ require (
 	github.com/jellydator/ttlcache/v3 v3.4.1
 	github.com/joho/godotenv v1.5.1
 	github.com/k1LoW/tbls-ask v0.7.1
-	github.com/slack-go/slack v0.29.0
+	github.com/slack-go/slack v0.30.1
 	github.com/stretchr/testify v1.12.1
 	gopkg.in/yaml.v2 v2.4.0
 )
