@@ -1,5 +1,10 @@
 # Changelog
 
+## [v1.0.2](https://github.com/kromiii/tbls-ask-agent-slack/compare/v1.0.1...v1.0.2) - 2026-10-22
+
+- Bump github.com/slack-go/slack from 0.29.0 to 0.30.1 in the all-dependencies group by @dependabot[bot] in https://github.com/kromiii/tbls-ask-agent-slack/pull/167
+- Bump github.com/klauspost/compress from 1.18.0 to 1.18.7 by @dependabot[bot] in https://github.com/kromiii/tbls-ask-agent-slack/pull/169
+
 ## [v1.0.1](https://github.com/kromiii/tbls-ask-agent-slack/compare/v1.0.0...v1.0.1) - 2026-10-06
 
 - Bump github.com/k1LoW/tbls-ask from 0.7.0 to 0.7.1 in the all-dependencies group by @dependabot[bot] in https://github.com/kromiii/tbls-ask-agent-slack/pull/165
