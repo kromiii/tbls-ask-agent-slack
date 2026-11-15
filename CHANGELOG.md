@@ -1,5 +1,10 @@
 # Changelog
 
+## [v1.0.4](https://github.com/kromiii/tbls-ask-agent-slack/compare/v1.0.3...v1.0.4) - 2026-11-15
+
+- Bump go.opentelemetry.io/otel/sdk from 1.45.0 to 1.47.0 by @dependabot[bot] in https://github.com/kromiii/tbls-ask-agent-slack/pull/174
+- Bump github.com/slack-go/slack from 0.33.0 to 0.35.0 in the all-dependencies group by @dependabot[bot] in https://github.com/kromiii/tbls-ask-agent-slack/pull/173
+
 ## [v1.0.3](https://github.com/kromiii/tbls-ask-agent-slack/compare/v1.0.2...v1.0.3) - 2026-11-03
 
 - Bump github.com/slack-go/slack from 0.30.1 to 0.33.0 in the all-dependencies group by @dependabot[bot] in https://github.com/kromiii/tbls-ask-agent-slack/pull/170
